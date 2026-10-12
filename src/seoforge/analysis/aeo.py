@@ -34,8 +34,20 @@ TEMPLATES = {
 }
 
 
+# Calls to action phrased as questions ("Ready to build something?"). They speak to the
+# visitor rather than ask anything a searcher types, so they are not answer opportunities.
+CTA_QUESTION = re.compile(
+    r"^(?:ready|want|need|looking for|interested|curious|still|got|questions|"
+    r"have (?:a|an|any) (?:project|idea|question)s?|have (?:any )?questions|"
+    r"(?:how )?can we help|shall we|let'?s)\b",
+    re.I,
+)
+
+
 def is_question(text: str) -> bool:
     text = text.strip()
+    if CTA_QUESTION.match(text) or len(text.split()) < 2:
+        return False
     return text.endswith("?") or bool(QUESTION_START.match(text))
 
 

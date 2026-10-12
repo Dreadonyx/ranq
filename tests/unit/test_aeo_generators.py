@@ -19,6 +19,17 @@ def test_question_detection() -> None:
     assert is_question("What is widget testing?")
     assert is_question("How do you start")
     assert not is_question("Widget testing basics")
+    for cta in (
+        "Ready to build something?",
+        "Ready to build something remarkable?",
+        "Want to work with us?",
+        "Have a project in mind?",
+        "Still have questions?",
+        "How can we help?",
+        "Questions?",
+    ):
+        assert not is_question(cta), cta
+    assert is_question("Do you build mobile apps?") and is_question("Have you used SSDLC?")
 
 
 def test_draft_answer_only_uses_page_text() -> None:
