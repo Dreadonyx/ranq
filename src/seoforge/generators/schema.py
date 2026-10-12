@@ -26,8 +26,13 @@ class SchemaDoc:
     todo: list[str] = field(default_factory=list)
 
     def script_tag(self) -> str:
-        body = json.dumps(self.data, indent=2, ensure_ascii=False)
-        return f'<script type="application/ld+json">\n{body}\n</script>\n'
+        return script_tag(self.data)
+
+
+def script_tag(data: dict[str, Any]) -> str:
+    # "<\/" keeps crawled text such as "</script>" from closing the tag early.
+    body = json.dumps(data, indent=2, ensure_ascii=False).replace("</", "<\\/")
+    return f'<script type="application/ld+json">\n{body}\n</script>\n'
 
 
 def _site_name(crawl: CrawlResult, entity: EntityConfig) -> str | None:
@@ -44,14 +49,67 @@ def _site_name(crawl: CrawlResult, entity: EntityConfig) -> str | None:
     return None
 
 
-def _existing_org(crawl: CrawlResult) -> dict[str, Any]:
+ORG_TYPES = ("Organization", "LocalBusiness", "Corporation", "ProfessionalService", "Person")
+WEBPAGE_TYPES = (
+    "WebPage",
+    "AboutPage",
+    "ContactPage",
+    "CollectionPage",
+    "FAQPage",
+    "ItemPage",
+    "ProfilePage",
+    "SearchResultsPage",
+)
+
+
+def _types(node: dict[str, Any]) -> set[str]:
+    t = node.get("@type")
+    return {str(x) for x in t} if isinstance(t, list) else {str(t)}
+
+
+def top_nodes(page: PageData) -> list[dict[str, Any]]:
+    """Top-level JSON-LD nodes (root objects and @graph items), not nested values."""
+    out: list[dict[str, Any]] = []
+    for raw in page.json_ld:
+        try:
+            doc = json.loads(raw)
+        except json.JSONDecodeError:
+            continue
+        for root in doc if isinstance(doc, list) else [doc]:
+            if not isinstance(root, dict):
+                continue
+            graph = root.get("@graph")
+            items = graph if isinstance(graph, list) else [root]
+            out.extend(n for n in items if isinstance(n, dict) and "@type" in n)
+    return out
+
+
+def _existing(crawl: CrawlResult, types: tuple[str, ...]) -> dict[str, Any]:
     home = crawl.pages.get(crawl.start_url)
     if home is None:
         return {}
-    for node in pt.json_ld_nodes(home):
-        if node.get("@type") in ("Organization", "LocalBusiness", "Corporation", "Person"):
-            return node
+    nodes = top_nodes(home)
+    for wanted in types:  # in preference order: an Organization beats an author Person
+        for node in nodes:
+            if wanted in _types(node):
+                return {k: v for k, v in node.items() if k != "@context"}
     return {}
+
+
+def _existing_org(crawl: CrawlResult) -> dict[str, Any]:
+    return _existing(crawl, ORG_TYPES)
+
+
+def org_id(crawl: CrawlResult) -> str:
+    return str(_existing_org(crawl).get("@id") or f"{crawl.site}/#organization")
+
+
+def website_id(crawl: CrawlResult) -> str:
+    return str(_existing(crawl, ("WebSite",)).get("@id") or f"{crawl.site}/#website")
+
+
+def _same_page(a: Any, b: str) -> bool:
+    return isinstance(a, str) and a.rstrip("/") == b.rstrip("/")
 
 
 def _existing_logo(crawl: CrawlResult) -> str | None:
@@ -68,14 +126,15 @@ def _existing_logo(crawl: CrawlResult) -> str | None:
 
 
 def organization(crawl: CrawlResult, entity: EntityConfig) -> SchemaDoc:
-    org_type = entity.type or "Organization"
-    data: dict[str, Any] = {
-        "@context": CONTEXT,
-        "@type": org_type,
-        "@id": f"{crawl.site}/#organization",
-    }
-    todo: list[str] = []
     existing = _existing_org(crawl)
+    org_type = entity.type or "Organization"
+    if entity.type == "Organization" and existing.get("@type") in ORG_TYPES[1:-1]:
+        org_type = str(existing["@type"])  # keep a more specific type the site already uses
+    # Start from what the site already publishes (employee, address, contactPoint...) so the
+    # generated node replaces it without losing anything; configured values win.
+    data: dict[str, Any] = {"@context": CONTEXT, **existing}
+    data.update({"@type": org_type, "@id": org_id(crawl)})
+    todo: list[str] = []
     fields = {
         "name": _site_name(crawl, entity),
         "legalName": entity.legal_name,
@@ -93,13 +152,10 @@ def organization(crawl: CrawlResult, entity: EntityConfig) -> SchemaDoc:
             todo.append(f"{key}: set entity.{key} in seoforge.yaml")
     if entity.founders and org_type != "Person":
         data["founder"] = [{"@type": "Person", "name": n} for n in entity.founders]
-    elif existing.get("founder") and org_type != "Person":
-        data["founder"] = existing["founder"]
     if entity.address:
         data["address"] = {"@type": "PostalAddress", **entity.address}
-    elif isinstance(existing.get("address"), dict | str):
-        # Keep what the site already publishes rather than silently dropping it.
-        data["address"] = existing["address"]
+    elif "address" in data:
+        pass  # kept from the site's existing markup
     elif org_type == "LocalBusiness" or org_type.endswith("Business"):
         todo.append(
             "address: required for LocalBusiness - set entity.address (streetAddress, addressLocality, postalCode, addressCountry)"
@@ -116,13 +172,15 @@ def organization(crawl: CrawlResult, entity: EntityConfig) -> SchemaDoc:
 
 
 def website(crawl: CrawlResult, entity: EntityConfig) -> SchemaDoc:
-    data: dict[str, Any] = {
-        "@context": CONTEXT,
-        "@type": "WebSite",
-        "@id": f"{crawl.site}/#website",
-        "url": crawl.start_url,
-        "publisher": {"@id": f"{crawl.site}/#organization"},
-    }
+    data: dict[str, Any] = {"@context": CONTEXT, **_existing(crawl, ("WebSite",))}
+    data.update(
+        {
+            "@type": "WebSite",
+            "@id": website_id(crawl),
+            "url": data.get("url") or crawl.start_url,
+            "publisher": {"@id": org_id(crawl)},
+        }
+    )
     todo = []
     name = _site_name(crawl, entity)
     if name:
@@ -181,17 +239,30 @@ def breadcrumbs(crawl: CrawlResult, page: PageData) -> SchemaDoc | None:
 
 
 def webpage(crawl: CrawlResult, page: PageData) -> SchemaDoc:
-    data: dict[str, Any] = {
-        "@context": CONTEXT,
-        "@type": "WebPage",
-        "@id": f"{page.url}#webpage",
-        "url": page.url,
-        "isPartOf": {"@id": f"{crawl.site}/#website"},
-    }
+    own = next(
+        (
+            {k: v for k, v in n.items() if k != "@context"}
+            for n in top_nodes(page)
+            if _types(n) & set(WEBPAGE_TYPES) and _same_page(n.get("url"), page.url)
+        ),
+        {},
+    )
+    page_type = next((t for t in WEBPAGE_TYPES if t in _types(own)), "WebPage")
+    data: dict[str, Any] = {"@context": CONTEXT, **own}
+    data.update(
+        {
+            "@type": page_type,
+            "@id": own.get("@id") or f"{page.url}#webpage",
+            "url": page.url,
+            "isPartOf": {"@id": website_id(crawl)},
+        }
+    )
     if page.title:
         data["name"] = page.title
     if page.meta_description:
         data["description"] = page.meta_description
+    if page.url.rstrip("/") == crawl.start_url.rstrip("/"):
+        data.setdefault("about", {"@id": org_id(crawl)})
     if page.lang:
         data["inLanguage"] = page.lang
     modified = pt.modified_date(page)
@@ -232,7 +303,7 @@ def article(crawl: CrawlResult, page: PageData, entity: EntityConfig) -> SchemaD
         data["publisher"] = {
             "@type": "Organization",
             "name": name,
-            "@id": f"{crawl.site}/#organization",
+            "@id": org_id(crawl),
         }
     return SchemaDoc(page.url, "Article", data, todo)
 
@@ -361,3 +432,69 @@ def generate_all(crawl: CrawlResult, entity: EntityConfig) -> list[SchemaDoc]:
             authors.setdefault(name, pt.author_url(page))
     docs.extend(person(n, u) for n, u in authors.items())
     return docs
+
+
+@dataclass(slots=True)
+class Graph:
+    """One ready-to-paste <script> holding an @graph."""
+
+    url: str | None  # None = site-wide graph for the shared layout
+    nodes: list[dict[str, Any]]
+    replaces_existing: bool
+
+    def script_tag(self) -> str:
+        graph = [{k: v for k, v in n.items() if k != "@context"} for n in self.nodes]
+        return script_tag({"@context": CONTEXT, "@graph": graph})
+
+    @property
+    def kinds(self) -> list[str]:
+        return list(dict.fromkeys(t for n in self.nodes for t in sorted(_types(n))))
+
+
+def _key(node: dict[str, Any]) -> str:
+    return json.dumps(node, sort_keys=True)
+
+
+def build_graphs(crawl: CrawlResult, docs: list[SchemaDoc]) -> list[Graph]:
+    """Group generated docs into one site-wide @graph (Organization, WebSite, authors, plus
+    existing nodes repeated on several pages, i.e. layout markup) and one @graph per page.
+    Existing nodes that were not regenerated are carried over, so each graph can replace the
+    JSON-LD already on the page without losing anything. Another page's WebPage node (a
+    layout bug) is dropped."""
+    site_ids = {org_id(crawl), website_id(crawl)}
+    site_types = set(ORG_TYPES[:-1]) | {"WebSite"}
+    site_docs = [d for d in docs[:2]] + [d for d in docs[2:] if d.kind == "Person"]
+    page_docs: dict[str, list[SchemaDoc]] = {}
+    for d in docs[2:]:
+        if d.kind != "Person":
+            page_docs.setdefault(d.url, []).append(d)
+
+    pages = [p for p in crawl.html_pages if p.is_indexable]
+    seen: dict[str, int] = {}
+    for page in pages:
+        for key in {_key(n) for n in top_nodes(page)}:
+            seen[key] = seen.get(key, 0) + 1
+
+    site_nodes = [d.data for d in site_docs]
+    layout_keys: set[str] = set()
+    graphs: list[Graph] = []
+    for page in pages:
+        generated = page_docs.get(page.url, [])
+        regenerated = {d.kind for d in generated} | set(WEBPAGE_TYPES) | site_types
+        carried = []
+        for node in top_nodes(page):
+            if node.get("@id") in site_ids or _types(node) & regenerated:
+                continue
+            key = _key(node)
+            if seen.get(key, 0) > 1:
+                if key not in layout_keys:
+                    layout_keys.add(key)
+                    site_nodes.append(node)
+            else:
+                carried.append(node)
+        nodes = [d.data for d in generated] + carried
+        if nodes:
+            graphs.append(Graph(page.url, nodes, bool(page.json_ld)))
+    home = crawl.pages.get(crawl.start_url)
+    graphs.insert(0, Graph(None, site_nodes, bool(home and home.json_ld)))
+    return graphs

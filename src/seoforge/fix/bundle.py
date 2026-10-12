@@ -96,18 +96,21 @@ def build_bundle(
     )
 
     docs = schema.generate_all(crawl, config.entity)
-    todo: dict[str, list[str]] = {}
-    for doc in docs:
-        name = (
-            f"jsonld/{_slug(doc.url)}.{doc.kind.lower()}.html"
-            if doc.url
-            else f"jsonld/person.{_slug(doc.data['name'])}.html"
-        )
-        bundle.add(
-            name, doc.script_tag(), f"{doc.kind} JSON-LD for {doc.url or doc.data.get('name')}"
-        )
-        if doc.todo:
-            todo[f"{doc.kind} {doc.url}"] = doc.todo
+    todo: dict[str, list[str]] = {
+        f"{doc.kind} {doc.url or doc.data.get('name')}": doc.todo for doc in docs if doc.todo
+    }
+    for graph in schema.build_graphs(crawl, docs):
+        if graph.url is None:
+            name = "jsonld/site.graph.html"
+            what = (
+                f"Site-wide JSON-LD ({', '.join(graph.kinds)}) for the shared layout, on every page"
+            )
+        else:
+            name = f"jsonld/{_slug(graph.url)}.graph.html"
+            what = f"JSON-LD ({', '.join(graph.kinds)}) for {graph.url}"
+        if graph.replaces_existing:
+            what += " - replaces the JSON-LD already there (existing nodes are merged in)"
+        bundle.add(name, graph.script_tag(), what)
     if todo:
         bundle.add(
             "jsonld/TODO.json",

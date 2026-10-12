@@ -34,10 +34,14 @@ def test_bundle_contents(audited) -> None:  # type: ignore[no-untyped-def]
     robots = RobotsTxt(files["robots.txt"].content)
     assert not robots.can_fetch("SEOForge", f"{base}/private/secret")
     assert not robots.can_fetch("CCBot", f"{base}/")
-    org = files["jsonld/home.organization.html"].content
-    assert '"name": "Acme Widgets"' in org and "https://github.com/acme-widgets" in org
-    assert "jsonld/blog_what-is-widget-testing.howto.html" in files
-    assert "jsonld/products_widget.product.html" in files  # existing Product markup is broken
+    site_graph = files["jsonld/site.graph.html"].content
+    assert '"@graph"' in site_graph and '"@type": "WebSite"' in site_graph
+    assert (
+        '"name": "Acme Widgets"' in site_graph and "https://github.com/acme-widgets" in site_graph
+    )
+    assert '"@type": "HowTo"' in files["jsonld/blog_what-is-widget-testing.graph.html"].content
+    # existing Product markup is broken, so a Product node is generated for the page
+    assert '"@type": "Product"' in files["jsonld/products_widget.graph.html"].content
     nginx = files["redirects/nginx.conf"].content
     assert f"location = /old-page {{ return 301 {base}/about; }}" in nginx
     meta = files["meta-tags.html"].content
