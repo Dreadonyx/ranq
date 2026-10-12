@@ -56,6 +56,11 @@ class CrawlResult:
         ]
 
 
+# Platform endpoints that are not pages, never worth crawling or reporting as broken:
+# Cloudflare's /cdn-cgi/ (email obfuscation, challenge and trace endpoints).
+BUILTIN_EXCLUDE = (r"^https?://[^/]+/cdn-cgi/",)
+
+
 class Crawler:
     def __init__(
         self,
@@ -70,7 +75,7 @@ class Crawler:
         self._client = client
         self.progress = progress
         self._include = [re.compile(p) for p in config.include]
-        self._exclude = [re.compile(p) for p in config.exclude]
+        self._exclude = [re.compile(p) for p in [*BUILTIN_EXCLUDE, *config.exclude]]
 
     def _in_scope(self, url: str) -> bool:
         if self._include and not any(p.search(url) for p in self._include):

@@ -125,3 +125,13 @@ def test_h1_hidden_in_html() -> None:
     both = '<h1 style="display:none">Mobile</h1><h1>Desktop</h1>'
     assert not _parsed(both).h1_hidden  # one visible H1 is enough
     assert not _parsed("<p>No heading</p>").h1_hidden
+
+
+def test_cloudflare_endpoints_never_crawled() -> None:
+    from seoforge.config import CrawlConfig
+    from seoforge.crawler.crawler import Crawler
+    from seoforge.storage import Store
+
+    crawler = Crawler(CrawlConfig(), Store(":memory:"))
+    assert not crawler._in_scope("https://s.test/cdn-cgi/l/email-protection")
+    assert crawler._in_scope("https://s.test/docs/cdn-cgi-guide")
