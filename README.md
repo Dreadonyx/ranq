@@ -1,5 +1,9 @@
 # SEOForge
 
+[![CI](https://github.com/Dreadonyx/seo-tool/actions/workflows/ci.yml/badge.svg)](https://github.com/Dreadonyx/seo-tool/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)
+
 **Free, open-source CLI that audits and optimizes websites for search engines (SEO), answer
 engines (AEO) and AI / generative engines (GEO) - and submits them to every index it
 legitimately can.**
@@ -17,6 +21,13 @@ seoforge audit https://example.com          # crawl + prioritized HTML/Markdown/
 seoforge fix https://example.com            # robots.txt, sitemap, llms.txt, JSON-LD, redirects...
 seoforge diagnose https://example.com/page  # why isn't this URL indexed?
 ```
+
+![SEOForge HTML report](docs/report-screenshot.png)
+
+*The HTML report for the bundled test site, which has planted problems. Open the full
+[example report](docs/example-report/report.html) (download it and open it in a browser) or
+read the [Markdown version](docs/example-report/report.md). Changes between versions are in
+the [CHANGELOG](CHANGELOG.md).*
 
 ## What it does
 
@@ -39,14 +50,21 @@ seoforge diagnose https://example.com/page  # why isn't this URL indexed?
 Requires Python 3.11+.
 
 ```bash
-git clone https://github.com/Dreadonyx/seo-tool && cd seo-tool
-python -m venv .venv && source .venv/bin/activate
-pip install -e .
+pipx install seoforge                                   # or: pip install seoforge
+pipx install git+https://github.com/Dreadonyx/seo-tool  # latest main, before a PyPI release
 # Optional extras:
 playwright install chromium        # JavaScript rendering (--render)
-pip install -e ".[google]"         # Search Console via service account
-pip install -e ".[ml]"             # local semantic clustering (large: installs PyTorch)
+pipx inject seoforge google-auth   # Search Console via service account (pip: "seoforge[google]")
+pipx inject seoforge sentence-transformers  # local semantic clustering (large: PyTorch)
 npm install -g lighthouse          # local Lighthouse lab runs (--lighthouse)
+```
+
+From source:
+
+```bash
+git clone https://github.com/Dreadonyx/seo-tool && cd seo-tool
+python -m venv .venv && source .venv/bin/activate
+pip install -e ".[google]"
 ```
 
 Or with Docker:
@@ -219,7 +237,7 @@ Checks are plain functions registered with `@check`. Ship them in any module and
 - Search Console Search Analytics import (queries, CTR, position) into the keyword map
 - More rich-result validators (Event, JobPosting, Recipe, VideoObject details) and SHACL export
 - Multi-language keyword extraction (stopword lists beyond English)
-- Report diffing between audits and trend charts
+- Trend charts across the audit history (`<out>/history/`)
 - WordPress / static-site generator integrations for `fix --apply-to`
 
 ## Development
@@ -231,6 +249,19 @@ pytest -q                      # spins up a local test site with planted issues
 ruff check src tests && ruff format --check src tests && mypy
 python tests/serve_site.py 8765 & seoforge audit http://127.0.0.1:8765 --no-pagespeed --delay 0
 ```
+
+### Releasing
+
+1. Bump `__version__` in `src/seoforge/__init__.py` and add a section to `CHANGELOG.md`.
+2. Commit, then `git tag v<version> && git push origin v<version>`.
+3. The Release workflow checks the tag matches the version, runs the tests, builds, creates the
+   GitHub Release with the changelog notes and the sdist/wheel attached, and publishes to PyPI.
+
+One-time PyPI setup (no API token needed): on pypi.org, *Your projects -> Publishing -> Add a
+new pending publisher* with owner `Dreadonyx`, repository `seo-tool`, workflow `release.yml`,
+environment `pypi`. Then in the GitHub repository settings add the variable
+`PUBLISH_TO_PYPI` = `true` (*Settings -> Secrets and variables -> Actions -> Variables*).
+Until then the PyPI job is skipped and releases go to GitHub only.
 
 ## License
 

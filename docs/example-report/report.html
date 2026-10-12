@@ -1,0 +1,1142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SEOForge report - http://acme-widgets.example</title>
+<meta name="robots" content="noindex">
+<style>
+:root{--bg:#f7f7f5;--panel:#fff;--ink:#1d1d1f;--muted:#6b6b70;--line:#e4e4e0;--accent:#2f5bea;
+--critical:#c4231b;--high:#d9620b;--medium:#b38600;--low:#3a7a3a;--info:#6b6b70;--chip:#efefeb}
+@media (prefers-color-scheme:dark){:root{--bg:#121214;--panel:#1b1b1e;--ink:#ececef;--muted:#9a9aa3;
+--line:#2c2c31;--accent:#7a9bff;--critical:#ff6b61;--high:#ff9a4d;--medium:#e3bd3c;--low:#78c178;--info:#9a9aa3;--chip:#26262b}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{padding:28px 20px 8px;max-width:1180px;margin:auto}
+header h1{margin:0;font-size:22px;letter-spacing:-.01em}
+header p{margin:4px 0 0;color:var(--muted)}
+main{max-width:1180px;margin:auto;padding:0 20px 60px}
+.disclaimer{border-left:3px solid var(--accent);background:var(--panel);padding:10px 14px;margin:16px 0;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:16px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.card .v{font-size:24px;font-weight:650;font-variant-numeric:tabular-nums}
+.card .k{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+.score .v{font-size:36px}
+.sev-critical{color:var(--critical)}.sev-high{color:var(--high)}.sev-medium{color:var(--medium)}.sev-low{color:var(--low)}.sev-info{color:var(--info)}
+nav.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-top:24px;overflow-x:auto}
+nav.tabs button{background:none;border:0;border-bottom:2px solid transparent;padding:10px 14px;color:var(--muted);font:inherit;cursor:pointer;white-space:nowrap}
+nav.tabs button[aria-selected=true]{color:var(--ink);border-color:var(--accent);font-weight:600}
+section.tab{display:none;padding-top:16px}section.tab.active{display:block}
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.filters input[type=search]{flex:1;min-width:200px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);font:inherit}
+.chip{border:1px solid var(--line);background:var(--chip);border-radius:999px;padding:4px 10px;font-size:13px;cursor:pointer;color:var(--ink)}
+.chip[aria-pressed=false]{opacity:.45}
+details.issue{background:var(--panel);border:1px solid var(--line);border-radius:10px;margin:8px 0}
+details.issue summary{list-style:none;cursor:pointer;padding:12px 14px;display:flex;gap:10px;align-items:baseline}
+details.issue summary::-webkit-details-marker{display:none}
+.badge{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:2px 7px;border-radius:5px;border:1px solid currentColor;flex:none}
+.meta{color:var(--muted);font-size:13px;margin-left:auto;white-space:nowrap}
+.body{padding:0 14px 14px;border-top:1px solid var(--line)}
+.body h4{margin:12px 0 4px;font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.body p{margin:4px 0}
+.fix{background:var(--chip);border-radius:8px;padding:8px 10px}
+ul.urls{margin:4px 0;padding-left:18px;max-height:260px;overflow:auto;font-size:13px;word-break:break-all}
+pre{background:var(--chip);padding:10px;border-radius:8px;overflow:auto;font-size:12px;max-height:300px}
+table{border-collapse:collapse;width:100%;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:14px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+td.url{word-break:break-all;max-width:380px}
+.est{font-size:11px;color:var(--muted);border:1px dashed var(--line);border-radius:5px;padding:1px 6px}
+.plan{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.plan ol{padding-left:18px}.plan li{margin:6px 0}
+a{color:var(--accent)}
+.empty{color:var(--muted);padding:20px;text-align:center}
+</style>
+</head>
+<body>
+<header>
+  <h1>SEOForge report: http://acme-widgets.example</h1>
+  <p>Generated 2026-10-12 13:19 UTC · SEOForge 0.2.0 · 14 URLs crawled</p>
+</header>
+<main>
+<div class="disclaimer">SEOForge maximizes eligibility, discoverability and citation likelihood. No tool can guarantee rankings, indexing of every page or keyword, or that any AI system will know, cite, or recommend your site. Search engines and AI providers decide that themselves.</div>
+
+<div class="grid">
+  <div class="card score"><div class="k">Health score <span class="est">estimate</span></div><div class="v">33</div></div>
+  <div class="card"><div class="k">critical</div><div class="v sev-critical">1</div></div>
+  <div class="card"><div class="k">high</div><div class="v sev-high">12</div></div>
+  <div class="card"><div class="k">medium</div><div class="v sev-medium">11</div></div>
+  <div class="card"><div class="k">low</div><div class="v sev-low">22</div></div>
+  <div class="card"><div class="k">Indexable pages</div><div class="v">11</div></div>
+  <div class="card"><div class="k">Avg response</div><div class="v">6<small> ms</small></div></div>
+</div>
+
+<nav class="tabs" role="tablist">
+  <button role="tab" aria-selected="true" data-tab="issues">Issues</button>
+<button role="tab" aria-selected="false" data-tab="pages">Pages</button><button role="tab" aria-selected="false" data-tab="keywords">Keywords</button><button role="tab" aria-selected="false" data-tab="aeo">AEO</button><button role="tab" aria-selected="false" data-tab="geo">GEO</button>  <button role="tab" aria-selected="false" data-tab="plan">30/60/90 plan</button>
+  <button role="tab" aria-selected="false" data-tab="stats">Crawl stats</button>
+  <button role="tab" aria-selected="false" data-tab="limits">Limitations</button>
+</nav>
+
+<section class="tab active" id="tab-issues">
+  <div class="filters">
+    <input type="search" id="q" placeholder="Filter issues or URLs…" aria-label="Filter issues">
+    <button class="chip sev-critical" aria-pressed="true" data-sev="critical">critical (1)</button>
+    <button class="chip sev-high" aria-pressed="true" data-sev="high">high (12)</button>
+    <button class="chip sev-medium" aria-pressed="true" data-sev="medium">medium (11)</button>
+    <button class="chip sev-low" aria-pressed="true" data-sev="low">low (22)</button>
+    <button class="chip sev-info" aria-pressed="true" data-sev="info">info (3)</button>
+  </div>
+  <details class="issue" data-sev="critical" data-text="site is served over plain http no-https security http://acme-widgets.example">
+    <summary>
+      <span class="badge sev-critical">critical</span>
+      <span>Site is served over plain HTTP</span>
+      <span class="meta">security · effort medium · site-wide</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>The site does not redirect to HTTPS. Browsers mark HTTP pages &#39;Not secure&#39; and Google uses HTTPS as a page experience signal.</p>
+      <h4>Fix</h4><p class="fix">Install a free TLS certificate (Let&#39;s Encrypt / your host / Cloudflare) and 301-redirect all HTTP URLs to HTTPS.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/appearance/page-experience" rel="noopener" target="_blank">https://developers.google.com/search/docs/appearance/page-experience</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example</li></ul>
+      <p class="meta" style="margin:8px 0 0">check: no-https</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="high" data-text="1 group(s) of exact-duplicate pages duplicate-content crawl http://acme-widgets.example/dup-a http://acme-widgets.example/dup-b">
+    <summary>
+      <span class="badge sev-high">high</span>
+      <span>1 group(s) of exact-duplicate pages</span>
+      <span class="meta">crawl · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Different URLs serve identical main content without canonicalizing to one version.</p>
+<h4>Impact</h4><p>Search engines split signals across duplicates and may index the wrong URL.</p>      <h4>Fix</h4><p class="fix">Pick one URL per group; 301-redirect the others or add rel=canonical pointing to it.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls" rel="noopener" target="_blank">https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls</a></p>      <h4>Affected (2)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/dup-a</li><li>http://acme-widgets.example/dup-b</li></ul>
+<h4>Evidence</h4><pre>{
+  &#34;groups&#34;: [
+    [
+      &#34;http://acme-widgets.example/dup-a&#34;,
+      &#34;http://acme-widgets.example/dup-b&#34;
+    ]
+  ]
+}</pre>      <p class="meta" style="margin:8px 0 0">check: duplicate-content</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="high" data-text="1 internal url(s) linked from your pages return errors broken-internal-links crawl http://acme-widgets.example/broken-page">
+    <summary>
+      <span class="badge sev-high">high</span>
+      <span>1 internal URL(s) linked from your pages return errors</span>
+      <span class="meta">crawl · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Internal links point to URLs that return 4xx/5xx or fail to load. Users hit dead ends and crawlers waste crawl budget.</p>
+<h4>Impact</h4><p>Lost link equity and crawl budget; poor user experience.</p>      <h4>Fix</h4><p class="fix">Update each link to the correct live URL, or 301-redirect the dead URL to its closest replacement. Restore pages that should exist.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/crawling-indexing/http-network-errors" rel="noopener" target="_blank">https://developers.google.com/search/docs/crawling-indexing/http-network-errors</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/broken-page</li></ul>
+<h4>Evidence</h4><pre>{
+  &#34;http://acme-widgets.example/broken-page&#34;: {
+    &#34;status&#34;: 404,
+    &#34;linked_from&#34;: [
+      &#34;http://acme-widgets.example/&#34;
+    ]
+  }
+}</pre>      <p class="meta" style="margin:8px 0 0">check: broken-internal-links</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="high" data-text="non-existent urls return http 200 (soft 404) soft-404-sitewide crawl http://acme-widgets.example/seoforge-404-probe-d809aa1561cf">
+    <summary>
+      <span class="badge sev-high">high</span>
+      <span>Non-existent URLs return HTTP 200 (soft 404)</span>
+      <span class="meta">crawl · effort low · site-wide</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>A request for a random non-existent URL (http://acme-widgets.example/seoforge-404-probe-d809aa1561cf) returned 200 instead of 404.</p>
+<h4>Impact</h4><p>Search engines may index error pages and waste crawl budget on infinite URLs.</p>      <h4>Fix</h4><p class="fix">Configure the server/framework to return a real 404 (or 410) status for missing pages while still showing a helpful error page.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/crawling-indexing/http-network-errors#soft-404-errors" rel="noopener" target="_blank">https://developers.google.com/search/docs/crawling-indexing/http-network-errors#soft-404-errors</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/seoforge-404-probe-d809aa1561cf</li></ul>
+      <p class="meta" style="margin:8px 0 0">check: soft-404-sitewide</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="high" data-text="1 sitemap url(s) are blocked by robots.txt sitemap-urls-blocked crawl http://acme-widgets.example/private/secret">
+    <summary>
+      <span class="badge sev-high">high</span>
+      <span>1 sitemap URL(s) are blocked by robots.txt</span>
+      <span class="meta">crawl · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Your sitemap asks engines to crawl URLs that robots.txt forbids - a contradiction.</p>
+      <h4>Fix</h4><p class="fix">Either allow these paths in robots.txt or remove them from the sitemap.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap" rel="noopener" target="_blank">https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/private/secret</li></ul>
+      <p class="meta" style="margin:8px 0 0">check: sitemap-urls-blocked</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="high" data-text="1 sitemap url(s) return 4xx/5xx sitemap-non-200 technical http://acme-widgets.example/broken-page">
+    <summary>
+      <span class="badge sev-high">high</span>
+      <span>1 sitemap URL(s) return 4xx/5xx</span>
+      <span class="meta">technical · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Sitemaps should only list canonical, indexable URLs that return 200. Mixed signals reduce how much engines trust the sitemap.</p>
+      <h4>Fix</h4><p class="fix">Regenerate the sitemap from indexable canonical URLs (`seoforge fix`).</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap" rel="noopener" target="_blank">https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/broken-page</li></ul>
+      <p class="meta" style="margin:8px 0 0">check: sitemap-non-200</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="high" data-text="1 sitemap url(s) are marked noindex sitemap-noindex technical http://acme-widgets.example/noindex-page">
+    <summary>
+      <span class="badge sev-high">high</span>
+      <span>1 sitemap URL(s) are marked noindex</span>
+      <span class="meta">technical · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Sitemaps should only list canonical, indexable URLs that return 200. Mixed signals reduce how much engines trust the sitemap.</p>
+      <h4>Fix</h4><p class="fix">Regenerate the sitemap from indexable canonical URLs (`seoforge fix`).</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap" rel="noopener" target="_blank">https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/noindex-page</li></ul>
+      <p class="meta" style="margin:8px 0 0">check: sitemap-noindex</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="high" data-text="1 page(s) declare multiple canonicals canonical-multiple technical http://acme-widgets.example/products/widget">
+    <summary>
+      <span class="badge sev-high">high</span>
+      <span>1 page(s) declare multiple canonicals</span>
+      <span class="meta">technical · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>When several canonicals conflict, Google ignores all of them.</p>
+      <h4>Fix</h4><p class="fix">Keep exactly one rel=canonical per page (check CMS + SEO plugin duplicates).</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls" rel="noopener" target="_blank">https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/products/widget</li></ul>
+      <p class="meta" style="margin:8px 0 0">check: canonical-multiple</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="high" data-text="1 page(s) lack a viewport meta tag missing-viewport technical http://acme-widgets.example/missing-title">
+    <summary>
+      <span class="badge sev-high">high</span>
+      <span>1 page(s) lack a viewport meta tag</span>
+      <span class="meta">technical · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Without a viewport tag, mobile browsers render a zoomed-out desktop layout. Google indexes the mobile version of pages.</p>
+      <h4>Fix</h4><p class="fix">Add `&lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1&#34;&gt;`.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/crawling-indexing/mobile/mobile-sites-mobile-first-indexing" rel="noopener" target="_blank">https://developers.google.com/search/docs/crawling-indexing/mobile/mobile-sites-mobile-first-indexing</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/missing-title</li></ul>
+      <p class="meta" style="margin:8px 0 0">check: missing-viewport</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="high" data-text="1 page(s) have no &lt;title&gt; title-missing on-page http://acme-widgets.example/missing-title">
+    <summary>
+      <span class="badge sev-high">high</span>
+      <span>1 page(s) have no &lt;title&gt;</span>
+      <span class="meta">on-page · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>The title is the main input for the search result headline and a key relevance signal.</p>
+      <h4>Fix</h4><p class="fix">Write a unique, descriptive title (roughly 30-60 characters) leading with the page topic.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/appearance/title-link" rel="noopener" target="_blank">https://developers.google.com/search/docs/appearance/title-link</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/missing-title</li></ul>
+      <p class="meta" style="margin:8px 0 0">check: title-missing</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="high" data-text="1 page(s) contain json-ld that does not parse jsonld-invalid-json structured-data http://acme-widgets.example/products/widget">
+    <summary>
+      <span class="badge sev-high">high</span>
+      <span>1 page(s) contain JSON-LD that does not parse</span>
+      <span class="meta">structured-data · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Search engines silently ignore JSON-LD blocks with syntax errors.</p>
+      <h4>Fix</h4><p class="fix">Fix the JSON (trailing commas, unescaped quotes, comments are common causes) and re-test with https://validator.schema.org/.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/appearance/structured-data/sd-policies" rel="noopener" target="_blank">https://developers.google.com/search/docs/appearance/structured-data/sd-policies</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/products/widget</li></ul>
+<h4>Evidence</h4><pre>{
+  &#34;http://acme-widgets.example/products/widget&#34;: [
+    &#34;Invalid JSON: Expecting property name enclosed in double quotes (line 1, col 3)&#34;
+  ]
+}</pre>      <p class="meta" style="margin:8px 0 0">check: jsonld-invalid-json</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="high" data-text="1 page(s) have structured data missing required properties jsonld-missing-required structured-data http://acme-widgets.example/products/widget">
+    <summary>
+      <span class="badge sev-high">high</span>
+      <span>1 page(s) have structured data missing required properties</span>
+      <span class="meta">structured-data · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Required properties are missing, so the page is not eligible for that rich result.</p>
+      <h4>Fix</h4><p class="fix">Add the listed properties using real values from the page (`seoforge fix` emits templates; never mark up content that is not visible to users).</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/appearance/structured-data/search-gallery" rel="noopener" target="_blank">https://developers.google.com/search/docs/appearance/structured-data/search-gallery</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/products/widget</li></ul>
+<h4>Evidence</h4><pre>{
+  &#34;http://acme-widgets.example/products/widget&#34;: [
+    &#34;Product: missing required &#39;name&#39;&#34;
+  ]
+}</pre>      <p class="meta" style="margin:8px 0 0">check: jsonld-missing-required</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="high" data-text="1 page(s) look like empty javascript app shells js-app-shell on-page http://acme-widgets.example/js-app">
+    <summary>
+      <span class="badge sev-high">high</span>
+      <span>1 page(s) look like empty JavaScript app shells <span class="est">estimate</span></span>
+      <span class="meta">on-page · effort high</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>The raw HTML has almost no text but contains an app mount point (e.g. #root, #app, #__next). Crawlers that do not run JavaScript - including most AI crawlers - see an empty page. Re-run with --render to measure the rendered content.</p>
+      <h4>Fix</h4><p class="fix">Server-side render or pre-render these routes (Next.js/Nuxt/Astro SSR or SSG, or a prerendering service).</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics" rel="noopener" target="_blank">https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/js-app</li></ul>
+      <p class="meta" style="margin:8px 0 0">check: js-app-shell</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="medium" data-text="1 title(s) are shared by multiple pages title-duplicate on-page http://acme-widgets.example/dup-a http://acme-widgets.example/dup-b">
+    <summary>
+      <span class="badge sev-medium">medium</span>
+      <span>1 title(s) are shared by multiple pages</span>
+      <span class="meta">on-page · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Duplicate titles make pages hard to tell apart and can signal duplicate content.</p>
+      <h4>Fix</h4><p class="fix">Give every indexable page a unique title reflecting its unique content.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/appearance/title-link" rel="noopener" target="_blank">https://developers.google.com/search/docs/appearance/title-link</a></p>      <h4>Affected (2)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/dup-a</li><li>http://acme-widgets.example/dup-b</li></ul>
+<h4>Evidence</h4><pre>{
+  &#34;acme plans&#34;: [
+    &#34;http://acme-widgets.example/dup-a&#34;,
+    &#34;http://acme-widgets.example/dup-b&#34;
+  ]
+}</pre>      <p class="meta" style="margin:8px 0 0">check: title-duplicate</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="medium" data-text="2 page(s) have no h1 h1-missing on-page http://acme-widgets.example/js-app http://acme-widgets.example/missing-title">
+    <summary>
+      <span class="badge sev-medium">medium</span>
+      <span>2 page(s) have no H1</span>
+      <span class="meta">on-page · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>A clear main heading tells users and engines what the page is about.</p>
+      <h4>Fix</h4><p class="fix">Add one descriptive &lt;h1&gt; matching the page&#39;s main topic.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/fundamentals/seo-starter-guide" rel="noopener" target="_blank">https://developers.google.com/search/docs/fundamentals/seo-starter-guide</a></p>      <h4>Affected (2)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/js-app</li><li>http://acme-widgets.example/missing-title</li></ul>
+      <p class="meta" style="margin:8px 0 0">check: h1-missing</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="medium" data-text="1 redirect chain(s) with more than one hop redirect-chains crawl http://acme-widgets.example/old-page">
+    <summary>
+      <span class="badge sev-medium">medium</span>
+      <span>1 redirect chain(s) with more than one hop</span>
+      <span class="meta">crawl · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Each extra hop adds latency and Googlebot follows at most 10 hops per attempt.</p>
+<h4>Impact</h4><p>Slower page loads and diluted crawl efficiency.</p>      <h4>Fix</h4><p class="fix">Point the first URL directly at the final destination with a single 301. `seoforge fix` generates collapsed redirect rules.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/crawling-indexing/301-redirects" rel="noopener" target="_blank">https://developers.google.com/search/docs/crawling-indexing/301-redirects</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/old-page</li></ul>
+<h4>Evidence</h4><pre>{
+  &#34;http://acme-widgets.example/old-page&#34;: [
+    &#34;301 http://acme-widgets.example/old-page&#34;,
+    &#34;302 http://acme-widgets.example/old-page-2&#34;,
+    &#34;http://acme-widgets.example/about&#34;
+  ]
+}</pre>      <p class="meta" style="margin:8px 0 0">check: redirect-chains</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="medium" data-text="1 sitemap url(s) redirect sitemap-redirects technical http://acme-widgets.example/old-page">
+    <summary>
+      <span class="badge sev-medium">medium</span>
+      <span>1 sitemap URL(s) redirect</span>
+      <span class="meta">technical · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Sitemaps should only list canonical, indexable URLs that return 200. Mixed signals reduce how much engines trust the sitemap.</p>
+      <h4>Fix</h4><p class="fix">Regenerate the sitemap from indexable canonical URLs (`seoforge fix`).</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap" rel="noopener" target="_blank">https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/old-page</li></ul>
+      <p class="meta" style="margin:8px 0 0">check: sitemap-redirects</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="medium" data-text="1 page(s) use nosnippet nosnippet technical http://acme-widgets.example/contact">
+    <summary>
+      <span class="badge sev-medium">medium</span>
+      <span>1 page(s) use nosnippet</span>
+      <span class="meta">technical · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>nosnippet prevents text snippets and can exclude content from AI Overviews / featured snippets.</p>
+      <h4>Fix</h4><p class="fix">Remove nosnippet unless you intentionally restrict snippets (use data-nosnippet on specific elements instead).</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag" rel="noopener" target="_blank">https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/contact</li></ul>
+      <p class="meta" style="margin:8px 0 0">check: nosnippet</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="medium" data-text="1+ image(s) on 1 page(s) lack alt text img-missing-alt technical http://acme-widgets.example/">
+    <summary>
+      <span class="badge sev-medium">medium</span>
+      <span>1+ image(s) on 1 page(s) lack alt text</span>
+      <span class="meta">technical · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Alt text is how search engines (and AI crawlers) understand images, and it is required for accessibility. Decorative images should use alt=&#34;&#34;.</p>
+      <h4>Fix</h4><p class="fix">Write a short, descriptive alt for informative images; alt=&#34;&#34; for decorative ones.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/appearance/google-images" rel="noopener" target="_blank">https://developers.google.com/search/docs/appearance/google-images</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/</li></ul>
+<h4>Evidence</h4><pre>{
+  &#34;http://acme-widgets.example/&#34;: [
+    &#34;http://acme-widgets.example/hero.png&#34;
+  ]
+}</pre>      <p class="meta" style="margin:8px 0 0">check: img-missing-alt</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="medium" data-text="10 page(s) score below 40/100 for citation-friendliness low-citation-friendliness geo http://acme-widgets.example/js-app http://acme-widgets.example/orphan http://acme-widgets.example/dup-a http://acme-widgets.example/dup-b http://acme-widgets.example/missing-title http://acme-widgets.example/blog/ http://acme-widgets.example/contact http://acme-widgets.example/products/widget http://acme-widgets.example/ http://acme-widgets.example/about">
+    <summary>
+      <span class="badge sev-medium">medium</span>
+      <span>10 page(s) score below 40/100 for citation-friendliness <span class="est">estimate</span></span>
+      <span class="meta">geo · effort medium</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Heuristic: these pages have few quotable factual statements, unsourced numbers, no date or author, little structure, or content hidden behind JavaScript - all of which make it harder for AI answer engines to retrieve, quote and attribute them.</p>
+      <h4>Fix</h4><p class="fix">Add a clear definition and specific facts, link sources for statistics, show author and updated date, use question headings with direct answers, and server-render text.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/fundamentals/creating-helpful-content" rel="noopener" target="_blank">https://developers.google.com/search/docs/fundamentals/creating-helpful-content</a></p>      <h4>Affected (10)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/js-app</li><li>http://acme-widgets.example/orphan</li><li>http://acme-widgets.example/dup-a</li><li>http://acme-widgets.example/dup-b</li><li>http://acme-widgets.example/missing-title</li><li>http://acme-widgets.example/blog/</li><li>http://acme-widgets.example/contact</li><li>http://acme-widgets.example/products/widget</li><li>http://acme-widgets.example/</li><li>http://acme-widgets.example/about</li></ul>
+<h4>Evidence</h4><pre>{
+  &#34;http://acme-widgets.example/js-app&#34;: {
+    &#34;quotable&#34;: 0,
+    &#34;sourced_stats&#34;: 7,
+    &#34;freshness&#34;: 0,
+    &#34;authorship&#34;: 0,
+    &#34;structure&#34;: 0,
+    &#34;answer_blocks&#34;: 0,
+    &#34;server_rendered&#34;: 0,
+    &#34;structured_data&#34;: 0
+  },
+  &#34;http://acme-widgets.example/orphan&#34;: {
+    &#34;quotable&#34;: 0,
+    &#34;sourced_stats&#34;: 7,
+    &#34;freshness&#34;: 0,
+    &#34;authorship&#34;: 0,
+    &#34;structure&#34;: 0,
+    &#34;answer_blocks&#34;: 0,
+    &#34;server_rendered&#34;: 10,
+    &#34;structured_data&#34;: 0
+  },
+  &#34;http://acme-widgets.example/dup-a&#34;: {
+    &#34;quotable&#34;: 0,
+    &#34;sourced_stats&#34;: 7,
+    &#34;freshness&#34;: 0,
+    &#34;authorship&#34;: 0,
+    &#34;structure&#34;: 0,
+    &#34;answer_blocks&#34;: 0,
+    &#34;server_rendered&#34;: 10,
+    &#34;structured_data&#34;: 0
+  },
+  &#34;http://acme-widgets.example/dup-b&#34;: {
+    &#34;quotable&#34;: 0,
+    &#34;sourced_stats&#34;: 7,
+    &#34;freshness&#34;: 0,
+    &#34;authorship&#34;: 0,
+    &#34;structure&#34;: 0,
+    &#34;answer_blocks&#34;: 0,
+    &#34;server_rendered&#34;: 10,
+    &#34;structured_data&#34;: 0
+  },
+  &#34;http://acme-widgets.example/missing-title&#34;: {
+    &#34;quotable&#34;: 0,
+    &#34;sourced_stats&#34;: 7,
+    &#34;freshness&#34;: 0,
+    &#34;authorship&#34;: 0,
+    &#34;structure&#34;: 0,
+    &#34;answer_blocks&#34;: 0,
+    &#34;server_rendered&#34;: 10,
+    &#34;structured_data&#34;: 0
+  },
+  &#34;http://acme-widgets.example/blog/&#34;: {
+    &#34;quotable&#34;: 0,
+    &#34;sourced_stats&#34;: 7,
+    &#34;freshness&#34;: 0,
+    &#34;authorship&#34;: 0,
+    &#34;structure&#34;: 4,
+    &#34;answer_blocks&#34;: 0,
+    &#34;server_rendered&#34;: 10,
+    &#34;structured_data&#34;: 0
+  },
+  &#34;http://acme-widgets.example/contact&#34;: {
+    &#34;quotable&#34;: 8,
+    &#34;sourced_stats&#34;: 4,
+    &#34;freshness&#34;: 0,
+    &#34;authorship&#34;: 0,
+    &#34;structure&#34;: 0,
+    &#34;answer_blocks&#34;: 0,
+    &#34;server_rendered&#34;: 10,
+    &#34;structured_data&#34;: 0
+  },
+  &#34;http://acme-widgets.example/products/widget&#34;: {
+    &#34;quotable&#34;: 4,
+    &#34;sourced_stats&#34;: 7,
+    &#34;freshness&#34;: 0,
+    &#34;authorship&#34;: 0,
+    &#34;structure&#34;: 0,
+    &#34;answer_blocks&#34;: 0,
+    &#34;server_rendered&#34;: 10,
+    &#34;structured_data&#34;: 5
+  },
+  &#34;http://acme-widgets.example/&#34;: {
+    &#34;quotable&#34;: 0,
+    &#34;sourced_stats&#34;: 7,
+    &#34;freshness&#34;: 0,
+    &#34;authorship&#34;: 6,
+    &#34;structure&#34;: 2,
+    &#34;answer_blocks&#34;: 0,
+    &#34;server_rendered&#34;: 10,
+    &#34;structured_data&#34;: 5
+  },
+  &#34;http://acme-widgets.example/about&#34;: {
+    &#34;quotable&#34;: 20,
+    &#34;sourced_stats&#34;: 4,
+    &#34;freshness&#34;: 0,
+    &#34;authorship&#34;: 0,
+    &#34;structure&#34;: 2,
+    &#34;answer_blocks&#34;: 0,
+    &#34;server_rendered&#34;: 10,
+    &#34;structured_data&#34;: 0
+  }
+}</pre>      <p class="meta" style="margin:8px 0 0">check: low-citation-friendliness</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="medium" data-text="2 keyword(s) targeted by more than one page keyword-cannibalization keywords http://acme-widgets.example/blog/ http://acme-widgets.example/blog/what-is-widget-testing http://acme-widgets.example/dup-a http://acme-widgets.example/dup-b">
+    <summary>
+      <span class="badge sev-medium">medium</span>
+      <span>2 keyword(s) targeted by more than one page <span class="est">estimate</span></span>
+      <span class="meta">keywords · effort medium</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Several pages focus on the same phrase (by extracted primary keyword or near-identical titles), so they may compete with each other and none ranks as well as one strong page.</p>
+      <h4>Fix</h4><p class="fix">For each group pick one primary page; merge or differentiate the others, and link from them to the primary page with descriptive anchors.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/fundamentals/creating-helpful-content" rel="noopener" target="_blank">https://developers.google.com/search/docs/fundamentals/creating-helpful-content</a></p>      <h4>Affected (4)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/blog/</li><li>http://acme-widgets.example/blog/what-is-widget-testing</li><li>http://acme-widgets.example/dup-a</li><li>http://acme-widgets.example/dup-b</li></ul>
+<h4>Evidence</h4><pre>{
+  &#34;widget testing&#34;: [
+    &#34;http://acme-widgets.example/blog/&#34;,
+    &#34;http://acme-widgets.example/blog/what-is-widget-testing&#34;
+  ],
+  &#34;acme plans&#34;: [
+    &#34;http://acme-widgets.example/dup-a&#34;,
+    &#34;http://acme-widgets.example/dup-b&#34;
+  ]
+}</pre>      <p class="meta" style="margin:8px 0 0">check: keyword-cannibalization</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="medium" data-text="1 orphan page(s) with no internal links orphan-pages crawl http://acme-widgets.example/orphan">
+    <summary>
+      <span class="badge sev-medium">medium</span>
+      <span>1 orphan page(s) with no internal links</span>
+      <span class="meta">crawl · effort medium</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>These pages were found (via sitemap or redirects) but no crawled page links to them. Crawlers discover and value pages largely through links.</p>
+<h4>Impact</h4><p>Orphans are crawled less often and receive no internal link equity.</p>      <h4>Fix</h4><p class="fix">Link to each page from a relevant hub, category, or navigation page - or remove it from the sitemap if it should not exist.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/crawling-indexing/links-crawlable" rel="noopener" target="_blank">https://developers.google.com/search/docs/crawling-indexing/links-crawlable</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/orphan</li></ul>
+      <p class="meta" style="margin:8px 0 0">check: orphan-pages</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="medium" data-text="1 page(s) answer questions without a concise 40-60 word answer aeo-answer-length aeo http://acme-widgets.example/blog/what-is-widget-testing">
+    <summary>
+      <span class="badge sev-medium">medium</span>
+      <span>1 page(s) answer questions without a concise 40-60 word answer <span class="est">estimate</span></span>
+      <span class="meta">aeo · effort medium</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Answer engines and featured snippets favour a direct, self-contained answer right under the question heading. 40-60 words is a widely used guideline, not a rule.</p>
+      <h4>Fix</h4><p class="fix">Start each answer with a 1-3 sentence direct answer (about 40-60 words), then expand. Drafts trimmed from your own text are in the AEO tab / report.json.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/appearance/snippet" rel="noopener" target="_blank">https://developers.google.com/search/docs/appearance/snippet</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/blog/what-is-widget-testing</li></ul>
+<h4>Evidence</h4><pre>{
+  &#34;http://acme-widgets.example/blog/what-is-widget-testing&#34;: [
+    &#34;Why does widget testing matter? (29 words)&#34;,
+    &#34;Is widget testing free? (10 words)&#34;
+  ]
+}</pre>      <p class="meta" style="margin:8px 0 0">check: aeo-answer-length</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="medium" data-text="10 indexable page(s) have under 200 words of main content thin-content on-page http://acme-widgets.example/js-app http://acme-widgets.example/missing-title http://acme-widgets.example/blog/ http://acme-widgets.example/orphan http://acme-widgets.example/products/widget http://acme-widgets.example/dup-a http://acme-widgets.example/dup-b http://acme-widgets.example/contact http://acme-widgets.example/about http://acme-widgets.example/blog/what-is-widget-testing">
+    <summary>
+      <span class="badge sev-medium">medium</span>
+      <span>10 indexable page(s) have under 200 words of main content <span class="est">estimate</span></span>
+      <span class="meta">on-page · effort high</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>There is no minimum word count in Google&#39;s guidelines; this flags pages that may not satisfy the searcher. Judge each one by usefulness, not length.</p>
+      <h4>Fix</h4><p class="fix">Expand pages that should rank with substantive, original information - or noindex/merge low-value pages.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/fundamentals/creating-helpful-content" rel="noopener" target="_blank">https://developers.google.com/search/docs/fundamentals/creating-helpful-content</a></p>      <h4>Affected (10)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/js-app</li><li>http://acme-widgets.example/missing-title</li><li>http://acme-widgets.example/blog/</li><li>http://acme-widgets.example/orphan</li><li>http://acme-widgets.example/products/widget</li><li>http://acme-widgets.example/dup-a</li><li>http://acme-widgets.example/dup-b</li><li>http://acme-widgets.example/contact</li><li>http://acme-widgets.example/about</li><li>http://acme-widgets.example/blog/what-is-widget-testing</li></ul>
+<h4>Evidence</h4><pre>{
+  &#34;http://acme-widgets.example/about&#34;: 98,
+  &#34;http://acme-widgets.example/orphan&#34;: 17,
+  &#34;http://acme-widgets.example/contact&#34;: 32,
+  &#34;http://acme-widgets.example/blog/&#34;: 16,
+  &#34;http://acme-widgets.example/products/widget&#34;: 21,
+  &#34;http://acme-widgets.example/blog/what-is-widget-testing&#34;: 163,
+  &#34;http://acme-widgets.example/dup-a&#34;: 28,
+  &#34;http://acme-widgets.example/dup-b&#34;: 28,
+  &#34;http://acme-widgets.example/missing-title&#34;: 9,
+  &#34;http://acme-widgets.example/js-app&#34;: 0
+}</pre>      <p class="meta" style="margin:8px 0 0">check: thin-content</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="low" data-text="10 page(s) lack complete open graph tags open-graph-missing on-page http://acme-widgets.example/about http://acme-widgets.example/blog/ http://acme-widgets.example/blog/what-is-widget-testing http://acme-widgets.example/contact http://acme-widgets.example/dup-a http://acme-widgets.example/dup-b http://acme-widgets.example/js-app http://acme-widgets.example/missing-title http://acme-widgets.example/orphan http://acme-widgets.example/products/widget">
+    <summary>
+      <span class="badge sev-low">low</span>
+      <span>10 page(s) lack complete Open Graph tags</span>
+      <span class="meta">on-page · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>og:title/og:description/og:image control link previews on social apps, chat apps and some AI assistants. Not a ranking factor.</p>
+      <h4>Fix</h4><p class="fix">Add og:title, og:description, og:image and og:url (`seoforge fix` generates them).</p>
+<h4>Source</h4><p><a href="https://ogp.me/" rel="noopener" target="_blank">https://ogp.me/</a></p>      <h4>Affected (10)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/about</li><li>http://acme-widgets.example/blog/</li><li>http://acme-widgets.example/blog/what-is-widget-testing</li><li>http://acme-widgets.example/contact</li><li>http://acme-widgets.example/dup-a</li><li>http://acme-widgets.example/dup-b</li><li>http://acme-widgets.example/js-app</li><li>http://acme-widgets.example/missing-title</li><li>http://acme-widgets.example/orphan</li><li>http://acme-widgets.example/products/widget</li></ul>
+      <p class="meta" style="margin:8px 0 0">check: open-graph-missing</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="low" data-text="8 indexable page(s) are missing from the sitemap not-in-sitemap technical http://acme-widgets.example/blog/ http://acme-widgets.example/blog/what-is-widget-testing http://acme-widgets.example/contact http://acme-widgets.example/dup-a http://acme-widgets.example/dup-b http://acme-widgets.example/js-app http://acme-widgets.example/missing-title http://acme-widgets.example/products/widget">
+    <summary>
+      <span class="badge sev-low">low</span>
+      <span>8 indexable page(s) are missing from the sitemap</span>
+      <span class="meta">technical · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Pages reachable by links but absent from the sitemap may be discovered more slowly.</p>
+      <h4>Fix</h4><p class="fix">Regenerate the sitemap so it includes every indexable canonical URL.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap" rel="noopener" target="_blank">https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap</a></p>      <h4>Affected (8)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/blog/</li><li>http://acme-widgets.example/blog/what-is-widget-testing</li><li>http://acme-widgets.example/contact</li><li>http://acme-widgets.example/dup-a</li><li>http://acme-widgets.example/dup-b</li><li>http://acme-widgets.example/js-app</li><li>http://acme-widgets.example/missing-title</li><li>http://acme-widgets.example/products/widget</li></ul>
+      <p class="meta" style="margin:8px 0 0">check: not-in-sitemap</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="low" data-text="4 page(s) have no rel=canonical canonical-missing technical http://acme-widgets.example/dup-a http://acme-widgets.example/dup-b http://acme-widgets.example/missing-title http://acme-widgets.example/js-app">
+    <summary>
+      <span class="badge sev-low">low</span>
+      <span>4 page(s) have no rel=canonical</span>
+      <span class="meta">technical · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>A self-referencing canonical helps consolidate URL variants (tracking parameters, trailing slashes, http/https).</p>
+      <h4>Fix</h4><p class="fix">Add `&lt;link rel=&#34;canonical&#34; href=&#34;https://...this-page&#34;&gt;` to each page.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls" rel="noopener" target="_blank">https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls</a></p>      <h4>Affected (4)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/dup-a</li><li>http://acme-widgets.example/dup-b</li><li>http://acme-widgets.example/missing-title</li><li>http://acme-widgets.example/js-app</li></ul>
+      <p class="meta" style="margin:8px 0 0">check: canonical-missing</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="low" data-text="3 title(s) shorter than 15 characters title-too-short on-page http://acme-widgets.example/dup-a http://acme-widgets.example/dup-b http://acme-widgets.example/products/widget">
+    <summary>
+      <span class="badge sev-low">low</span>
+      <span>3 title(s) shorter than 15 characters</span>
+      <span class="meta">on-page · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Very short titles waste the most visible slot in search results.</p>
+      <h4>Fix</h4><p class="fix">Describe the page&#39;s specific topic and value in the title.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/appearance/title-link" rel="noopener" target="_blank">https://developers.google.com/search/docs/appearance/title-link</a></p>      <h4>Affected (3)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/dup-a</li><li>http://acme-widgets.example/dup-b</li><li>http://acme-widgets.example/products/widget</li></ul>
+<h4>Evidence</h4><pre>{
+  &#34;http://acme-widgets.example/products/widget&#34;: &#34;Widget Tester&#34;,
+  &#34;http://acme-widgets.example/dup-a&#34;: &#34;Acme Plans&#34;,
+  &#34;http://acme-widgets.example/dup-b&#34;: &#34;Acme Plans&#34;
+}</pre>      <p class="meta" style="margin:8px 0 0">check: title-too-short</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="low" data-text="3 page(s) lack a meta description meta-description-missing on-page http://acme-widgets.example/js-app http://acme-widgets.example/missing-title http://acme-widgets.example/products/widget">
+    <summary>
+      <span class="badge sev-low">low</span>
+      <span>3 page(s) lack a meta description</span>
+      <span class="meta">on-page · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Search engines often use the meta description as the result snippet; without one they pick text from the page.</p>
+      <h4>Fix</h4><p class="fix">Write a unique 1-2 sentence summary (roughly 70-160 characters) per page.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/appearance/snippet" rel="noopener" target="_blank">https://developers.google.com/search/docs/appearance/snippet</a></p>      <h4>Affected (3)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/js-app</li><li>http://acme-widgets.example/missing-title</li><li>http://acme-widgets.example/products/widget</li></ul>
+      <p class="meta" style="margin:8px 0 0">check: meta-description-missing</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="low" data-text="3 page(s) lack recommended structured data properties jsonld-missing-recommended structured-data http://acme-widgets.example/ http://acme-widgets.example/blog/what-is-widget-testing http://acme-widgets.example/products/widget">
+    <summary>
+      <span class="badge sev-low">low</span>
+      <span>3 page(s) lack recommended structured data properties</span>
+      <span class="meta">structured-data · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Recommended properties make entities more complete for search engines and AI systems.</p>
+      <h4>Fix</h4><p class="fix">Add the listed properties where you have truthful values.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/appearance/structured-data/search-gallery" rel="noopener" target="_blank">https://developers.google.com/search/docs/appearance/structured-data/search-gallery</a></p>      <h4>Affected (3)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/</li><li>http://acme-widgets.example/blog/what-is-widget-testing</li><li>http://acme-widgets.example/products/widget</li></ul>
+<h4>Evidence</h4><pre>{
+  &#34;http://acme-widgets.example/&#34;: [
+    &#34;Organization: missing recommended &#39;description&#39;&#34;
+  ],
+  &#34;http://acme-widgets.example/products/widget&#34;: [
+    &#34;Product: missing recommended &#39;brand&#39;&#34;,
+    &#34;Product: missing recommended &#39;image&#39;&#34;,
+    &#34;Product: missing recommended &#39;offers or review or aggregateRating&#39;&#34;,
+    &#34;Product: missing recommended &#39;sku&#39;&#34;
+  ],
+  &#34;http://acme-widgets.example/blog/what-is-widget-testing&#34;: [
+    &#34;Article: missing recommended &#39;image&#39;&#34;
+  ]
+}</pre>      <p class="meta" style="margin:8px 0 0">check: jsonld-missing-recommended</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="low" data-text="1 meta description(s) reused across pages meta-description-duplicate on-page http://acme-widgets.example/dup-a http://acme-widgets.example/dup-b">
+    <summary>
+      <span class="badge sev-low">low</span>
+      <span>1 meta description(s) reused across pages</span>
+      <span class="meta">on-page · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Boilerplate descriptions get replaced by engines and help no page.</p>
+      <h4>Fix</h4><p class="fix">Write page-specific descriptions or omit them on low-value pages.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/appearance/snippet" rel="noopener" target="_blank">https://developers.google.com/search/docs/appearance/snippet</a></p>      <h4>Affected (2)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/dup-a</li><li>http://acme-widgets.example/dup-b</li></ul>
+<h4>Evidence</h4><pre>{
+  &#34;acme plans.&#34;: [
+    &#34;http://acme-widgets.example/dup-a&#34;,
+    &#34;http://acme-widgets.example/dup-b&#34;
+  ]
+}</pre>      <p class="meta" style="margin:8px 0 0">check: meta-description-duplicate</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="low" data-text="2 nested page(s) lack breadcrumblist markup breadcrumb-missing structured-data http://acme-widgets.example/blog/what-is-widget-testing http://acme-widgets.example/products/widget">
+    <summary>
+      <span class="badge sev-low">low</span>
+      <span>2 nested page(s) lack BreadcrumbList markup</span>
+      <span class="meta">structured-data · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Breadcrumb markup shows the page&#39;s position in the site hierarchy in results.</p>
+      <h4>Fix</h4><p class="fix">Add BreadcrumbList JSON-LD mirroring visible breadcrumbs (`seoforge fix`).</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/appearance/structured-data/breadcrumb" rel="noopener" target="_blank">https://developers.google.com/search/docs/appearance/structured-data/breadcrumb</a></p>      <h4>Affected (2)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/blog/what-is-widget-testing</li><li>http://acme-widgets.example/products/widget</li></ul>
+      <p class="meta" style="margin:8px 0 0">check: breadcrumb-missing</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="low" data-text="internal links point to 1 redirecting url(s) links-to-redirects crawl http://acme-widgets.example/old-page">
+    <summary>
+      <span class="badge sev-low">low</span>
+      <span>Internal links point to 1 redirecting URL(s)</span>
+      <span class="meta">crawl · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Linking to a URL that redirects costs an extra request for users and crawlers.</p>
+      <h4>Fix</h4><p class="fix">Update internal links to point straight at the final URL.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/crawling-indexing/301-redirects" rel="noopener" target="_blank">https://developers.google.com/search/docs/crawling-indexing/301-redirects</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/old-page</li></ul>
+<h4>Evidence</h4><pre>{
+  &#34;http://acme-widgets.example/old-page&#34;: [
+    &#34;http://acme-widgets.example/&#34;
+  ]
+}</pre>      <p class="meta" style="margin:8px 0 0">check: links-to-redirects</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="low" data-text="1 page(s) disable pinch-zoom viewport-zoom-disabled technical http://acme-widgets.example/products/widget">
+    <summary>
+      <span class="badge sev-low">low</span>
+      <span>1 page(s) disable pinch-zoom</span>
+      <span class="meta">technical · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Disabling zoom is an accessibility failure (WCAG 1.4.4).</p>
+      <h4>Fix</h4><p class="fix">Remove user-scalable=no / maximum-scale=1 from the viewport tag.</p>
+<h4>Source</h4><p><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Viewport_meta_tag" rel="noopener" target="_blank">https://developer.mozilla.org/en-US/docs/Web/HTML/Viewport_meta_tag</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/products/widget</li></ul>
+      <p class="meta" style="margin:8px 0 0">check: viewport-zoom-disabled</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="low" data-text="1 page(s) lack &lt;html lang&gt; missing-lang technical http://acme-widgets.example/missing-title">
+    <summary>
+      <span class="badge sev-low">low</span>
+      <span>1 page(s) lack &lt;html lang&gt;</span>
+      <span class="meta">technical · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>The lang attribute helps screen readers, translation and language detection.</p>
+      <h4>Fix</h4><p class="fix">Add `&lt;html lang=&#34;en&#34;&gt;` (or the correct language code).</p>
+<h4>Source</h4><p><a href="https://www.w3.org/International/questions/qa-html-language-declarations" rel="noopener" target="_blank">https://www.w3.org/International/questions/qa-html-language-declarations</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/missing-title</li></ul>
+      <p class="meta" style="margin:8px 0 0">check: missing-lang</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="low" data-text="images without width/height on 1 page(s) img-no-dimensions performance http://acme-widgets.example/">
+    <summary>
+      <span class="badge sev-low">low</span>
+      <span>Images without width/height on 1 page(s)</span>
+      <span class="meta">performance · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Images without explicit dimensions cause layout shift (CLS) while loading.</p>
+      <h4>Fix</h4><p class="fix">Add width and height attributes (or CSS aspect-ratio) to every &lt;img&gt;.</p>
+<h4>Source</h4><p><a href="https://web.dev/articles/vitals" rel="noopener" target="_blank">https://web.dev/articles/vitals</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/</li></ul>
+<h4>Evidence</h4><pre>{
+  &#34;http://acme-widgets.example/&#34;: 1
+}</pre>      <p class="meta" style="margin:8px 0 0">check: img-no-dimensions</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="low" data-text="5 recommended security header(s) missing security-headers security http://acme-widgets.example/">
+    <summary>
+      <span class="badge sev-low">low</span>
+      <span>5 recommended security header(s) missing</span>
+      <span class="meta">security · effort low · site-wide</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Security headers do not directly affect rankings but protect users and site reputation (hacked sites get flagged in search results).</p>
+      <h4>Fix</h4><p class="fix">Add the headers at the server/CDN level (`seoforge fix` emits snippets).</p>
+<h4>Source</h4><p><a href="https://owasp.org/www-project-secure-headers/" rel="noopener" target="_blank">https://owasp.org/www-project-secure-headers/</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/</li></ul>
+<h4>Evidence</h4><pre>{
+  &#34;content-security-policy&#34;: &#34;Mitigates XSS and data injection.&#34;,
+  &#34;x-content-type-options&#34;: &#34;Stops MIME sniffing (`nosniff`).&#34;,
+  &#34;referrer-policy&#34;: &#34;Controls referrer leakage (e.g. `strict-origin-when-cross-origin`).&#34;,
+  &#34;permissions-policy&#34;: &#34;Restricts powerful browser features.&#34;,
+  &#34;x-frame-options / frame-ancestors&#34;: &#34;Prevents clickjacking.&#34;
+}</pre>      <p class="meta" style="margin:8px 0 0">check: security-headers</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="low" data-text="1 page(s) have multiple h1s h1-multiple on-page http://acme-widgets.example/products/widget">
+    <summary>
+      <span class="badge sev-low">low</span>
+      <span>1 page(s) have multiple H1s</span>
+      <span class="meta">on-page · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Multiple H1s are valid HTML5 and not penalized, but a single clear H1 makes the page topic unambiguous for snippet and answer extraction.</p>
+      <h4>Fix</h4><p class="fix">Use one H1 for the page topic and H2/H3 for sections.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/fundamentals/seo-starter-guide" rel="noopener" target="_blank">https://developers.google.com/search/docs/fundamentals/seo-starter-guide</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/products/widget</li></ul>
+<h4>Evidence</h4><pre>{
+  &#34;http://acme-widgets.example/products/widget&#34;: [
+    &#34;Widget Tester&#34;,
+    &#34;Buy Widget Tester&#34;
+  ]
+}</pre>      <p class="meta" style="margin:8px 0 0">check: h1-multiple</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="low" data-text="1 page(s) skip heading levels heading-skip on-page http://acme-widgets.example/blog/what-is-widget-testing">
+    <summary>
+      <span class="badge sev-low">low</span>
+      <span>1 page(s) skip heading levels</span>
+      <span class="meta">on-page · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Skipped levels (e.g. H2 -&gt; H4) weaken the document outline used by assistive tech and passage extraction.</p>
+      <h4>Fix</h4><p class="fix">Nest headings sequentially (H1 &gt; H2 &gt; H3).</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/fundamentals/seo-starter-guide" rel="noopener" target="_blank">https://developers.google.com/search/docs/fundamentals/seo-starter-guide</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/blog/what-is-widget-testing</li></ul>
+<h4>Evidence</h4><pre>{
+  &#34;http://acme-widgets.example/blog/what-is-widget-testing&#34;: &#34;H2 -&gt; H4 (&#39;Skipped heading level&#39;)&#34;
+}</pre>      <p class="meta" style="margin:8px 0 0">check: heading-skip</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="low" data-text="generic anchor text on 1 page(s) anchor-generic on-page http://acme-widgets.example/">
+    <summary>
+      <span class="badge sev-low">low</span>
+      <span>Generic anchor text on 1 page(s)</span>
+      <span class="meta">on-page · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Anchors like &#39;click here&#39; tell engines nothing about the target page.</p>
+      <h4>Fix</h4><p class="fix">Use descriptive anchor text naming the destination&#39;s topic.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/crawling-indexing/links-crawlable" rel="noopener" target="_blank">https://developers.google.com/search/docs/crawling-indexing/links-crawlable</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/</li></ul>
+<h4>Evidence</h4><pre>{
+  &#34;http://acme-widgets.example/&#34;: [
+    &#34;&#39;click here&#39; -&gt; http://acme-widgets.example/broken-page&#34;
+  ]
+}</pre>      <p class="meta" style="margin:8px 0 0">check: anchor-generic</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="low" data-text="1 page(s) have no internal links no-outlinks on-page http://acme-widgets.example/js-app">
+    <summary>
+      <span class="badge sev-low">low</span>
+      <span>1 page(s) have no internal links</span>
+      <span class="meta">on-page · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Dead-end pages stop crawlers and users from moving on through the site.</p>
+      <h4>Fix</h4><p class="fix">Add navigation or contextual links to related pages.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/crawling-indexing/links-crawlable" rel="noopener" target="_blank">https://developers.google.com/search/docs/crawling-indexing/links-crawlable</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/js-app</li></ul>
+      <p class="meta" style="margin:8px 0 0">check: no-outlinks</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="low" data-text="no website markup no-website-schema structured-data http://acme-widgets.example/">
+    <summary>
+      <span class="badge sev-low">low</span>
+      <span>No WebSite markup</span>
+      <span class="meta">structured-data · effort low · site-wide</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>WebSite markup with name (and alternateName) influences the site name shown in Google results.</p>
+      <h4>Fix</h4><p class="fix">Add WebSite JSON-LD with name and url to the homepage.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/appearance/site-names" rel="noopener" target="_blank">https://developers.google.com/search/docs/appearance/site-names</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/</li></ul>
+      <p class="meta" style="margin:8px 0 0">check: no-website-schema</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="low" data-text="no link to a privacy policy was found eeat-no-privacy e-e-a-t http://acme-widgets.example/">
+    <summary>
+      <span class="badge sev-low">low</span>
+      <span>No link to a Privacy Policy was found</span>
+      <span class="meta">e-e-a-t · effort low · site-wide</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Trust signals such as a Privacy Policy help users, quality raters and AI systems judge who stands behind the content.</p>
+      <h4>Fix</h4><p class="fix">Publish a privacy policy describing what data you collect and why.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/fundamentals/creating-helpful-content#eat" rel="noopener" target="_blank">https://developers.google.com/search/docs/fundamentals/creating-helpful-content#eat</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/</li></ul>
+      <p class="meta" style="margin:8px 0 0">check: eeat-no-privacy</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="low" data-text="no /llms.txt file llms-txt-missing geo http://acme-widgets.example/llms.txt">
+    <summary>
+      <span class="badge sev-low">low</span>
+      <span>No /llms.txt file</span>
+      <span class="meta">geo · effort low · site-wide</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>llms.txt is a proposed standard that gives LLM tools a curated Markdown map of your site. No major AI provider has confirmed using it, so expect little direct effect; it is cheap to publish and helps agents and IDE tools that do read it.</p>
+      <h4>Fix</h4><p class="fix">Publish the llms.txt (and optionally llms-full.txt / .md mirrors) from `seoforge fix`.</p>
+<h4>Source</h4><p><a href="https://llmstxt.org/" rel="noopener" target="_blank">https://llmstxt.org/</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/llms.txt</li></ul>
+<h4>Evidence</h4><pre>{
+  &#34;status&#34;: 404
+}</pre>      <p class="meta" style="margin:8px 0 0">check: llms-txt-missing</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="low" data-text="brand name appears in 2 variants brand-name-inconsistent geo http://acme-widgets.example/">
+    <summary>
+      <span class="badge sev-low">low</span>
+      <span>Brand name appears in 2 variants <span class="est">estimate</span></span>
+      <span class="meta">geo · effort low · site-wide</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>og:site_name, structured data and title suffixes use different spellings of your name. Consistent naming strengthens entity recognition.</p>
+      <h4>Fix</h4><p class="fix">Use one exact brand name everywhere (site, markup, profiles, directories).</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/appearance/site-names" rel="noopener" target="_blank">https://developers.google.com/search/docs/appearance/site-names</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/</li></ul>
+<h4>Evidence</h4><pre>{
+  &#34;Acme Dashboard&#34;: 1,
+  &#34;Acme Widgets&#34;: 1
+}</pre>      <p class="meta" style="margin:8px 0 0">check: brand-name-inconsistent</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="low" data-text="5 page(s) have only one internal link pointing to them weak-internal-links on-page http://acme-widgets.example/dup-a http://acme-widgets.example/dup-b http://acme-widgets.example/js-app http://acme-widgets.example/missing-title http://acme-widgets.example/products/widget">
+    <summary>
+      <span class="badge sev-low">low</span>
+      <span>5 page(s) have only one internal link pointing to them <span class="est">estimate</span></span>
+      <span class="meta">on-page · effort medium</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Pages with a single inbound internal link receive little internal authority.</p>
+      <h4>Fix</h4><p class="fix">Link to them contextually from related pages.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/crawling-indexing/links-crawlable" rel="noopener" target="_blank">https://developers.google.com/search/docs/crawling-indexing/links-crawlable</a></p>      <h4>Affected (5)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/dup-a</li><li>http://acme-widgets.example/dup-b</li><li>http://acme-widgets.example/js-app</li><li>http://acme-widgets.example/missing-title</li><li>http://acme-widgets.example/products/widget</li></ul>
+      <p class="meta" style="margin:8px 0 0">check: weak-internal-links</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="info" data-text="1 page(s) are excluded with noindex noindex-pages technical http://acme-widgets.example/noindex-page">
+    <summary>
+      <span class="badge sev-info">info</span>
+      <span>1 page(s) are excluded with noindex</span>
+      <span class="meta">technical · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>These pages carry a noindex directive (meta robots or X-Robots-Tag). This is correct for thank-you pages, internal search, etc., but fatal on pages you want to rank.</p>
+      <h4>Fix</h4><p class="fix">Review the list; remove noindex from any page that should appear in search.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/crawling-indexing/block-indexing" rel="noopener" target="_blank">https://developers.google.com/search/docs/crawling-indexing/block-indexing</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/noindex-page</li></ul>
+<h4>Evidence</h4><pre>{
+  &#34;http://acme-widgets.example/noindex-page&#34;: {
+    &#34;meta&#34;: &#34;noindex, follow&#34;,
+    &#34;x-robots-tag&#34;: &#34;&#34;
+  }
+}</pre>      <p class="meta" style="margin:8px 0 0">check: noindex-pages</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="info" data-text="faq/howto markup has limited google rich result support faq-howto-limited structured-data http://acme-widgets.example/blog/what-is-widget-testing">
+    <summary>
+      <span class="badge sev-info">info</span>
+      <span>FAQ/HowTo markup has limited Google rich result support</span>
+      <span class="meta">structured-data · effort low</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>Since 2023 Google shows FAQ rich results only for well-known government and health sites and no longer shows HowTo rich results. The markup stays valid and can still help other engines and answer extraction - keep it if it is accurate.</p>
+      <h4>Fix</h4><p class="fix">No action required; do not expect FAQ/HowTo rich results in Google.</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/blog/2023/08/howto-faq-changes" rel="noopener" target="_blank">https://developers.google.com/search/blog/2023/08/howto-faq-changes</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/blog/what-is-widget-testing</li></ul>
+      <p class="meta" style="margin:8px 0 0">check: faq-howto-limited</p>
+    </div>
+  </details>
+  <details class="issue" data-sev="info" data-text="entity facts are incomplete entity-facts-missing geo http://acme-widgets.example/">
+    <summary>
+      <span class="badge sev-info">info</span>
+      <span>Entity facts are incomplete</span>
+      <span class="meta">geo · effort low · site-wide</span>
+    </summary>
+    <div class="body">
+      <h4>What</h4><p>These basic facts are not set in seoforge.yaml or found in your markup, so the generated fact sheet and Organization markup leave them out.</p>
+      <h4>Fix</h4><p class="fix">Fill in the entity section of seoforge.yaml (only with accurate facts).</p>
+<h4>Source</h4><p><a href="https://developers.google.com/search/docs/appearance/structured-data/sd-policies" rel="noopener" target="_blank">https://developers.google.com/search/docs/appearance/structured-data/sd-policies</a></p>      <h4>Affected (1)</h4>
+      <ul class="urls"><li>http://acme-widgets.example/</li></ul>
+<h4>Evidence</h4><pre>{
+  &#34;missing&#34;: [
+    &#34;description&#34;,
+    &#34;founded&#34;,
+    &#34;category&#34;
+  ]
+}</pre>      <p class="meta" style="margin:8px 0 0">check: entity-facts-missing</p>
+    </div>
+  </details>
+</section>
+
+
+<section class="tab" id="tab-pages">
+  <p>Each page is scored on its own page-level issues (worst first). Site-wide issues such as a missing About page or llms.txt only affect the overall health score. <span class="est">heuristic estimate</span></p>
+  <table><thead><tr><th>Page</th><th>Score</th><th>Issues on this page</th></tr></thead><tbody>
+<tr><td class="url">http://acme-widgets.example/products/widget</td><td><strong>61</strong></td><td><span class="sev-high">high</span> 1 page(s) declare multiple canonicals<br><span class="sev-high">high</span> 1 page(s) contain JSON-LD that does not parse<br><span class="sev-high">high</span> 1 page(s) have structured data missing required properties<br><span class="sev-medium">medium</span> 10 page(s) score below 40/100 for citation-friendliness<br><span class="sev-medium">medium</span> 10 indexable page(s) have under 200 words of main content<br><span class="sev-low">low</span> 2 nested page(s) lack BreadcrumbList markup<br><span class="sev-low">low</span> 1 page(s) have multiple H1s<br><span class="sev-low">low</span> 3 page(s) lack recommended structured data properties<br><span class="sev-low">low</span> 3 page(s) lack a meta description<br><span class="sev-low">low</span> 8 indexable page(s) are missing from the sitemap<br><span class="sev-low">low</span> 10 page(s) lack complete Open Graph tags<br><span class="sev-low">low</span> 3 title(s) shorter than 15 characters<br><span class="sev-low">low</span> 1 page(s) disable pinch-zoom<br><span class="sev-low">low</span> 5 page(s) have only one internal link pointing to them</td></tr><tr><td class="url">http://acme-widgets.example/missing-title</td><td><strong>68</strong></td><td><span class="sev-high">high</span> 1 page(s) lack a viewport meta tag<br><span class="sev-high">high</span> 1 page(s) have no &lt;title&gt;<br><span class="sev-medium">medium</span> 2 page(s) have no H1<br><span class="sev-medium">medium</span> 10 page(s) score below 40/100 for citation-friendliness<br><span class="sev-medium">medium</span> 10 indexable page(s) have under 200 words of main content<br><span class="sev-low">low</span> 4 page(s) have no rel=canonical<br><span class="sev-low">low</span> 3 page(s) lack a meta description<br><span class="sev-low">low</span> 1 page(s) lack &lt;html lang&gt;<br><span class="sev-low">low</span> 8 indexable page(s) are missing from the sitemap<br><span class="sev-low">low</span> 10 page(s) lack complete Open Graph tags<br><span class="sev-low">low</span> 5 page(s) have only one internal link pointing to them</td></tr><tr><td class="url">http://acme-widgets.example/dup-a</td><td><strong>72</strong></td><td><span class="sev-high">high</span> 1 group(s) of exact-duplicate pages<br><span class="sev-medium">medium</span> 2 keyword(s) targeted by more than one page<br><span class="sev-medium">medium</span> 10 page(s) score below 40/100 for citation-friendliness<br><span class="sev-medium">medium</span> 10 indexable page(s) have under 200 words of main content<br><span class="sev-medium">medium</span> 1 title(s) are shared by multiple pages<br><span class="sev-low">low</span> 4 page(s) have no rel=canonical<br><span class="sev-low">low</span> 1 meta description(s) reused across pages<br><span class="sev-low">low</span> 8 indexable page(s) are missing from the sitemap<br><span class="sev-low">low</span> 10 page(s) lack complete Open Graph tags<br><span class="sev-low">low</span> 3 title(s) shorter than 15 characters<br><span class="sev-low">low</span> 5 page(s) have only one internal link pointing to them</td></tr><tr><td class="url">http://acme-widgets.example/dup-b</td><td><strong>72</strong></td><td><span class="sev-high">high</span> 1 group(s) of exact-duplicate pages<br><span class="sev-medium">medium</span> 2 keyword(s) targeted by more than one page<br><span class="sev-medium">medium</span> 10 page(s) score below 40/100 for citation-friendliness<br><span class="sev-medium">medium</span> 10 indexable page(s) have under 200 words of main content<br><span class="sev-medium">medium</span> 1 title(s) are shared by multiple pages<br><span class="sev-low">low</span> 4 page(s) have no rel=canonical<br><span class="sev-low">low</span> 1 meta description(s) reused across pages<br><span class="sev-low">low</span> 8 indexable page(s) are missing from the sitemap<br><span class="sev-low">low</span> 10 page(s) lack complete Open Graph tags<br><span class="sev-low">low</span> 3 title(s) shorter than 15 characters<br><span class="sev-low">low</span> 5 page(s) have only one internal link pointing to them</td></tr><tr><td class="url">http://acme-widgets.example/js-app</td><td><strong>75</strong></td><td><span class="sev-high">high</span> 1 page(s) look like empty JavaScript app shells<br><span class="sev-medium">medium</span> 2 page(s) have no H1<br><span class="sev-medium">medium</span> 10 page(s) score below 40/100 for citation-friendliness<br><span class="sev-medium">medium</span> 10 indexable page(s) have under 200 words of main content<br><span class="sev-low">low</span> 4 page(s) have no rel=canonical<br><span class="sev-low">low</span> 3 page(s) lack a meta description<br><span class="sev-low">low</span> 1 page(s) have no internal links<br><span class="sev-low">low</span> 8 indexable page(s) are missing from the sitemap<br><span class="sev-low">low</span> 10 page(s) lack complete Open Graph tags<br><span class="sev-low">low</span> 5 page(s) have only one internal link pointing to them</td></tr><tr><td class="url">http://acme-widgets.example/blog/what-is-widget-testing</td><td><strong>84</strong></td><td><span class="sev-medium">medium</span> 1 page(s) answer questions without a concise 40-60 word answer<br><span class="sev-medium">medium</span> 2 keyword(s) targeted by more than one page<br><span class="sev-medium">medium</span> 10 indexable page(s) have under 200 words of main content<br><span class="sev-low">low</span> 2 nested page(s) lack BreadcrumbList markup<br><span class="sev-low">low</span> 1 page(s) skip heading levels<br><span class="sev-low">low</span> 3 page(s) lack recommended structured data properties<br><span class="sev-low">low</span> 8 indexable page(s) are missing from the sitemap<br><span class="sev-low">low</span> 10 page(s) lack complete Open Graph tags<br><span class="sev-info">info</span> FAQ/HowTo markup has limited Google rich result support</td></tr><tr><td class="url">http://acme-widgets.example/blog/</td><td><strong>87</strong></td><td><span class="sev-medium">medium</span> 2 keyword(s) targeted by more than one page<br><span class="sev-medium">medium</span> 10 page(s) score below 40/100 for citation-friendliness<br><span class="sev-medium">medium</span> 10 indexable page(s) have under 200 words of main content<br><span class="sev-low">low</span> 8 indexable page(s) are missing from the sitemap<br><span class="sev-low">low</span> 10 page(s) lack complete Open Graph tags</td></tr><tr><td class="url">http://acme-widgets.example/contact</td><td><strong>87</strong></td><td><span class="sev-medium">medium</span> 10 page(s) score below 40/100 for citation-friendliness<br><span class="sev-medium">medium</span> 1 page(s) use nosnippet<br><span class="sev-medium">medium</span> 10 indexable page(s) have under 200 words of main content<br><span class="sev-low">low</span> 8 indexable page(s) are missing from the sitemap<br><span class="sev-low">low</span> 10 page(s) lack complete Open Graph tags</td></tr><tr><td class="url">http://acme-widgets.example/orphan</td><td><strong>88</strong></td><td><span class="sev-medium">medium</span> 10 page(s) score below 40/100 for citation-friendliness<br><span class="sev-medium">medium</span> 1 orphan page(s) with no internal links<br><span class="sev-medium">medium</span> 10 indexable page(s) have under 200 words of main content<br><span class="sev-low">low</span> 10 page(s) lack complete Open Graph tags</td></tr><tr><td class="url">http://acme-widgets.example/</td><td><strong>89</strong></td><td><span class="sev-medium">medium</span> 1+ image(s) on 1 page(s) lack alt text<br><span class="sev-medium">medium</span> 10 page(s) score below 40/100 for citation-friendliness<br><span class="sev-low">low</span> Generic anchor text on 1 page(s)<br><span class="sev-low">low</span> Images without width/height on 1 page(s)<br><span class="sev-low">low</span> 3 page(s) lack recommended structured data properties</td></tr><tr><td class="url">http://acme-widgets.example/noindex-page</td><td><strong>90</strong></td><td><span class="sev-high">high</span> 1 sitemap URL(s) are marked noindex<br><span class="sev-info">info</span> 1 page(s) are excluded with noindex</td></tr><tr><td class="url">http://acme-widgets.example/about</td><td><strong>92</strong></td><td><span class="sev-medium">medium</span> 10 page(s) score below 40/100 for citation-friendliness<br><span class="sev-medium">medium</span> 10 indexable page(s) have under 200 words of main content<br><span class="sev-low">low</span> 10 page(s) lack complete Open Graph tags</td></tr>  </tbody></table>
+</section>
+
+<section class="tab" id="tab-keywords">
+  <p>Extracted from your own content (TF-IDF + YAKE + n-grams). Intent is a rule-based <span class="est">estimate</span>. No search volumes: there is no free, reliable source.</p>
+  <table><thead><tr><th>Page</th><th>Primary</th><th>Intent</th><th>Secondary</th></tr></thead><tbody>
+  <tr><td class="url">http://acme-widgets.example/</td><td><strong>widget testing tools</strong></td><td>navigational</td><td>testing tools, widget testing, reliable widget testing, testing, tools</td></tr>
+  <tr><td class="url">http://acme-widgets.example/about</td><td><strong>acme widgets</strong></td><td>navigational</td><td>widgets, acme, widget, widgets was founded, founded in 2019</td></tr>
+  <tr><td class="url">http://acme-widgets.example/orphan</td><td><strong>widget calibration</strong></td><td>unknown</td><td>page about widget, orphan page, calibration, page, widget</td></tr>
+  <tr><td class="url">http://acme-widgets.example/contact</td><td><strong>contact acme widgets</strong></td><td>navigational</td><td>contact acme, acme widgets, support and sales, contact, sales</td></tr>
+  <tr><td class="url">http://acme-widgets.example/blog/</td><td><strong>widget testing</strong></td><td>unknown</td><td>blog, widget testing guides, acme blog, guides, testing</td></tr>
+  <tr><td class="url">http://acme-widgets.example/products/widget</td><td><strong>widget tester</strong></td><td>transactional</td><td>buy widget tester, tester, buy widget, widget, buy</td></tr>
+  <tr><td class="url">http://acme-widgets.example/blog/what-is-widget-testing</td><td><strong>widget testing</strong></td><td>informational</td><td>testing, widget, practical guide, guide for teams, start</td></tr>
+  <tr><td class="url">http://acme-widgets.example/dup-a</td><td><strong>acme plans</strong></td><td>transactional</td><td>plans, acme, acme plans include, support, plans include unlimited</td></tr>
+  <tr><td class="url">http://acme-widgets.example/dup-b</td><td><strong>acme plans</strong></td><td>transactional</td><td>plans, acme, acme plans include, support, plans include unlimited</td></tr>
+  <tr><td class="url">http://acme-widgets.example/missing-title</td><td><strong>-</strong></td><td>unknown</td><td></td></tr>
+  </tbody></table>
+  <h3>Cannibalization groups</h3>
+  <table><thead><tr><th>Keyword</th><th>Competing pages</th></tr></thead><tbody>
+<tr><td>widget testing</td><td class="url">http://acme-widgets.example/blog/, http://acme-widgets.example/blog/what-is-widget-testing</td></tr><tr><td>acme plans</td><td class="url">http://acme-widgets.example/dup-a, http://acme-widgets.example/dup-b</td></tr>  </tbody></table>
+  <h3>Topic clusters <small class="est">char-trigram-tfidf</small></h3>
+  <table><thead><tr><th>Cluster</th><th>Size</th><th>Keywords</th></tr></thead><tbody>
+<tr><td><strong>testing tools</strong></td><td>6</td><td>reliable widget testing, testing, testing tools, widget testing, widget testing guides, widget testing tools</td></tr><tr><td><strong>acme blog</strong></td><td>5</td><td>acme, acme blog, acme plans, acme plans include, acme widgets</td></tr><tr><td><strong>buy widget</strong></td><td>4</td><td>buy, buy widget, buy widget tester, widget</td></tr><tr><td><strong>contact acme</strong></td><td>3</td><td>contact, contact acme, contact acme widgets</td></tr><tr><td><strong>orphan page</strong></td><td>3</td><td>orphan page, page, page about widget</td></tr><tr><td><strong>widget calibration</strong></td><td>2</td><td>calibration, widget calibration</td></tr><tr><td><strong>plans</strong></td><td>2</td><td>plans, plans include unlimited</td></tr><tr><td><strong>support</strong></td><td>2</td><td>support, support and sales</td></tr><tr><td><strong>widget tester</strong></td><td>2</td><td>tester, widget tester</td></tr><tr><td><strong>widgets</strong></td><td>2</td><td>widgets, widgets was founded</td></tr><tr><td><strong>blog</strong></td><td>1</td><td>blog</td></tr><tr><td><strong>founded in 2019</strong></td><td>1</td><td>founded in 2019</td></tr><tr><td><strong>guide for teams</strong></td><td>1</td><td>guide for teams</td></tr><tr><td><strong>guides</strong></td><td>1</td><td>guides</td></tr><tr><td><strong>practical guide</strong></td><td>1</td><td>practical guide</td></tr><tr><td><strong>sales</strong></td><td>1</td><td>sales</td></tr><tr><td><strong>start</strong></td><td>1</td><td>start</td></tr><tr><td><strong>tools</strong></td><td>1</td><td>tools</td></tr>  </tbody></table>
+</section>
+
+<section class="tab" id="tab-aeo">
+  <p>Question-style queries each page could answer, and whether a concise (40-60 word) answer block already exists. Suggestions are drafts for a human editor, built only from your page text.</p>
+  <table><thead><tr><th>Page</th><th>Questions</th><th>Answer blocks</th><th>FAQ</th><th>E-E-A-T signals</th></tr></thead><tbody>
+  <tr><td class="url">http://acme-widgets.example/</td>
+  <td></td>
+  <td>0/0</td>
+  <td>no</td>
+  <td><span class="chip" style="cursor:default">author: no</span> <span class="chip" style="cursor:default">author_page: no</span> <span class="chip" style="cursor:default">date: no</span> <span class="chip" style="cursor:default">citations: yes</span> </td></tr>
+  <tr><td class="url">http://acme-widgets.example/about</td>
+  <td></td>
+  <td>0/0</td>
+  <td>no</td>
+  <td><span class="chip" style="cursor:default">author: no</span> <span class="chip" style="cursor:default">author_page: no</span> <span class="chip" style="cursor:default">date: no</span> <span class="chip" style="cursor:default">citations: no</span> </td></tr>
+  <tr><td class="url">http://acme-widgets.example/orphan</td>
+  <td></td>
+  <td>0/0</td>
+  <td>no</td>
+  <td><span class="chip" style="cursor:default">author: no</span> <span class="chip" style="cursor:default">author_page: no</span> <span class="chip" style="cursor:default">date: no</span> <span class="chip" style="cursor:default">citations: no</span> </td></tr>
+  <tr><td class="url">http://acme-widgets.example/contact</td>
+  <td></td>
+  <td>0/0</td>
+  <td>no</td>
+  <td><span class="chip" style="cursor:default">author: no</span> <span class="chip" style="cursor:default">author_page: no</span> <span class="chip" style="cursor:default">date: no</span> <span class="chip" style="cursor:default">citations: no</span> </td></tr>
+  <tr><td class="url">http://acme-widgets.example/blog/</td>
+  <td></td>
+  <td>0/0</td>
+  <td>no</td>
+  <td><span class="chip" style="cursor:default">author: no</span> <span class="chip" style="cursor:default">author_page: no</span> <span class="chip" style="cursor:default">date: no</span> <span class="chip" style="cursor:default">citations: no</span> </td></tr>
+  <tr><td class="url">http://acme-widgets.example/products/widget</td>
+  <td>(suggested) How much does widget tester cost?<br>(suggested) Where can I get widget tester?<br>(suggested) Is widget tester worth it?<br></td>
+  <td>0/0</td>
+  <td>no</td>
+  <td><span class="chip" style="cursor:default">author: no</span> <span class="chip" style="cursor:default">author_page: no</span> <span class="chip" style="cursor:default">date: no</span> <span class="chip" style="cursor:default">citations: no</span> </td></tr>
+  <tr><td class="url">http://acme-widgets.example/blog/what-is-widget-testing</td>
+  <td>What is widget testing?<br>Why does widget testing matter?<br>How do you start widget testing<br>Is widget testing free?<br></td>
+  <td>2/4</td>
+  <td>yes</td>
+  <td><span class="chip" style="cursor:default">author: yes</span> <span class="chip" style="cursor:default">author_page: yes</span> <span class="chip" style="cursor:default">date: yes</span> <span class="chip" style="cursor:default">citations: yes</span> </td></tr>
+  <tr><td class="url">http://acme-widgets.example/dup-a</td>
+  <td>(suggested) How much does acme plans cost?<br>(suggested) Where can I get acme plans?<br>(suggested) Is acme plans worth it?<br></td>
+  <td>0/0</td>
+  <td>no</td>
+  <td><span class="chip" style="cursor:default">author: no</span> <span class="chip" style="cursor:default">author_page: no</span> <span class="chip" style="cursor:default">date: no</span> <span class="chip" style="cursor:default">citations: no</span> </td></tr>
+  <tr><td class="url">http://acme-widgets.example/dup-b</td>
+  <td>(suggested) How much does acme plans cost?<br>(suggested) Where can I get acme plans?<br>(suggested) Is acme plans worth it?<br></td>
+  <td>0/0</td>
+  <td>no</td>
+  <td><span class="chip" style="cursor:default">author: no</span> <span class="chip" style="cursor:default">author_page: no</span> <span class="chip" style="cursor:default">date: no</span> <span class="chip" style="cursor:default">citations: no</span> </td></tr>
+  <tr><td class="url">http://acme-widgets.example/missing-title</td>
+  <td></td>
+  <td>0/0</td>
+  <td>no</td>
+  <td><span class="chip" style="cursor:default">author: no</span> <span class="chip" style="cursor:default">author_page: no</span> <span class="chip" style="cursor:default">date: no</span> <span class="chip" style="cursor:default">citations: no</span> </td></tr>
+  <tr><td class="url">http://acme-widgets.example/js-app</td>
+  <td></td>
+  <td>0/0</td>
+  <td>no</td>
+  <td><span class="chip" style="cursor:default">author: no</span> <span class="chip" style="cursor:default">author_page: no</span> <span class="chip" style="cursor:default">date: no</span> <span class="chip" style="cursor:default">citations: no</span> </td></tr>
+  </tbody></table>
+</section>
+
+<section class="tab" id="tab-geo">
+  <h3>AI crawler access (from your live robots.txt)</h3>
+  <table><thead><tr><th>Bot</th><th>Operator</th><th>Purpose</th><th>Homepage allowed?</th><th>Explicit group?</th></tr></thead><tbody>
+<tr><td><strong>GPTBot</strong></td><td>OpenAI</td><td>training</td><td class="sev-high">blocked</td><td>yes</td></tr><tr><td><strong>OAI-SearchBot</strong></td><td>OpenAI</td><td>search</td><td class="sev-low">allowed</td><td>no (falls back to *)</td></tr><tr><td><strong>ChatGPT-User</strong></td><td>OpenAI</td><td>user</td><td class="sev-low">allowed</td><td>no (falls back to *)</td></tr><tr><td><strong>ClaudeBot</strong></td><td>Anthropic</td><td>training</td><td class="sev-low">allowed</td><td>no (falls back to *)</td></tr><tr><td><strong>Claude-SearchBot</strong></td><td>Anthropic</td><td>search</td><td class="sev-low">allowed</td><td>no (falls back to *)</td></tr><tr><td><strong>Claude-User</strong></td><td>Anthropic</td><td>user</td><td class="sev-low">allowed</td><td>no (falls back to *)</td></tr><tr><td><strong>PerplexityBot</strong></td><td>Perplexity</td><td>search</td><td class="sev-low">allowed</td><td>no (falls back to *)</td></tr><tr><td><strong>Perplexity-User</strong></td><td>Perplexity</td><td>user</td><td class="sev-low">allowed</td><td>no (falls back to *)</td></tr><tr><td><strong>Google-Extended</strong></td><td>Google</td><td>training</td><td class="sev-low">allowed</td><td>no (falls back to *)</td></tr><tr><td><strong>Applebot-Extended</strong></td><td>Apple</td><td>training</td><td class="sev-low">allowed</td><td>no (falls back to *)</td></tr><tr><td><strong>CCBot</strong></td><td>Common Crawl</td><td>training</td><td class="sev-low">allowed</td><td>no (falls back to *)</td></tr><tr><td><strong>Bytespider</strong></td><td>ByteDance</td><td>training</td><td class="sev-low">allowed</td><td>no (falls back to *)</td></tr><tr><td><strong>Meta-ExternalAgent</strong></td><td>Meta</td><td>training</td><td class="sev-low">allowed</td><td>no (falls back to *)</td></tr><tr><td><strong>Amazonbot</strong></td><td>Amazon</td><td>training</td><td class="sev-low">allowed</td><td>no (falls back to *)</td></tr><tr><td><strong>cohere-ai</strong></td><td>Cohere</td><td>training</td><td class="sev-low">allowed</td><td>no (falls back to *)</td></tr>  </tbody></table>
+  <p>llms.txt: not found · llms-full.txt: not found <span class="est">llms.txt is a proposal; AI providers have not confirmed using it</span></p>
+  <h3>Entity: Acme Widgets</h3>
+  <table><thead><tr><th>Platform</th><th>Profile in sameAs</th></tr></thead><tbody>
+<tr><td>Wikidata</td><td class="url"><span class="est">missing</span></td></tr><tr><td>Wikipedia</td><td class="url"><span class="est">missing</span></td></tr><tr><td>LinkedIn</td><td class="url"><span class="est">missing</span></td></tr><tr><td>GitHub</td><td class="url"><a href="https://github.com/acme-widgets" rel="noopener">https://github.com/acme-widgets</a></td></tr><tr><td>Crunchbase</td><td class="url"><span class="est">missing</span></td></tr><tr><td>X / Twitter</td><td class="url"><span class="est">missing</span></td></tr><tr><td>Facebook</td><td class="url"><span class="est">missing</span></td></tr><tr><td>Instagram</td><td class="url"><span class="est">missing</span></td></tr><tr><td>YouTube</td><td class="url"><span class="est">missing</span></td></tr><tr><td>Reddit</td><td class="url"><span class="est">missing</span></td></tr><tr><td>Quora</td><td class="url"><span class="est">missing</span></td></tr><tr><td>Product Hunt</td><td class="url"><span class="est">missing</span></td></tr><tr><td>Google Business Profile</td><td class="url"><span class="est">missing</span></td></tr><tr><td>Bing Places</td><td class="url"><span class="est">missing</span></td></tr><tr><td>Apple Business Connect</td><td class="url"><span class="est">missing</span></td></tr><tr><td>G2 / Capterra</td><td class="url"><span class="est">missing</span></td></tr><tr><td>Trustpilot</td><td class="url"><span class="est">missing</span></td></tr><tr><td>Medium / Dev.to / Substack</td><td class="url"><span class="est">missing</span></td></tr>  </tbody></table>
+<p>Name variants: <code>Acme Dashboard</code> (1) <code>Acme Widgets</code> (1) </p>  <h3>Citation-friendliness <span class="est">heuristic estimate</span></h3>
+  <table><thead><tr><th>Page</th><th>Score</th><th>Breakdown</th></tr></thead><tbody>
+<tr><td class="url">http://acme-widgets.example/js-app</td><td><strong>7</strong></td><td>quotable 0 · sourced_stats 7 · freshness 0 · authorship 0 · structure 0 · answer_blocks 0 · server_rendered 0 · structured_data 0 · </td></tr><tr><td class="url">http://acme-widgets.example/orphan</td><td><strong>17</strong></td><td>quotable 0 · sourced_stats 7 · freshness 0 · authorship 0 · structure 0 · answer_blocks 0 · server_rendered 10 · structured_data 0 · </td></tr><tr><td class="url">http://acme-widgets.example/dup-a</td><td><strong>17</strong></td><td>quotable 0 · sourced_stats 7 · freshness 0 · authorship 0 · structure 0 · answer_blocks 0 · server_rendered 10 · structured_data 0 · </td></tr><tr><td class="url">http://acme-widgets.example/dup-b</td><td><strong>17</strong></td><td>quotable 0 · sourced_stats 7 · freshness 0 · authorship 0 · structure 0 · answer_blocks 0 · server_rendered 10 · structured_data 0 · </td></tr><tr><td class="url">http://acme-widgets.example/missing-title</td><td><strong>17</strong></td><td>quotable 0 · sourced_stats 7 · freshness 0 · authorship 0 · structure 0 · answer_blocks 0 · server_rendered 10 · structured_data 0 · </td></tr><tr><td class="url">http://acme-widgets.example/blog/</td><td><strong>21</strong></td><td>quotable 0 · sourced_stats 7 · freshness 0 · authorship 0 · structure 4 · answer_blocks 0 · server_rendered 10 · structured_data 0 · </td></tr><tr><td class="url">http://acme-widgets.example/contact</td><td><strong>22</strong></td><td>quotable 8 · sourced_stats 4 · freshness 0 · authorship 0 · structure 0 · answer_blocks 0 · server_rendered 10 · structured_data 0 · </td></tr><tr><td class="url">http://acme-widgets.example/products/widget</td><td><strong>26</strong></td><td>quotable 4 · sourced_stats 7 · freshness 0 · authorship 0 · structure 0 · answer_blocks 0 · server_rendered 10 · structured_data 5 · </td></tr><tr><td class="url">http://acme-widgets.example/</td><td><strong>30</strong></td><td>quotable 0 · sourced_stats 7 · freshness 0 · authorship 6 · structure 2 · answer_blocks 0 · server_rendered 10 · structured_data 5 · </td></tr><tr><td class="url">http://acme-widgets.example/about</td><td><strong>36</strong></td><td>quotable 20 · sourced_stats 4 · freshness 0 · authorship 0 · structure 2 · answer_blocks 0 · server_rendered 10 · structured_data 0 · </td></tr><tr><td class="url">http://acme-widgets.example/blog/what-is-widget-testing</td><td><strong>92</strong></td><td>quotable 12 · sourced_stats 15 · freshness 15 · authorship 10 · structure 15 · answer_blocks 10 · server_rendered 10 · structured_data 5 · </td></tr>  </tbody></table>
+</section>
+
+
+<section class="tab" id="tab-plan">
+  <div class="plan">
+    <div class="card"><h3 style="margin-top:0">Days 1-30 · fix blockers</h3><ol>
+<li><span class="badge sev-critical">critical</span> Site is served over plain HTTP</li><li><span class="badge sev-high">high</span> 1 group(s) of exact-duplicate pages</li><li><span class="badge sev-high">high</span> 1 internal URL(s) linked from your pages return errors</li><li><span class="badge sev-high">high</span> Non-existent URLs return HTTP 200 (soft 404)</li><li><span class="badge sev-high">high</span> 1 sitemap URL(s) are blocked by robots.txt</li><li><span class="badge sev-high">high</span> 1 sitemap URL(s) return 4xx/5xx</li><li><span class="badge sev-high">high</span> 1 sitemap URL(s) are marked noindex</li><li><span class="badge sev-high">high</span> 1 page(s) declare multiple canonicals</li><li><span class="badge sev-high">high</span> 1 page(s) lack a viewport meta tag</li><li><span class="badge sev-high">high</span> 1 page(s) have no &lt;title&gt;</li><li><span class="badge sev-high">high</span> 1 page(s) contain JSON-LD that does not parse</li><li><span class="badge sev-high">high</span> 1 page(s) have structured data missing required properties</li><li>Verify the site in Google Search Console and Bing Webmaster Tools (free) and submit the sitemap in both (`seoforge index gsc-sitemap`, `seoforge index bing`).</li><li>Set up IndexNow (`seoforge index indexnow-key`) so Bing, Yandex, Seznam, Naver and Yep learn about changes within minutes.</li><li>Publish robots.txt with an explicit AI-crawler policy and an llms.txt (`seoforge fix`).</li>    </ol></div>
+    <div class="card"><h3 style="margin-top:0">Days 31-60 · strengthen</h3><ol>
+<li><span class="badge sev-high">high</span> 1 page(s) look like empty JavaScript app shells</li><li><span class="badge sev-medium">medium</span> 1 title(s) are shared by multiple pages</li><li><span class="badge sev-medium">medium</span> 2 page(s) have no H1</li><li><span class="badge sev-medium">medium</span> 1 redirect chain(s) with more than one hop</li><li><span class="badge sev-medium">medium</span> 1 sitemap URL(s) redirect</li><li><span class="badge sev-medium">medium</span> 1 page(s) use nosnippet</li><li><span class="badge sev-medium">medium</span> 1+ image(s) on 1 page(s) lack alt text</li><li><span class="badge sev-medium">medium</span> 10 page(s) score below 40/100 for citation-friendliness</li><li><span class="badge sev-medium">medium</span> 2 keyword(s) targeted by more than one page</li><li><span class="badge sev-medium">medium</span> 1 orphan page(s) with no internal links</li><li><span class="badge sev-medium">medium</span> 1 page(s) answer questions without a concise 40-60 word answer</li><li><span class="badge sev-medium">medium</span> 10 indexable page(s) have under 200 words of main content</li><li>Add or improve structured data for your key page types and validate it in Google&#39;s Rich Results Test and the Schema.org validator.</li><li>Rewrite key pages with direct 40-60 word answers under question-style headings (see AEO findings).</li><li>Make your brand entity consistent: same name, logo, description and links on every profile listed in the entity checklist.</li>    </ol></div>
+    <div class="card"><h3 style="margin-top:0">Days 61-90 · grow</h3><ol>
+<li><span class="badge sev-low">low</span> 10 page(s) lack complete Open Graph tags</li><li><span class="badge sev-low">low</span> 8 indexable page(s) are missing from the sitemap</li><li><span class="badge sev-low">low</span> 4 page(s) have no rel=canonical</li><li><span class="badge sev-low">low</span> 3 title(s) shorter than 15 characters</li><li><span class="badge sev-low">low</span> 3 page(s) lack a meta description</li><li><span class="badge sev-low">low</span> 3 page(s) lack recommended structured data properties</li><li><span class="badge sev-low">low</span> 1 meta description(s) reused across pages</li><li><span class="badge sev-low">low</span> 2 nested page(s) lack BreadcrumbList markup</li><li><span class="badge sev-low">low</span> Internal links point to 1 redirecting URL(s)</li><li><span class="badge sev-low">low</span> 1 page(s) disable pinch-zoom</li><li><span class="badge sev-low">low</span> 1 page(s) lack &lt;html lang&gt;</li><li><span class="badge sev-low">low</span> Images without width/height on 1 page(s)</li><li><span class="badge sev-low">low</span> 5 recommended security header(s) missing</li><li><span class="badge sev-low">low</span> 1 page(s) have multiple H1s</li><li><span class="badge sev-low">low</span> 1 page(s) skip heading levels</li><li><span class="badge sev-low">low</span> Generic anchor text on 1 page(s)</li><li><span class="badge sev-low">low</span> 1 page(s) have no internal links</li><li><span class="badge sev-low">low</span> No WebSite markup</li><li><span class="badge sev-low">low</span> No link to a Privacy Policy was found</li><li><span class="badge sev-low">low</span> No /llms.txt file</li><li><span class="badge sev-low">low</span> Brand name appears in 2 variants</li><li><span class="badge sev-low">low</span> 5 page(s) have only one internal link pointing to them</li><li>Create one genuinely useful, linkable asset (original data, tool, or guide) per content cluster and promote it to relevant communities and publications.</li><li>Re-run `seoforge audit` and compare; track AI answers monthly with `seoforge visibility`.</li><li>Review Search Console &#39;Pages&#39; and &#39;Performance&#39; reports for pages that are crawled but not indexed, and queries with high impressions but low CTR.</li>    </ol></div>
+  </div>
+</section>
+
+<section class="tab" id="tab-stats">
+  <table><tbody>
+<tr><th>urls crawled</th><td>14</td></tr><tr><th>html pages</th><td>12</td></tr><tr><th>indexable pages</th><td>11</td></tr><tr><th>noindex pages</th><td>1</td></tr><tr><th>redirects</th><td>1</td></tr><tr><th>errors 4xx</th><td>1</td></tr><tr><th>errors 5xx</th><td>0</td></tr><tr><th>blocked by robots</th><td>1</td></tr><tr><th>sitemap urls</th><td>7</td></tr><tr><th>avg response ms</th><td>6</td></tr><tr><th>avg word count</th><td>41</td></tr><tr><th>framework</th><td>None</td></tr><tr><th>js rendered</th><td>False</td></tr><tr><th>render error</th><td>None</td></tr><tr><th>truncated at max pages</th><td>False</td></tr><tr><th>resumed</th><td>False</td></tr>  </tbody></table>
+</section>
+
+<section class="tab" id="tab-limits">
+  <h3>What this tool cannot do</h3>
+  <ul><li>No ranking guarantees: rankings depend on competition, query intent, links, and hundreds of signals that only search engines see.</li><li>Indexing is never guaranteed. Submitting a URL (sitemap, IndexNow, Bing API, GSC) only requests a crawl; engines choose what to index.</li><li>No tool can make an LLM &#39;know&#39; your site. Training data cut-offs, retrieval systems and citation choices are controlled by each AI provider. GEO work raises the odds of being retrieved and quoted; it does not force it.</li><li>Google&#39;s Indexing API is only for JobPosting and BroadcastEvent (livestream) pages. SEOForge does not use it for anything else, and neither should you.</li><li>Search volumes and keyword difficulty are not provided: there is no free, reliable source. Keywords come from your own content, competitor pages you supply, and (opt-in) Google Autosuggest, which reflects popularity but not volume.</li><li>Backlink data is limited to what free sources expose. Use Google Search Console and Bing Webmaster Tools &#39;Links&#39; reports for your real backlink profile.</li><li>Performance numbers from this machine (response time) are estimates. Core Web Vitals field data comes from the Chrome UX Report via PageSpeed Insights and exists only for URLs with enough real-user traffic.</li><li>Heuristic findings (thin content, title length, near-duplicates, citation-friendliness, intent) are labelled as estimates. Use judgement: they flag pages to review, not verdicts.</li><li>AI visibility tracking relies on answers you record manually or fetch through tools you are allowed to use. SEOForge does not scrape consumer AI apps, which their terms forbid.</li><li>llms.txt is a community proposal (llmstxt.org). Major AI providers have not confirmed they use it; it is cheap to publish and harmless, nothing more is promised.</li><li>FAQ rich results are limited to well-known government and health sites, and HowTo rich results were removed from Google (Aug/Sep 2023). The markup is still valid schema.org and can help other engines and answer extraction.</li><li>robots.txt is a request, not an enforcement mechanism. Crawlers that ignore it must be blocked at the server/CDN/WAF level.</li><li>JavaScript rendering uses headless Chromium; it approximates, but is not identical to, how Googlebot renders pages.</li></ul>
+  <h3>Search engine scope notes</h3>
+  <ul><li>Chrome, Firefox, Edge and Safari are browsers, not search engines - there is nothing to &#39;submit&#39; to them.</li><li>DuckDuckGo, Yahoo and Ecosia rely heavily on Bing&#39;s index (plus their own sources), so Bing Webmaster Tools and IndexNow cover much of that reach.</li><li>Brave Search runs its own index and has no submission console; it discovers pages through links and its own crawling.</li></ul>
+</section>
+</main>
+<script>
+document.querySelectorAll('nav.tabs button').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('nav.tabs button').forEach(x=>x.setAttribute('aria-selected',x===b));
+  document.querySelectorAll('section.tab').forEach(s=>s.classList.toggle('active',s.id==='tab-'+b.dataset.tab));
+}));
+const q=document.getElementById('q');const off=new Set();
+function apply(){const t=q.value.toLowerCase();document.querySelectorAll('details.issue').forEach(d=>{
+  d.style.display=(!off.has(d.dataset.sev)&&(!t||d.dataset.text.includes(t)))?'':'none';});}
+q.addEventListener('input',apply);
+document.querySelectorAll('.chip[data-sev]').forEach(c=>c.addEventListener('click',()=>{
+  const s=c.dataset.sev;off.has(s)?off.delete(s):off.add(s);c.setAttribute('aria-pressed',!off.has(s));apply();}));
+</script>
+</body>
+</html>

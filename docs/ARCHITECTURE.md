@@ -52,11 +52,13 @@ LICENSE
 .pre-commit-config.yaml
 pyproject.toml
 README.md
+CHANGELOG.md
 src/
   seoforge/
     analysis/
       aeo.py
       competitors.py
+      framework.py
       __init__.py
       keywords.py
       pagetype.py
@@ -88,6 +90,8 @@ src/
       bundle.py
       __init__.py
     generators/
+      framework.py
+      headers.py
       __init__.py
       llms.py
       markdown.py
@@ -122,6 +126,7 @@ src/
       mentions.py
     report/
       builder.py
+      compare.py
       __init__.py
       limitations.py
       render.py
@@ -132,6 +137,7 @@ src/
     sources.py
     storage.py
     urls.py
+    wizard.py
 tests/
   site/                      # local test website with planted SEO problems
   conftest.py
@@ -165,6 +171,10 @@ tests/
    `estimate` flag for heuristics.
 4. **Report** (`report/`): issues are ranked (severity × reach ÷ effort), bucketed into a
    30/60/90-day plan, and rendered to HTML/Markdown/JSON with the limitations section.
+   The health score is `100 × e^(−penalty/100)`: site-wide issues (`Issue.site_wide`) count
+   in full, page-level issues scale with the share of pages affected, and every page also
+   gets its own score. `report/compare.py` diffs the run against the previous `report.json`
+   for the same site.
 
 ## Plugins
 
