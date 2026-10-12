@@ -14,6 +14,11 @@ TITLE_MAX = 60
 DESC_MAX = 155
 
 
+def _comment(text: str) -> str:
+    """HTML comment that crawled text (e.g. a URL containing "-->") cannot close early."""
+    return "<!-- " + text.replace("--", "- -") + " -->"
+
+
 @dataclass(slots=True)
 class MetaSuggestion:
     url: str
@@ -26,7 +31,7 @@ class MetaSuggestion:
     todo: list[str] = field(default_factory=list)
 
     def html(self) -> str:
-        lines = [f"<!-- {self.url}: {', '.join(self.reasons)} -->"]
+        lines = [_comment(f"{self.url}: {', '.join(self.reasons)}")]
         if self.viewport:
             lines.append('<meta name="viewport" content="width=device-width, initial-scale=1">')
         if self.title:
@@ -37,7 +42,7 @@ class MetaSuggestion:
             lines.append(f'<link rel="canonical" href="{escape(self.canonical)}">')
         for prop, content in self.og.items():
             lines.append(f'<meta property="{prop}" content="{escape(content)}">')
-        lines.extend(f"<!-- TODO: {t} -->" for t in self.todo)
+        lines.extend(_comment(f"TODO: {t}") for t in self.todo)
         return "\n".join(lines) + "\n"
 
 

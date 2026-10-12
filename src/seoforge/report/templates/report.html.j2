@@ -101,7 +101,7 @@ a{color:var(--accent)}
       <h4>What</h4><p>{{ i.description }}</p>
       {% if i.impact %}<h4>Impact</h4><p>{{ i.impact }}</p>{% endif %}
       <h4>Fix</h4><p class="fix">{{ i.fix }}</p>
-      {% if i.source %}<h4>Source</h4><p><a href="{{ i.source }}" rel="noopener" target="_blank">{{ i.source }}</a></p>{% endif %}
+      {% if i.source %}<h4>Source</h4><p><a href="{{ i.source|safe_href }}" rel="noopener" target="_blank">{{ i.source }}</a></p>{% endif %}
       {% if i.urls %}
       <h4>Affected ({{ i.urls|length }})</h4>
       <ul class="urls">{% for u in i.urls|first_n(200) %}<li>{{ u }}</li>{% endfor %}</ul>
@@ -205,7 +205,7 @@ a{color:var(--accent)}
   {% if d.extras.geo.entity %}
   <h3>Entity: {{ d.extras.geo.entity.name or 'unknown' }}</h3>
   <table><thead><tr><th>Platform</th><th>Profile in sameAs</th></tr></thead><tbody>
-  {% for platform, link in d.extras.geo.entity.platforms.items() %}<tr><td>{{ platform }}</td><td class="url">{% if link %}<a href="{{ link }}" rel="noopener">{{ link }}</a>{% else %}<span class="est">missing</span>{% endif %}</td></tr>{% endfor %}
+  {% for platform, link in d.extras.geo.entity.platforms.items() %}<tr><td>{{ platform }}</td><td class="url">{% if link %}<a href="{{ link|safe_href }}" rel="noopener">{{ link }}</a>{% else %}<span class="est">missing</span>{% endif %}</td></tr>{% endfor %}
   </tbody></table>
   {% if d.extras.geo.entity.name_variants|length > 1 %}<p>Name variants: {% for v, n in d.extras.geo.entity.name_variants.items() %}<code>{{ v }}</code> ({{ n }}) {% endfor %}</p>{% endif %}
   {% endif %}

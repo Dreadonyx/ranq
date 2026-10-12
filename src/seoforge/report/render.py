@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from urllib.parse import urlsplit
 
 from jinja2 import Environment, PackageLoader, select_autoescape
 
@@ -21,7 +22,15 @@ def _truncate_list(value: list[str], n: int = 25) -> list[str]:
     return value[:n]
 
 
+def safe_href(url: object) -> str:
+    """Only http(s) URLs may become links: crawled values such as sameAs are attacker-controlled
+    and a javascript: URL would run in the report when clicked."""
+    text = str(url or "").strip()
+    return text if urlsplit(text).scheme.lower() in ("http", "https") else "#"
+
+
 _env.filters["first_n"] = _truncate_list
+_env.filters["safe_href"] = safe_href
 _env.filters["tojson_pretty"] = lambda v: json.dumps(v, indent=2, ensure_ascii=False, default=str)
 
 
@@ -37,6 +46,7 @@ def render_markdown(report: Report) -> str:
         lstrip_blocks=True,
     )
     md_env.filters["first_n"] = _truncate_list
+    md_env.filters["safe_href"] = safe_href
     return md_env.get_template("report.md.j2").render(r=report, d=report.to_dict())
 
 

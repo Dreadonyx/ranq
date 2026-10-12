@@ -74,7 +74,7 @@ Each page is scored on its own page-level issues (worst first). Site-wide issues
 **Fix:** {{ i.fix }}
 
 {% if i.source %}
-**Source:** {{ i.source }}
+**Source:** {{ i.source|safe_href }}
 
 {% endif %}
 {% if i.urls %}
