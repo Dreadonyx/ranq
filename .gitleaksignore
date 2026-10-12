@@ -1,4 +1,4 @@
 # Fake IndexNow keys used only by the local test site, committed before they were marked
 # "gitleaks:allow" inline. Not credentials.
-b80b498feb28f5ba3d0d3fcd31267e0f4f417be5:tests/serve_site.py:generic-api-key:22
-b80b498feb28f5ba3d0d3fcd31267e0f4f417be5:tests/test_indexing_offpage.py:generic-api-key:59
+2074440f0566096be7e422790ef5db444605a6f7:tests/serve_site.py:generic-api-key:22
+2074440f0566096be7e422790ef5db444605a6f7:tests/test_indexing_offpage.py:generic-api-key:59
