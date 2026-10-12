@@ -1,0 +1,86 @@
+name: Release
+
+# Push a tag like v0.2.0 (matching seoforge.__version__) to build, create a GitHub Release with
+# the CHANGELOG notes, and - once PyPI Trusted Publishing is configured and the repository
+# variable PUBLISH_TO_PYPI is "true" - publish to PyPI. No API token is stored anywhere.
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Tag must match the package version
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          version=$(python -c "import re,pathlib; print(re.search(r'__version__ = \"([^\"]+)\"', pathlib.Path('src/seoforge/__init__.py').read_text()).group(1))")
+          if [ "$TAG" != "v$version" ]; then
+            echo "::error::Tag $TAG does not match seoforge.__version__ $version"
+            exit 1
+          fi
+      - name: Test
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+          pytest -q
+      - name: Build and check
+        run: |
+          pip install build twine
+          python -m build
+          twine check --strict dist/*
+      - uses: actions/upload-artifact@v7
+        with:
+          name: dist
+          path: dist/
+
+  github-release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist/
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          version="${TAG#v}"
+          # Notes = this version's section of CHANGELOG.md (up to the next "## [").
+          awk -v v="$version" '
+            $0 ~ "^## \\[" v "\\]" {found=1; next}
+            found && /^## \[/ {exit}
+            found {print}
+          ' CHANGELOG.md > notes.md
+          if [ ! -s notes.md ]; then echo "See CHANGELOG.md" > notes.md; fi
+          gh release create "$TAG" dist/* --title "SEOForge $version" --notes-file notes.md --verify-tag
+
+  pypi:
+    needs: build
+    if: vars.PUBLISH_TO_PYPI == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/project/seoforge/
+    permissions:
+      id-token: write  # OIDC for PyPI Trusted Publishing
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1

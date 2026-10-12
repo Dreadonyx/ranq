@@ -1,0 +1,76 @@
+# Changelog
+
+All notable changes to SEOForge. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
+[Semantic Versioning](https://semver.org/).
+
+## [0.2.0] - 2026-10-12
+
+### Added
+
+- **Per-page scores**: every crawled page gets a score from its own issues, shown in the CLI,
+  a Pages tab in the HTML report, the Markdown report and `report.json`.
+- **Audit comparison**: each audit is compared with the previous report for the same site (or
+  `--compare old.json`): score change, fixed / new / changed issues and page-score changes.
+  Every run is archived in `<out>/history/`. `--no-compare` turns it off.
+- **Guided `seoforge init`**: asks a few questions pre-filled from what the home page already
+  says (brand name, description, city, founding year, social profiles). `--example` writes
+  the commented template.
+- **Framework detection** (Next.js App/Pages Router, Nuxt, Astro, SvelteKit, Remix, Gatsby,
+  Docusaurus, WordPress, Shopify, Wix, Squarespace, Webflow, Framer, Ghost, Hugo, Jekyll,
+  Eleventy). `fix` writes `FRAMEWORK.md` saying where each file goes; Next.js App Router sites
+  also get `app/robots.ts`, `app/sitemap.ts` and a safe JSON-LD component.
+- New checks:
+  - `no-custom-domain` (high): the site runs on a platform subdomain (about 80 hosts,
+    including Vercel, Netlify, Hostinger, GitHub Pages, Cloudflare Pages, Wix and Webflow).
+  - `site-unreachable` (critical): no crawlable HTML page, with the reason (HTTP status,
+    fetch error, robots.txt, off-site redirect).
+  - `h1-hidden-in-html` (medium): the H1 is served invisible and revealed by JavaScript,
+    which delays Largest Contentful Paint.
+  - `og-url-mismatch` (medium): og:url points to another page.
+  - `jsonld-webpage-wrong-url` (medium): a WebPage node describes another URL (layout-level
+    markup copied to every page).
+  - `brand-description-inconsistent` (low): JSON-LD, llms.txt and config describe the brand
+    differently.
+  - `email-obfuscated` (low): Cloudflare Email Obfuscation hides the contact address.
+
+### Changed
+
+- **Health score**: site-wide issues (missing About page, llms.txt, robots.txt, Organization
+  markup, HTTPS...) now count in full instead of being diluted by page count. A site where
+  nothing could be crawled scores 0. Penalties map to the score on a diminishing curve
+  (`100 * e^(-penalty/100)`), so sites with many problems stay comparable instead of all
+  bottoming out at 0.
+- `fix` builds JSON-LD on top of the site's existing markup and writes one `@graph` for the
+  shared layout plus one per page, so each file can replace what is there without losing
+  nodes.
+- `fix` builds security headers from the live response headers and never weakens an existing
+  value (for example `X-Frame-Options: DENY`).
+- `fix` keeps a hand-written `llms.txt` and only appends pages it does not link yet.
+- Running from a folder whose `seoforge.yaml` describes another site no longer applies that
+  site's entity, competitors and keywords.
+- Markdown mirrors and `llms-full.txt` skip hidden elements and keep words in flex/grid
+  layouts apart.
+- Calls to action phrased as questions ("Ready to start?") are no longer treated as AEO
+  questions.
+- Images sized by CSS (Next.js `fill`, Tailwind `w-N h-N`, inline width/height or
+  aspect-ratio) are no longer reported as missing dimensions.
+- Cloudflare `/cdn-cgi/` endpoints are never crawled.
+- GitHub Actions use checkout, setup-python and upload-artifact v7 (Node 24).
+
+### Fixed
+
+- The Organization generator dropped the address and founders already published on the site.
+- The Wikidata draft lowercased brand names ("nodeKraft") and repeated "<Name> is a".
+- JSON-LD output now escapes `</` so crawled text cannot close the script tag.
+
+## [0.1.0] - 2026-10-03
+
+First release: robots-aware crawler, technical / on-page / performance audit, structured data
+validation and generators, AEO and E-E-A-T checks, GEO (AI crawler policy, llms.txt, entity
+tools, citation score, AI-visibility tracker), indexing (IndexNow, Search Console, Bing),
+off-page helpers, `seoforge fix`, HTML / Markdown / JSON reports, Docker image, GitHub Action
+and CI.
+
+[0.2.0]: https://github.com/Dreadonyx/seo-tool/compare/2e7659f...v0.2.0
+[0.1.0]: https://github.com/Dreadonyx/seo-tool/tree/2e7659f
