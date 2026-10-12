@@ -21,6 +21,7 @@ from seoforge.report.limitations import DISCLAIMER
 from seoforge.report.render import write_reports
 from seoforge.robots import RobotsTxt
 from seoforge.storage import Store
+from seoforge.urls import same_site
 
 T = TypeVar("T")
 
@@ -55,6 +56,15 @@ def _site(url: str | None, config: Config) -> str:
         raise typer.Exit(2)
     if not site.startswith(("http://", "https://")):
         site = "https://" + site
+    if url and config.site:
+        configured = config.site if "://" in config.site else "https://" + config.site
+        if not same_site(site, configured):
+            err.print(
+                f"[yellow]seoforge.yaml describes {config.site}; ignoring its entity, competitors "
+                f"and keywords while working on {site}. Pass --config for this site's own file."
+                "[/yellow]"
+            )
+            config.forget_site_facts()
     return site
 
 

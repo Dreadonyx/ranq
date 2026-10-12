@@ -103,6 +103,16 @@ class Config(BaseModel):
     def db_path(self) -> Path:
         return Path(self.data_dir) / "seoforge.db"
 
+    def forget_site_facts(self) -> None:
+        """Drop everything that describes one particular site (brand entity, competitors,
+        keywords, llms.txt sections), so auditing a different URL does not inherit them.
+        Crawl, API, report and AI-policy preferences are kept."""
+        self.site = None
+        self.entity = EntityConfig()
+        self.competitors = []
+        self.seed_keywords = []
+        self.geo.llms_txt_sections = {}
+
 
 DEFAULT_CONFIG_NAMES = ("seoforge.yaml", "seoforge.yml", ".seoforge.yaml")
 
