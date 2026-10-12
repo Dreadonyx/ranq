@@ -4,18 +4,31 @@ build-backend = "hatchling.build"
 
 [project]
 name = "seoforge"
-version = "0.1.0"
+dynamic = ["version"]
 description = "Free, open-source CLI that audits and optimizes websites for SEO, AEO and GEO."
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.11"
 authors = [{ name = "Dreadonyx" }]
-keywords = ["seo", "aeo", "geo", "llms.txt", "indexnow", "audit", "crawler"]
+keywords = [
+  "seo", "aeo", "geo", "llms.txt", "indexnow", "audit", "crawler", "structured-data",
+  "json-ld", "core-web-vitals", "search-console", "ai-search",
+]
 classifiers = [
-  "Programming Language :: Python :: 3.11",
-  "License :: OSI Approved :: MIT License",
+  "Development Status :: 4 - Beta",
   "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Information Technology",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Internet :: WWW/HTTP :: Indexing/Search",
   "Topic :: Internet :: WWW/HTTP :: Site Management",
+  "Topic :: Internet :: WWW/HTTP :: Site Management :: Link Checking",
+  "Typing :: Typed",
 ]
 dependencies = [
   "typer>=0.12",
@@ -48,9 +61,18 @@ seoforge = "seoforge.cli:app"
 
 [project.urls]
 Homepage = "https://github.com/Dreadonyx/seo-tool"
+Repository = "https://github.com/Dreadonyx/seo-tool"
+Issues = "https://github.com/Dreadonyx/seo-tool/issues"
+Changelog = "https://github.com/Dreadonyx/seo-tool/blob/main/CHANGELOG.md"
+
+[tool.hatch.version]
+path = "src/seoforge/__init__.py"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/seoforge"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/seoforge", "tests", "README.md", "CHANGELOG.md", "LICENSE", "pyproject.toml"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
