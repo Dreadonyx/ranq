@@ -17,6 +17,8 @@ jobs:
         python-version: ["3.11", "3.12", "3.13"]
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
       - uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python-version }}
@@ -42,10 +44,41 @@ jobs:
           seoforge audit http://127.0.0.1:8765 --no-pagespeed --delay 0 -o smoke-report
           test -s smoke-report/report.html
 
+  secrets:
+    # Fails the build if a credential is committed anywhere in the history.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Gitleaks
+        run: |
+          docker run --rm -v "$PWD:/repo:ro" zricethezav/gitleaks:v8.28.0 \
+            git /repo --redact --verbose --exit-code 1
+
+  dependency-audit:
+    # Known vulnerabilities (PyPI advisory database / OSV) in the installed dependencies.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: pip-audit
+        run: |
+          python -m pip install --upgrade pip
+          pip install ".[google]" pip-audit
+          pip-audit --skip-editable --progress-spinner off
+
   docker:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
       - name: Build image
         run: docker build -t seoforge:ci .
       - name: Run help
