@@ -22,56 +22,99 @@ def _norm(url: str) -> str:
     return url.rstrip("/")
 
 
-# Free hosting/builder subdomains. Sites here rank, but on a name the platform owns.
-PLATFORM_SUFFIXES = (
-    "vercel.app",
-    "netlify.app",
-    "github.io",
-    "gitlab.io",
-    "pages.dev",
-    "workers.dev",
-    "onrender.com",
-    "herokuapp.com",
-    "web.app",
-    "firebaseapp.com",
-    "appspot.com",
-    "amplifyapp.com",
-    "azurewebsites.net",
-    "azurestaticapps.net",
-    "fly.dev",
-    "railway.app",
-    "deno.dev",
-    "koyeb.app",
-    "surge.sh",
-    "glitch.me",
-    "repl.co",
-    "replit.app",
-    "replit.dev",
-    "lovable.app",
-    "streamlit.app",
-    "webflow.io",
-    "framer.website",
-    "framer.app",
-    "wixsite.com",
-    "carrd.co",
-    "weebly.com",
-    "square.site",
-    "myshopify.com",
-    "blogspot.com",
-    "wordpress.com",
-    "ngrok-free.app",
-    "ngrok.io",
-    "trycloudflare.com",
-)
+# Free hosting/builder/temporary subdomains -> platform name. Sites here can rank, but on a
+# name the platform owns. Only subdomains match, so listing a suffix never flags a real domain.
+PLATFORMS: dict[str, str] = {
+    # Frontend / app hosting
+    "vercel.app": "Vercel",
+    "netlify.app": "Netlify",
+    "pages.dev": "Cloudflare Pages",
+    "workers.dev": "Cloudflare Workers",
+    "github.io": "GitHub Pages",
+    "gitlab.io": "GitLab Pages",
+    "onrender.com": "Render",
+    "herokuapp.com": "Heroku",
+    "fly.dev": "Fly.io",
+    "railway.app": "Railway",
+    "deno.dev": "Deno Deploy",
+    "koyeb.app": "Koyeb",
+    "zeabur.app": "Zeabur",
+    "surge.sh": "Surge",
+    "glitch.me": "Glitch",
+    "ondigitalocean.app": "DigitalOcean App Platform",
+    "pythonanywhere.com": "PythonAnywhere",
+    "csb.app": "CodeSandbox",
+    # Cloud providers
+    "web.app": "Firebase Hosting",
+    "firebaseapp.com": "Firebase Hosting",
+    "appspot.com": "Google App Engine",
+    "run.app": "Google Cloud Run",
+    "amplifyapp.com": "AWS Amplify",
+    "cloudfront.net": "Amazon CloudFront",
+    "amazonaws.com": "AWS",
+    "elasticbeanstalk.com": "AWS Elastic Beanstalk",
+    "awsapprunner.com": "AWS App Runner",
+    "azurewebsites.net": "Azure App Service",
+    "azurestaticapps.net": "Azure Static Web Apps",
+    "azureedge.net": "Azure CDN",
+    "azurefd.net": "Azure Front Door",
+    # Shared / web hosting temporary domains
+    "hostingersite.com": "Hostinger",
+    "000webhostapp.com": "000webhost",
+    "infinityfreeapp.com": "InfinityFree",
+    "wpcomstaging.com": "WordPress.com",
+    "kinsta.cloud": "Kinsta",
+    "wpenginepowered.com": "WP Engine",
+    "wpengine.com": "WP Engine",
+    # Site builders and no-code
+    "wixsite.com": "Wix",
+    "wixstudio.com": "Wix Studio",
+    "webflow.io": "Webflow",
+    "framer.website": "Framer",
+    "framer.app": "Framer",
+    "squarespace.com": "Squarespace",
+    "godaddysites.com": "GoDaddy Website Builder",
+    "weebly.com": "Weebly",
+    "square.site": "Square Online",
+    "myshopify.com": "Shopify",
+    "carrd.co": "Carrd",
+    "mystrikingly.com": "Strikingly",
+    "site123.me": "SITE123",
+    "jimdosite.com": "Jimdo",
+    "webnode.page": "Webnode",
+    "tilda.ws": "Tilda",
+    "bubbleapps.io": "Bubble",
+    "softr.app": "Softr",
+    "notion.site": "Notion",
+    "super.site": "Super",
+    "lovable.app": "Lovable",
+    "replit.app": "Replit",
+    "replit.dev": "Replit",
+    "repl.co": "Replit",
+    "streamlit.app": "Streamlit",
+    # Blogs and docs
+    "blogspot.com": "Blogger",
+    "wordpress.com": "WordPress.com",
+    "medium.com": "Medium",
+    "substack.com": "Substack",
+    "ghost.io": "Ghost",
+    "hashnode.dev": "Hashnode",
+    "tumblr.com": "Tumblr",
+    "gitbook.io": "GitBook",
+    "readthedocs.io": "Read the Docs",
+    "neocities.org": "Neocities",
+    # Tunnels (development URLs, never meant to be indexed)
+    "ngrok-free.app": "ngrok",
+    "ngrok.io": "ngrok",
+    "trycloudflare.com": "Cloudflare Tunnel",
+}
 
 
 def platform_subdomain(url: str) -> str | None:
     """Return the platform suffix when the site lives on someone else's domain."""
     host = urlsplit(url).hostname or ""
-    for suffix in PLATFORM_SUFFIXES:
-        if host.endswith("." + suffix):
-            return suffix
-    return None
+    matches = [suffix for suffix in PLATFORMS if host.endswith("." + suffix)]
+    return max(matches, key=len) if matches else None  # most specific suffix wins
 
 
 # ---- Domain -----------------------------------------------------------------------------------
@@ -80,9 +123,11 @@ def custom_domain(ctx: AuditContext) -> Iterator[Issue]:
     suffix = platform_subdomain(ctx.site)
     if suffix is None:
         return
+    platform = PLATFORMS[suffix]
+    article = "an" if platform[0] in "AEIOU" else "a"
     yield Issue(
         "no-custom-domain",
-        f"Site runs on a platform subdomain (*.{suffix}), not its own domain",
+        f"Site runs on {article} {platform} subdomain (*.{suffix}), not its own domain",
         Severity.HIGH,
         T,
         f"Search engines can index *.{suffix} sites, but the name belongs to the hosting "
@@ -90,13 +135,13 @@ def custom_domain(ctx: AuditContext) -> Iterator[Issue]:
         "take with you, so moving later means starting over (you cannot keep a redirect running "
         "once you leave). You also cannot add a Domain property in Search Console, use "
         "branded email, or build a consistent brand entity for search and AI engines.",
-        f"Register a domain (about ₹800-1,500 / $10-15 a year), add it in your {suffix} "
-        "project settings, make it the primary domain, and 301-redirect the platform URL "
+        f"Register a domain (about ₹800-1,500 / $10-15 a year), add it in your {platform} "
+        "settings, make it the primary domain, and 301-redirect the platform URL "
         "to it. Then verify it as a Domain property in Search Console and Bing.",
         impact="Links and rankings are built on a name you do not own.",
         effort=Effort.LOW,
         urls=[ctx.site],
-        evidence={"host": urlsplit(ctx.site).hostname, "platform": suffix},
+        evidence={"host": urlsplit(ctx.site).hostname, "platform": platform, "suffix": suffix},
         source=sources.SITE_MOVES,
     )
 
