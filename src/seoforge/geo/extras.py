@@ -11,9 +11,26 @@ from seoforge.geo import entity
 
 def add_geo_files(ctx: AuditContext, bundle: FixBundle) -> None:
     files = llms.generate(ctx.crawl, ctx.config)
-    bundle.add(
-        "llms.txt", files.llms_txt, "llms.txt map of key pages (llmstxt.org proposal)", "llms.txt"
-    )
+    geo = ctx.extras.get("geo")
+    live = getattr(geo, "llms_txt_live", None)
+    if live:
+        # A hand-written llms.txt is usually better than a generated one: keep it and only
+        # add pages it does not link yet.
+        text, added = llms.extend_live(live, files.llms_txt)
+        if added:
+            bundle.add(
+                "llms.txt",
+                text,
+                f"Your live llms.txt plus {added} page(s) it does not link yet",
+                "llms.txt",
+            )
+    else:
+        bundle.add(
+            "llms.txt",
+            files.llms_txt,
+            "llms.txt map of key pages (llmstxt.org proposal)",
+            "llms.txt",
+        )
     bundle.add(
         "llms-full.txt",
         files.llms_full_txt,

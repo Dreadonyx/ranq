@@ -23,6 +23,7 @@ class GeoReport:
     entity: EntityReport | None = None
     llms_txt_status: int | None = None
     llms_full_status: int | None = None
+    llms_txt_live: str | None = None  # body of the live /llms.txt, used by `seoforge fix`
 
     @property
     def mismatches(self) -> dict[str, dict[str, str]]:
@@ -46,17 +47,21 @@ class GeoReport:
         }
 
 
-async def _status(client: PoliteClient, url: str) -> int | None:
-    """HTTP status of a plain-text file; an HTML 200 is a soft-404 page, reported as 404."""
+async def _fetch_text(client: PoliteClient, url: str) -> tuple[int | None, str | None]:
+    """(status, body) of a plain-text file; an HTML 200 is a soft-404 page, reported as 404."""
     try:
         result = await client.fetch(url)
     except RobotsDisallowed:
-        return None
+        return None, None
     if result.error:
-        return None
+        return None, None
     if result.status == 200 and "html" in result.headers.get("content-type", ""):
-        return 404
-    return result.status
+        return 404, None
+    return result.status, result.text if result.status == 200 else None
+
+
+async def _status(client: PoliteClient, url: str) -> int | None:
+    return (await _fetch_text(client, url))[0]
 
 
 async def analyze(ctx: AuditContext, client: PoliteClient) -> GeoReport:
@@ -69,6 +74,6 @@ async def analyze(ctx: AuditContext, client: PoliteClient) -> GeoReport:
     report.citation = score_pages(ctx.pages, {p.url: p for p in aeo.pages} if aeo else {})
     report.entity = analyze_entity(ctx.crawl, ctx.config.entity)
     # An HTML 200 for /llms.txt is the soft-404 page, not a real llms.txt.
-    report.llms_txt_status = await _status(client, f"{ctx.site}/llms.txt")
+    report.llms_txt_status, report.llms_txt_live = await _fetch_text(client, f"{ctx.site}/llms.txt")
     report.llms_full_status = await _status(client, f"{ctx.site}/llms-full.txt")
     return report

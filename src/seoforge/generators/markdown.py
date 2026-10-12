@@ -48,6 +48,28 @@ BLOCK = {
     "summary",
 }
 WS = re.compile(r"[ \t\r\f\v]+")
+LAYOUT_CLASS = re.compile(r"^(?:[\w-]+:)*(?:inline-)?(?:flex|grid)(?:-col|-row)?$")
+HIDDEN_STYLE = re.compile(r"display\s*:\s*none|visibility\s*:\s*hidden", re.I)
+LAYOUT_STYLE = re.compile(r"display\s*:\s*(?:inline-)?(?:flex|grid)", re.I)
+
+
+def _hidden(node: LexborNode) -> bool:
+    """Hidden from users and assistive tech: duplicate hover labels, icons, collapsed menus."""
+    attrs = node.attributes
+    return (
+        (attrs.get("aria-hidden") or "").lower() == "true"
+        or "hidden" in attrs
+        or bool(HIDDEN_STYLE.search(attrs.get("style") or ""))
+    )
+
+
+def _layout(node: LexborNode) -> bool:
+    """Flex/grid containers lay children out as separate boxes, so their texts need a space
+    between them even when the HTML has none (<span>Secure</span><span>Development</span>)."""
+    attrs = node.attributes
+    if LAYOUT_STYLE.search(attrs.get("style") or ""):
+        return True
+    return any(LAYOUT_CLASS.match(c) for c in (attrs.get("class") or "").split())
 
 
 def _escape_cell(text: str) -> str:
@@ -60,17 +82,18 @@ class _Converter:
 
     def inline(self, node: LexborNode) -> str:
         out: list[str] = []
+        sep = " " if node.tag != "-text" and _layout(node) else ""
         child = node.child
         while child is not None:
             out.append(self.inline_node(child))
             child = child.next
-        return WS.sub(" ", "".join(out))
+        return WS.sub(" ", sep.join(out))
 
     def inline_node(self, node: LexborNode) -> str:
         tag = node.tag or ""
         if tag == "-text":
             return node.text_content or ""
-        if tag in SKIP or tag == "-comment":
+        if tag in SKIP or tag == "-comment" or _hidden(node):
             return ""
         if tag == "br":
             return "  \n"
@@ -98,7 +121,7 @@ class _Converter:
 
     def block(self, node: LexborNode, depth: int = 0) -> str:
         tag = node.tag or ""
-        if tag in SKIP:
+        if tag in SKIP or _hidden(node):
             return ""
         if tag and tag[0] == "h" and tag[1:].isdigit():
             return "#" * int(tag[1]) + " " + self.inline(node).strip()
@@ -153,6 +176,7 @@ class _Converter:
                 parts.append(text)
             inline_buf.clear()
 
+        layout = node.tag != "-text" and _layout(node)
         child = node.child
         while child is not None:
             tag = child.tag or ""
@@ -162,6 +186,8 @@ class _Converter:
                 if rendered.strip():
                     parts.append(rendered)
             else:
+                if layout and inline_buf:
+                    inline_buf.append(" ")
                 inline_buf.append(self.inline_node(child))
             child = child.next
         flush()

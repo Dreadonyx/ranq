@@ -120,3 +120,31 @@ def generate(crawl: CrawlResult, config: Config, md_links: bool = False) -> Llms
             full += ["---", "", md]
             size += len(md)
     return LlmsFiles("\n".join(out).rstrip() + "\n", "\n".join(full).rstrip() + "\n", mirrors)
+
+
+LINK_RE = re.compile(r"https?://[^\s)<>\]\"']+")
+
+
+def _norm(url: str) -> str:
+    url = url.split("#")[0].rstrip("/")
+    for suffix in ("/index.html.md", ".md"):
+        if url.endswith(suffix):
+            url = url[: -len(suffix)]
+    return url.rstrip("/")
+
+
+def extend_live(live: str, generated: str) -> tuple[str, int]:
+    """Keep a hand-written live llms.txt and append only the generated lines whose pages it
+    does not link yet. Returns (new text, number of lines added)."""
+    linked = {_norm(u) for u in LINK_RE.findall(live)}
+    missing = []
+    for line in generated.splitlines():
+        if not line.startswith("- ["):
+            continue
+        urls = LINK_RE.findall(line)
+        if urls and _norm(urls[0]) not in linked:
+            missing.append(line)
+    if not missing:
+        return live, 0
+    text = live.rstrip() + "\n\n## More pages\n\n" + "\n".join(missing) + "\n"
+    return text, len(missing)
