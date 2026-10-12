@@ -11,6 +11,7 @@ from seoforge import __version__
 from seoforge.analysis.framework import detect as detect_framework
 from seoforge.checks.base import AuditContext
 from seoforge.models import Effort, Issue, Severity
+from seoforge.report.compare import Comparison
 from seoforge.report.limitations import DISCLAIMER, LIMITATIONS, SCOPE_NOTES
 
 STANDING_TASKS = {
@@ -48,6 +49,7 @@ class Report:
     plan: dict[str, list[dict[str, Any]]]
     score: int
     pages: list[dict[str, Any]] = field(default_factory=list)  # per-page scores, worst first
+    comparison: Comparison | None = None  # vs a previous audit of the same site
     extras: dict[str, Any] = field(default_factory=dict)
     disclaimer: str = DISCLAIMER
     limitations: list[str] = field(default_factory=lambda: list(LIMITATIONS))
@@ -69,6 +71,7 @@ class Report:
             "Site-wide issues count in full; page-level issues scale with the share of pages "
             "affected. Page scores use only that page's own issues.",
             "page_scores": self.pages,
+            "comparison": self.comparison.to_dict() if self.comparison else None,
             "stats": self.stats,
             "severity_counts": self.severity_counts,
             "issues": [i.to_dict() for i in self.issues],

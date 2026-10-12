@@ -17,6 +17,35 @@ Generated {{ r.generated_at }} by SEOForge {{ r.version }}
 |---|---|---|---|---|
 | {{ r.severity_counts.critical }} | {{ r.severity_counts.high }} | {{ r.severity_counts.medium }} | {{ r.severity_counts.low }} | {{ r.severity_counts.info }} |
 
+{% if d.comparison %}
+{% set c = d.comparison %}
+## Changes since {{ c.previous_generated_at }}
+
+Score **{{ c.previous_score }} -> {{ c.score }}** ({{ '+' if c.delta > 0 else '' }}{{ c.delta }}) · {{ c.fixed|length }} fixed · {{ c.new|length }} new · {{ c.changed|length }} changed · {{ c.unchanged }} unchanged
+
+{% if c.fixed or c.new or c.changed %}
+| Status | Severity | Issue | URLs before -> now |
+|---|---|---|---|
+{% for i in c.fixed %}
+| fixed | {{ i.severity }} | {{ i.title }} | {{ i.before }} -> 0 |
+{% endfor %}
+{% for i in c.new %}
+| new | {{ i.severity }} | {{ i.title }} | 0 -> {{ i.after }} |
+{% endfor %}
+{% for i in c.changed %}
+| changed | {{ i.severity }} | {{ i.title }} | {{ i.before }} -> {{ i.after }} |
+{% endfor %}
+{% endif %}
+{% if c.pages %}
+
+| Page | Score before -> now |
+|---|---|
+{% for p in c.pages %}
+| {{ p.url }} | {{ p.before if p.before is not none else 'new' }} -> {{ p.after if p.after is not none else 'gone' }} |
+{% endfor %}
+{% endif %}
+
+{% endif %}
 {% if d.page_scores %}
 ## Page scores
 

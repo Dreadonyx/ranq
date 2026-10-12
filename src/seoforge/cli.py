@@ -17,6 +17,7 @@ from seoforge.audit import AuditOptions, run_audit
 from seoforge.config import EXAMPLE_CONFIG, Config, load_config
 from seoforge.models import Severity
 from seoforge.report.builder import Report
+from seoforge.report.compare import comparable, compare, load_previous
 from seoforge.report.limitations import DISCLAIMER
 from seoforge.report.render import write_reports
 from seoforge.robots import RobotsTxt
@@ -144,6 +145,17 @@ def audit(
         str | None,
         typer.Option("--fail-on", help="Exit 1 if issues at/above: critical|high|medium|low."),
     ] = None,
+    compare_to: Annotated[
+        Path | None,
+        typer.Option(
+            "--compare",
+            help="Earlier report.json to compare with (default: the last report in the output "
+            "directory, if it is for the same site).",
+        ),
+    ] = None,
+    no_compare: Annotated[
+        bool, typer.Option("--no-compare", help="Do not compare with the previous report.")
+    ] = False,
 ) -> None:
     """Crawl a site and produce a prioritized SEO/AEO/GEO report."""
     config = _load(config_path)
@@ -189,7 +201,19 @@ def audit(
     if bad:
         err.print(f"[red]Unknown format(s): {', '.join(bad)}[/red]")
         raise typer.Exit(2)
+    if compare_to is not None and not compare_to.is_file():
+        err.print(f"[red]--compare file not found: {compare_to}[/red]")
+        raise typer.Exit(2)
+    if not no_compare:
+        previous = load_previous(compare_to or out_dir / "report.json")
+        if previous is not None and comparable(previous, site):
+            report.comparison = compare(previous, report.score, report.issues, report.pages)
+        elif compare_to is not None:
+            err.print(
+                f"[yellow]{compare_to} is not a SEOForge report for {site}; skipped.[/yellow]"
+            )
     paths = write_reports(report, out_dir, formats)
+    paths.append(_archive(report, out_dir))
     _print_summary(report)
     for p in paths:
         console.print(f"  wrote {p}")
@@ -201,6 +225,38 @@ def audit(
             raise typer.Exit(1)
 
 
+def _archive(report: Report, out_dir: Path) -> Path:
+    """Keep every audit's JSON in <out>/history/ so progress can be compared later."""
+    from datetime import UTC, datetime
+
+    from seoforge.report.render import render_json
+
+    stamp = datetime.now(UTC).strftime("%Y%m%d-%H%M%S")
+    path = out_dir / "history" / f"report-{stamp}.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(render_json(report), encoding="utf-8")
+    return path
+
+
+def _print_comparison(report: Report) -> None:
+    cmp = report.comparison
+    if cmp is None:
+        return
+    sign = "+" if cmp.delta > 0 else ""
+    color = "green" if cmp.delta > 0 else "red" if cmp.delta < 0 else "dim"
+    console.print(
+        f"Since {cmp.previous_generated_at}: score {cmp.previous_score} -> {cmp.score} "
+        f"([{color}]{sign}{cmp.delta}[/{color}]) · [green]{len(cmp.fixed)} fixed[/green] · "
+        f"[red]{len(cmp.new)} new[/red] · {len(cmp.changed)} changed · {cmp.unchanged} unchanged"
+    )
+    for c in cmp.fixed[:8]:
+        console.print(f"  [green]fixed[/green]  {c.title}")
+    for c in cmp.new[:8]:
+        console.print(f"  [red]new[/red]    {c.title}")
+    for c in cmp.changed[:8]:
+        console.print(f"  [yellow]changed[/yellow] {c.title} ({c.before} -> {c.after} URLs)")
+
+
 def _print_summary(report: Report) -> None:
     counts = report.severity_counts
     console.print(
@@ -209,6 +265,7 @@ def _print_summary(report: Report) -> None:
         f"[red]{counts['critical']} critical[/red] · [dark_orange]{counts['high']} high[/dark_orange] · "
         f"[yellow]{counts['medium']} medium[/yellow] · [green]{counts['low']} low[/green]"
     )
+    _print_comparison(report)
     if report.stats.get("framework"):
         console.print(f"[dim]Detected: {report.stats['framework']}[/dim]")
     if report.stats.get("render_error"):

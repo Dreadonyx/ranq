@@ -72,7 +72,7 @@ seoforge geo bots https://example.com           # which AI crawlers can access t
 
 | Command | Purpose |
 |---|---|
-| `audit URL` | Crawl and report. Options: `--max-pages`, `--depth`, `--delay`, `--concurrency`, `--render`, `--resume`, `--cached`, `--check-external`, `--competitor URL` (repeatable), `--suggest`, `--lighthouse`, `--no-pagespeed`, `--format html/md/json`, `--fail-on critical/high/medium/low` |
+| `audit URL` | Crawl and report. Options: `--max-pages`, `--depth`, `--delay`, `--concurrency`, `--render`, `--resume`, `--cached`, `--check-external`, `--competitor URL` (repeatable), `--suggest`, `--lighthouse`, `--no-pagespeed`, `--format html/md/json`, `--fail-on critical/high/medium/low`, `--compare old.json` / `--no-compare` (by default each audit is compared with the previous report for the same site; every run is also kept in `<out>/history/`) |
 | `fix URL` | Generate fix files. `--ai-policy allow-all/search-only/deny-all`, `--redirect-map old_new.csv`, `--apply-to DIR [--yes]` |
 | `diagnose URL` | Robots, status, redirects, noindex, canonical, rendering, soft 404, sitemap, internal links, optional `--gsc` URL Inspection |
 | `geo bots / llms / entity / commoncrawl` | AI crawler access table; llms.txt + mirrors only; entity + Wikidata; Common Crawl presence |
