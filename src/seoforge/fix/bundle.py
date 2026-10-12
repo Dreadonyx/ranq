@@ -9,8 +9,9 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from seoforge.analysis.framework import detect as detect_framework
 from seoforge.checks.base import AuditContext
-from seoforge.generators import meta, redirects, schema, sitemap
+from seoforge.generators import framework, meta, redirects, schema, sitemap
 from seoforge.generators.headers import render_security_headers
 from seoforge.generators.robots import generate_robots
 from seoforge.geo.ai_bots import resolve_policy
@@ -88,12 +89,32 @@ def build_bundle(
 
     chosen = preset or config.geo.ai_bot_preset
     policy = resolve_policy(chosen, config.geo.ai_bots)
+    robots_txt = generate_robots(crawl.robots, policy, [sitemap_url], chosen)
     bundle.add(
         "robots.txt",
-        generate_robots(crawl.robots, policy, [sitemap_url], chosen),
+        robots_txt,
         f"robots.txt with your existing rules + AI crawler policy '{chosen}'",
         "robots.txt",
     )
+    fw = detect_framework(crawl.pages.get(crawl.start_url) or next(iter(crawl.html_pages), None))
+    if fw is not None:
+        bundle.add("FRAMEWORK.md", framework.guide(fw), f"Where each file goes in {fw.name}")
+        if fw.key == "nextjs-app":
+            bundle.add(
+                "nextjs/app/robots.ts",
+                framework.robots_ts(robots_txt),
+                "Next.js app/robots.ts (same rules as robots.txt)",
+            )
+            bundle.add(
+                "nextjs/app/sitemap.ts",
+                framework.sitemap_ts(sitemap.sitemap_entries(crawl)),
+                "Next.js app/sitemap.ts with real last-modified dates",
+            )
+            bundle.add(
+                "nextjs/components/JsonLd.tsx",
+                framework.JSONLD_COMPONENT,
+                "Next.js component that renders the jsonld/*.graph.html data safely",
+            )
 
     docs = schema.generate_all(crawl, config.entity)
     todo: dict[str, list[str]] = {

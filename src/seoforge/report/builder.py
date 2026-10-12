@@ -8,6 +8,7 @@ from datetime import UTC, datetime
 from typing import Any
 
 from seoforge import __version__
+from seoforge.analysis.framework import detect as detect_framework
 from seoforge.checks.base import AuditContext
 from seoforge.models import Effort, Issue, Severity
 from seoforge.report.limitations import DISCLAIMER, LIMITATIONS, SCOPE_NOTES
@@ -158,6 +159,7 @@ def build_plan(issues: list[Issue]) -> dict[str, list[dict[str, Any]]]:
 def build_report(ctx: AuditContext, issues: list[Issue]) -> Report:
     crawl = ctx.crawl
     html_pages = ctx.pages
+    home_page = crawl.pages.get(crawl.start_url) or next(iter(html_pages), None)
     stats = {
         "urls_crawled": len(crawl.pages),
         "html_pages": len(html_pages),
@@ -174,6 +176,7 @@ def build_report(ctx: AuditContext, issues: list[Issue]) -> Report:
         "avg_word_count": round(sum(p.word_count for p in html_pages) / len(html_pages))
         if html_pages
         else 0,
+        "framework": getattr(detect_framework(home_page), "name", None),
         "js_rendered": any(p.rendered for p in html_pages),
         "render_error": crawl.render_error,
         "truncated_at_max_pages": crawl.truncated,

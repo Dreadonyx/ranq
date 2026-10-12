@@ -166,7 +166,41 @@ def entity_signals(ctx: AuditContext) -> Iterator[Issue]:
 
 
 STOPWORDS = frozenset(
-    ["the", "and", "for", "with", "that", "this", "from", "your", "our", "are", "was", "were", "have", "has", "into", "their", "they", "them", "who", "what", "which", "while", "where", "when", "about", "based", "also", "more", "most", "very", "just", "than", "then"]
+    [
+        "the",
+        "and",
+        "for",
+        "with",
+        "that",
+        "this",
+        "from",
+        "your",
+        "our",
+        "are",
+        "was",
+        "were",
+        "have",
+        "has",
+        "into",
+        "their",
+        "they",
+        "them",
+        "who",
+        "what",
+        "which",
+        "while",
+        "where",
+        "when",
+        "about",
+        "based",
+        "also",
+        "more",
+        "most",
+        "very",
+        "just",
+        "than",
+        "then",
+    ]
 )
 WORD_RE = re.compile(r"[a-z0-9]+")
 

@@ -209,6 +209,8 @@ def _print_summary(report: Report) -> None:
         f"[red]{counts['critical']} critical[/red] · [dark_orange]{counts['high']} high[/dark_orange] · "
         f"[yellow]{counts['medium']} medium[/yellow] · [green]{counts['low']} low[/green]"
     )
+    if report.stats.get("framework"):
+        console.print(f"[dim]Detected: {report.stats['framework']}[/dim]")
     if report.stats.get("render_error"):
         console.print(f"[yellow]JS rendering skipped: {report.stats['render_error']}[/yellow]")
     table = Table(show_header=True, header_style="bold", box=None, pad_edge=False)
