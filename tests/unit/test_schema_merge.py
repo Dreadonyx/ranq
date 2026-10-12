@@ -73,3 +73,19 @@ def test_each_page_gets_its_own_webpage_node() -> None:
 def test_script_tag_cannot_be_closed_by_crawled_text() -> None:
     tag = _graphs()[f"{SITE}/work"].script_tag()
     assert tag.count("</script>") == 1 and "<\\/script>" in tag
+
+
+def test_wrong_webpage_url_is_flagged() -> None:
+    from seoforge.checks.base import AuditContext
+    from seoforge.checks.structured_data import coverage
+    from seoforge.config import Config
+
+    home = _page("/", "Home")
+    work = _page("/work", "Work")
+    crawl = CrawlResult(site=SITE, start_url=f"{SITE}/", pages={home.url: home, work.url: work})
+    ctx = AuditContext(config=Config(), crawl=crawl)
+    from seoforge.analysis.structured_data import analyze
+
+    ctx.extras["structured_data"] = analyze(ctx.pages)
+    issue = next(i for i in coverage(ctx) if i.check_id == "jsonld-webpage-wrong-url")
+    assert issue.urls == [f"{SITE}/work"] and issue.evidence[f"{SITE}/work"] == [SITE]

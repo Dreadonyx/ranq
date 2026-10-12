@@ -108,6 +108,33 @@ def coverage(ctx: AuditContext) -> Iterator[Issue]:
             urls=[ctx.crawl.start_url],
             source=f"{sources.G}/appearance/site-names",
         )
+    claims_other: dict[str, list[str]] = {}
+    for page in ctx.pages:
+        own = {u.rstrip("/") for u in (page.url, page.final_url, page.canonical or page.url)}
+        for node in pt.top_nodes(page):
+            url = node.get("url")
+            if (
+                pt.node_types(node) & set(pt.WEBPAGE_TYPES)
+                and isinstance(url, str)
+                and url.rstrip("/") not in own
+            ):
+                claims_other.setdefault(page.url, []).append(url)
+    if claims_other:
+        yield Issue(
+            "jsonld-webpage-wrong-url",
+            f"{len(claims_other)} page(s) carry a WebPage node describing a different URL",
+            Severity.MEDIUM,
+            SD,
+            "The page's JSON-LD includes a WebPage (or AboutPage, CollectionPage...) whose url "
+            "is another page, usually because the home page's node sits in a shared layout. "
+            "Engines may treat this page as a duplicate of that URL or ignore the markup.",
+            "Keep only Organization/WebSite in the shared layout and output the WebPage node "
+            "per page with its own url (`seoforge fix` writes one @graph per page).",
+            effort=Effort.LOW,
+            urls=sorted(claims_other),
+            evidence=claims_other,
+            source=sources.SD_GENERAL,
+        )
     articles = sorted(
         p.url
         for p in ctx.pages

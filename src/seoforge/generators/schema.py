@@ -50,48 +50,17 @@ def _site_name(crawl: CrawlResult, entity: EntityConfig) -> str | None:
 
 
 ORG_TYPES = ("Organization", "LocalBusiness", "Corporation", "ProfessionalService", "Person")
-WEBPAGE_TYPES = (
-    "WebPage",
-    "AboutPage",
-    "ContactPage",
-    "CollectionPage",
-    "FAQPage",
-    "ItemPage",
-    "ProfilePage",
-    "SearchResultsPage",
-)
-
-
-def _types(node: dict[str, Any]) -> set[str]:
-    t = node.get("@type")
-    return {str(x) for x in t} if isinstance(t, list) else {str(t)}
-
-
-def top_nodes(page: PageData) -> list[dict[str, Any]]:
-    """Top-level JSON-LD nodes (root objects and @graph items), not nested values."""
-    out: list[dict[str, Any]] = []
-    for raw in page.json_ld:
-        try:
-            doc = json.loads(raw)
-        except json.JSONDecodeError:
-            continue
-        for root in doc if isinstance(doc, list) else [doc]:
-            if not isinstance(root, dict):
-                continue
-            graph = root.get("@graph")
-            items = graph if isinstance(graph, list) else [root]
-            out.extend(n for n in items if isinstance(n, dict) and "@type" in n)
-    return out
+WEBPAGE_TYPES = pt.WEBPAGE_TYPES
 
 
 def _existing(crawl: CrawlResult, types: tuple[str, ...]) -> dict[str, Any]:
     home = crawl.pages.get(crawl.start_url)
     if home is None:
         return {}
-    nodes = top_nodes(home)
+    nodes = pt.top_nodes(home)
     for wanted in types:  # in preference order: an Organization beats an author Person
         for node in nodes:
-            if wanted in _types(node):
+            if wanted in pt.node_types(node):
                 return {k: v for k, v in node.items() if k != "@context"}
     return {}
 
@@ -242,12 +211,12 @@ def webpage(crawl: CrawlResult, page: PageData) -> SchemaDoc:
     own = next(
         (
             {k: v for k, v in n.items() if k != "@context"}
-            for n in top_nodes(page)
-            if _types(n) & set(WEBPAGE_TYPES) and _same_page(n.get("url"), page.url)
+            for n in pt.top_nodes(page)
+            if pt.node_types(n) & set(WEBPAGE_TYPES) and _same_page(n.get("url"), page.url)
         ),
         {},
     )
-    page_type = next((t for t in WEBPAGE_TYPES if t in _types(own)), "WebPage")
+    page_type = next((t for t in WEBPAGE_TYPES if t in pt.node_types(own)), "WebPage")
     data: dict[str, Any] = {"@context": CONTEXT, **own}
     data.update(
         {
@@ -448,7 +417,7 @@ class Graph:
 
     @property
     def kinds(self) -> list[str]:
-        return list(dict.fromkeys(t for n in self.nodes for t in sorted(_types(n))))
+        return list(dict.fromkeys(t for n in self.nodes for t in sorted(pt.node_types(n))))
 
 
 def _key(node: dict[str, Any]) -> str:
@@ -472,7 +441,7 @@ def build_graphs(crawl: CrawlResult, docs: list[SchemaDoc]) -> list[Graph]:
     pages = [p for p in crawl.html_pages if p.is_indexable]
     seen: dict[str, int] = {}
     for page in pages:
-        for key in {_key(n) for n in top_nodes(page)}:
+        for key in {_key(n) for n in pt.top_nodes(page)}:
             seen[key] = seen.get(key, 0) + 1
 
     site_nodes = [d.data for d in site_docs]
@@ -482,8 +451,8 @@ def build_graphs(crawl: CrawlResult, docs: list[SchemaDoc]) -> list[Graph]:
         generated = page_docs.get(page.url, [])
         regenerated = {d.kind for d in generated} | set(WEBPAGE_TYPES) | site_types
         carried = []
-        for node in top_nodes(page):
-            if node.get("@id") in site_ids or _types(node) & regenerated:
+        for node in pt.top_nodes(page):
+            if node.get("@id") in site_ids or pt.node_types(node) & regenerated:
                 continue
             key = _key(node)
             if seen.get(key, 0) > 1:

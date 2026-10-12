@@ -53,6 +53,40 @@ def json_ld_nodes(page: PageData) -> list[dict[str, Any]]:
     return out
 
 
+WEBPAGE_TYPES = (
+    "WebPage",
+    "AboutPage",
+    "ContactPage",
+    "CollectionPage",
+    "FAQPage",
+    "ItemPage",
+    "ProfilePage",
+    "SearchResultsPage",
+)
+
+
+def node_types(node: dict[str, Any]) -> set[str]:
+    t = node.get("@type")
+    return {str(x) for x in t} if isinstance(t, list) else {str(t)}
+
+
+def top_nodes(page: PageData) -> list[dict[str, Any]]:
+    """Top-level JSON-LD nodes (root objects and @graph items), not nested values."""
+    out: list[dict[str, Any]] = []
+    for raw in page.json_ld:
+        try:
+            doc = json.loads(raw)
+        except json.JSONDecodeError:
+            continue
+        for root in doc if isinstance(doc, list) else [doc]:
+            if not isinstance(root, dict):
+                continue
+            graph = root.get("@graph")
+            items = graph if isinstance(graph, list) else [root]
+            out.extend(n for n in items if isinstance(n, dict) and "@type" in n)
+    return out
+
+
 def schema_types(page: PageData) -> set[str]:
     types: set[str] = set()
     for node in json_ld_nodes(page):
