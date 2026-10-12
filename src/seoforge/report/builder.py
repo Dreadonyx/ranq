@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 from collections import Counter
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
@@ -67,7 +68,8 @@ class Report:
             "generated_at": self.generated_at,
             "version": self.version,
             "score": self.score,
-            "score_note": "Heuristic health score (estimate): 100 minus weighted issue penalties. "
+            "score_note": "Heuristic health score (estimate): 100 * e^(-penalty/100) over weighted "
+            "issue penalties. "
             "Site-wide issues count in full; page-level issues scale with the share of pages "
             "affected. Page scores use only that page's own issues.",
             "page_scores": self.pages,
@@ -87,9 +89,17 @@ def _penalty(issue: Issue, fraction: float) -> float:
     return issue.severity.weight * (0.3 + 0.7 * fraction) / 4
 
 
+def _to_score(penalty: float) -> int:
+    """Diminishing curve: small penalties cost about their face value (a penalty of 10 gives
+    90), large ones approach 0 without reaching it, so very bad sites stay comparable and
+    only an unreachable site scores 0."""
+    return round(100 * math.exp(-penalty / 100))
+
+
 def health_score(issues: list[Issue], page_count: int) -> int:
-    """100 minus weighted penalties. Page-level issues scale with the share of pages affected;
-    site-wide issues always count in full, so adding pages cannot dilute them."""
+    """100 * e^(-penalty/100) over weighted issue penalties. Page-level issues scale with the
+    share of pages affected; site-wide issues always count in full, so adding pages cannot
+    dilute them."""
     if page_count == 0:
         return 0  # nothing could be audited; see the site-unreachable issue
     penalty = 0.0
@@ -101,7 +111,7 @@ def health_score(issues: list[Issue], page_count: int) -> int:
         else:
             fraction = 0.0
         penalty += _penalty(issue, fraction)
-    return max(0, round(100 - penalty))
+    return _to_score(penalty)
 
 
 def page_scores(issues: list[Issue], page_urls: list[str]) -> list[dict[str, Any]]:
@@ -121,7 +131,7 @@ def page_scores(issues: list[Issue], page_urls: list[str]) -> list[dict[str, Any
         rows.append(
             {
                 "url": url,
-                "score": max(0, round(100 - sum(_penalty(i, 1.0) for i in page_issues))),
+                "score": _to_score(sum(_penalty(i, 1.0) for i in page_issues)),
                 "issues": [
                     {"check_id": i.check_id, "title": i.title, "severity": i.severity.value}
                     for i in page_issues
