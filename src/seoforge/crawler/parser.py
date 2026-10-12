@@ -21,6 +21,45 @@ BLOCKS = "p, li, h1, h2, h3, h4, h5, h6, td, th, dd, dt, blockquote, figcaption,
 
 
 SPACE_BEFORE_PUNCT = re.compile(r"\s+([,.;:!?)\]%])")
+# Inline styles that make an element invisible. Entrance animations often server-render text
+# at opacity:0 and reveal it only after JavaScript runs.
+INLINE_HIDDEN_RE = re.compile(
+    r"opacity\s*:\s*0(?:\.0+)?\s*(?:;|!|$)|visibility\s*:\s*hidden|display\s*:\s*none", re.I
+)
+
+
+def _inline_hidden(node: Node) -> bool:
+    return node.tag not in ("-text", "-comment") and bool(
+        INLINE_HIDDEN_RE.search(node.attributes.get("style") or "")
+    )
+
+
+def _visible_text(node: Node) -> str:
+    if node.tag == "-text":
+        return node.text_content or ""
+    if node.tag in ("-comment", "script", "style", "template") or _inline_hidden(node):
+        return ""
+    parts = []
+    child = node.child
+    while child is not None:
+        parts.append(_visible_text(child))
+        child = child.next
+    return " ".join(parts)
+
+
+def hidden_in_html(node: Node) -> bool:
+    """True when the element has text but none of it is visible as served: it, an ancestor,
+    or every text-bearing descendant is styled invisible inline."""
+    if not clean(node.text()):
+        return False
+    parent = node.parent
+    while parent is not None and parent.tag not in ("body", "html"):
+        if _inline_hidden(parent):
+            return True
+        parent = parent.parent
+    return not clean(_visible_text(node))
+
+
 # Tailwind-style fixed sizes: w-10, h-[120px], size-8, md:w-24, aspect-video ...
 SIZE_CLASS_RE = re.compile(
     r"^(?:[\w-]+:)*(?:(?P<axis>w|h|size)-(?:\d+(?:\.\d+)?|px|\[[^\]]+\])|(?P<aspect>aspect-\S+))$"
@@ -194,6 +233,8 @@ def parse_html(page: PageData, html: str, site: str) -> PageData:
 
     for node in tree.css("h1, h2, h3, h4, h5, h6"):
         page.headings.append(Heading(int((node.tag or "h1")[1]), clean(node.text(separator=" "))))
+    h1_nodes = tree.css("h1")
+    page.h1_hidden = bool(h1_nodes) and all(hidden_in_html(n) for n in h1_nodes)
 
     for node in tree.css(NON_CONTENT):
         node.decompose()

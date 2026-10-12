@@ -86,3 +86,27 @@ def test_platform_subdomain_flagged() -> None:
     assert next(iter(custom_domain(ctx))).title.startswith("Site runs on an Azure App Service")
     ctx.crawl.site = "https://nodekraft.tech"
     assert list(custom_domain(ctx)) == []
+
+
+def test_og_url_mismatch() -> None:
+    from seoforge.checks.onpage import social_tags
+
+    def page(path: str, og_url: str) -> PageData:
+        p = PageData(
+            url=f"https://s.test{path}",
+            final_url=f"https://s.test{path}",
+            status=200,
+            content_type="text/html",
+        )
+        p.open_graph = {"og:url": og_url}
+        return p
+
+    home, work = page("/", "https://s.test"), page("/work", "https://s.test")
+    rel = page("/about", "/about/")
+    crawl = CrawlResult(
+        site="https://s.test",
+        start_url="https://s.test/",
+        pages={p.url: p for p in (home, work, rel)},
+    )
+    issues = {i.check_id: i for i in social_tags(AuditContext(config=Config(), crawl=crawl))}
+    assert issues["og-url-mismatch"].urls == ["https://s.test/work"]

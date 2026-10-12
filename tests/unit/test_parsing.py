@@ -106,3 +106,22 @@ def test_css_sized_images() -> None:
     assert not css_sized(None, "w-full h-auto")  # fluid width, height unknown until load
     assert not css_sized("width:100%", "w-10")  # only one axis fixed
     assert not css_sized(None, None)
+
+
+def _parsed(html: str) -> PageData:
+    p = PageData(url="https://s.test/", final_url="https://s.test/", status=200)
+    return parse_html(p, html, "https://s.test")
+
+
+def test_h1_hidden_in_html() -> None:
+    animated = (
+        '<h1><p><span style="filter:blur(10px);opacity:0;transform:none">We</span>'
+        '<span style="opacity:0">Kraft</span></p></h1>'
+    )
+    assert _parsed(animated).h1_hidden
+    assert _parsed('<div style="opacity: 0"><h1>Hero</h1></div>').h1_hidden
+    assert not _parsed('<h1><span style="opacity:0.5">Half</span> visible</h1>').h1_hidden
+    assert not _parsed('<h1 style="transform:translateY(8px)">Shown</h1>').h1_hidden
+    both = '<h1 style="display:none">Mobile</h1><h1>Desktop</h1>'
+    assert not _parsed(both).h1_hidden  # one visible H1 is enough
+    assert not _parsed("<p>No heading</p>").h1_hidden

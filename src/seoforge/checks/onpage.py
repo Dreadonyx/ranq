@@ -9,6 +9,7 @@ from collections.abc import Iterator
 from seoforge import sources
 from seoforge.checks.base import AuditContext, check
 from seoforge.models import Category, Effort, Issue, PageData, Severity
+from seoforge.urls import normalize
 
 OP = Category.ONPAGE
 SPA_ROOT = re.compile(r'id=["\'](root|app|__next|__nuxt|svelte|main-app)["\']', re.I)
@@ -170,6 +171,26 @@ def headings(ctx: AuditContext) -> Iterator[Issue]:
             "Add one descriptive <h1> matching the page's main topic.",
             urls=no_h1,
             source=sources.STARTER_GUIDE,
+        )
+    hidden = sorted(p.url for p in pages if p.h1_hidden and not p.rendered)
+    if hidden:
+        yield Issue(
+            "h1-hidden-in-html",
+            f"{len(hidden)} page(s) serve their H1 invisible (revealed only by JavaScript)",
+            Severity.MEDIUM,
+            Category.PERFORMANCE,
+            "The main heading is in the HTML but styled invisible inline (opacity:0, "
+            "visibility:hidden or display:none), typically by an entrance animation. Browsers do "
+            "not count invisible text as painted, so Largest Contentful Paint waits for "
+            "JavaScript to download, hydrate and run the animation, and crawlers that do not run "
+            "scripts see hidden text.",
+            "Server-render the heading in its final, visible state. Animate only transform (not "
+            "opacity or blur), use a CSS @keyframes animation that starts on first paint, or "
+            "disable the initial state for the hero (e.g. Framer Motion initial={false}).",
+            impact="Slower LCP, which is a Core Web Vitals metric.",
+            effort=Effort.LOW,
+            urls=hidden,
+            source=sources.CORE_WEB_VITALS,
         )
     multi = {p.url: p.h1s for p in pages if len(p.h1s) > 1}
     if multi:
@@ -380,5 +401,31 @@ def social_tags(ctx: AuditContext) -> Iterator[Issue]:
             "some AI assistants. Not a ranking factor.",
             "Add og:title, og:description, og:image and og:url (`seoforge fix` generates them).",
             urls=missing,
+            source=sources.OPEN_GRAPH,
+        )
+    wrong_url = {}
+    for p in ctx.pages:
+        og_url = p.open_graph.get("og:url")
+        if not p.is_indexable or not og_url:
+            continue
+        resolved = normalize(og_url, p.final_url) or og_url
+        own = {u.rstrip("/") for u in (p.url, p.final_url, p.canonical or p.url)}
+        if resolved.rstrip("/") not in own:
+            wrong_url[p.url] = resolved
+    if wrong_url:
+        yield Issue(
+            "og-url-mismatch",
+            f"{len(wrong_url)} page(s) have an og:url pointing to a different page",
+            Severity.MEDIUM,
+            OP,
+            "og:url is the canonical URL for link previews and share counts. When a layout sets "
+            "it once (often to the home page), every shared page is attributed to that URL and "
+            "previews may show the wrong page.",
+            "Set og:url per page to the page's own canonical URL (in Next.js, set "
+            "openGraph.url in each page's metadata; child openGraph objects replace the "
+            "parent's, so also set title and description).",
+            effort=Effort.LOW,
+            urls=sorted(wrong_url),
+            evidence=wrong_url,
             source=sources.OPEN_GRAPH,
         )
