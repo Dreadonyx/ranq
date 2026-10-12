@@ -88,13 +88,50 @@ def init(
         "seoforge.yaml"
     ),
     force: Annotated[bool, typer.Option("--force", help="Overwrite an existing file.")] = False,
+    site: Annotated[
+        str | None, typer.Option("--site", help="Your site; its home page pre-fills answers.")
+    ] = None,
+    example: Annotated[
+        bool, typer.Option("--example", help="Write the commented example file, no questions.")
+    ] = False,
 ) -> None:
-    """Write an example seoforge.yaml."""
+    """Create seoforge.yaml by answering a few questions (pre-filled from your home page)."""
+    import sys
+
+    from seoforge import wizard
+
     if path.exists() and not force:
         err.print(f"[yellow]{path} exists; use --force to overwrite.[/yellow]")
         raise typer.Exit(1)
-    path.write_text(EXAMPLE_CONFIG, encoding="utf-8")
-    console.print(f"Wrote {path}")
+    if example or not sys.stdin.isatty():
+        path.write_text(EXAMPLE_CONFIG, encoding="utf-8")
+        console.print(
+            f"Wrote {path} (commented example; edit it or run `seoforge init` in a terminal)"
+        )
+        return
+    url = site or typer.prompt("Site URL (e.g. https://example.com)")
+    if not url.startswith(("http://", "https://")):
+        url = "https://" + url
+    facts: dict[str, Any] = {}
+    with console.status(f"Reading {url} to pre-fill answers"):
+        try:
+            facts = run(wizard.detect_site_facts(url))
+        except Exception as exc:  # network trouble must not block writing a config
+            err.print(f"[yellow]Could not read {url} ({exc}); answer manually.[/yellow]")
+    if facts:
+        console.print(
+            "[dim]Defaults in \\[brackets] come from your site; press Enter to keep.[/dim]"
+        )
+    data = wizard.build_config(
+        url.rstrip("/"),
+        facts,
+        lambda question, default: typer.prompt(
+            question, default=default, show_default=bool(default)
+        ),
+        console.print,
+    )
+    path.write_text(wizard.render(data), encoding="utf-8")
+    console.print(f"Wrote {path}. Next: [bold]seoforge audit[/bold]")
 
 
 @app.command()

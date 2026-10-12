@@ -59,7 +59,7 @@ docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/work" seoforge audit https:
 ## Quickstart
 
 ```bash
-seoforge init                                   # writes an example seoforge.yaml (optional)
+seoforge init --site https://example.com       # a few questions, pre-filled from your home page (optional)
 seoforge audit https://example.com              # report in ./seoforge-report/report.html
 seoforge audit https://example.com --render --max-pages 1000 --competitor https://rival.com/page
 seoforge fix https://example.com                # files in ./seoforge-fixes (see INDEX.md)
@@ -100,7 +100,7 @@ argument) and detects brand mentions and links to your domain in its output.
 
 ## Configuration (`seoforge.yaml`)
 
-Every field is optional; run `seoforge init` for a commented example. API keys are read from
+Every field is optional; `seoforge init` writes one by asking a few questions (pre-filled from what your home page already says), and `seoforge init --example` writes a commented file with every setting. API keys are read from
 environment variables, never from the YAML.
 
 ```yaml
