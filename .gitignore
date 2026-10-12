@@ -15,6 +15,10 @@ build/
 htmlcov/
 
 # SEOForge local data and outputs
+# Your own site config (brand facts, competitors) - keep it local
+/seoforge.yaml
+/seoforge.yml
+/.seoforge.yaml
 .seoforge/
 seoforge-report/
 seoforge-fixes/
