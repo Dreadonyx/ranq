@@ -219,6 +219,21 @@ def _print_summary(report: Report) -> None:
         console.print(table)
     if len(report.issues) > 15:
         console.print(f"  ... {len(report.issues) - 15} more in the report")
+    if report.pages:
+        pages = Table(show_header=True, header_style="bold", box=None, pad_edge=False)
+        pages.add_column("Page score", justify="right")
+        pages.add_column("Page")
+        pages.add_column("Issues", justify="right")
+        for row in report.pages[:15]:
+            score = row["score"]
+            color = "green" if score >= 90 else "yellow" if score >= 70 else "red"
+            pages.add_row(f"[{color}]{score}[/{color}]", row["url"], str(len(row["issues"])))
+        console.print(
+            "\nPer page (page-level issues only; site-wide issues count in the health score):"
+        )
+        console.print(pages)
+        if len(report.pages) > 15:
+            console.print(f"  ... {len(report.pages) - 15} more pages in the report")
     console.print(f"[dim]{DISCLAIMER}[/dim]")
 
 

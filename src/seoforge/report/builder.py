@@ -46,6 +46,7 @@ class Report:
     issues: list[Issue]
     plan: dict[str, list[dict[str, Any]]]
     score: int
+    pages: list[dict[str, Any]] = field(default_factory=list)  # per-page scores, worst first
     extras: dict[str, Any] = field(default_factory=dict)
     disclaimer: str = DISCLAIMER
     limitations: list[str] = field(default_factory=lambda: list(LIMITATIONS))
@@ -63,7 +64,10 @@ class Report:
             "generated_at": self.generated_at,
             "version": self.version,
             "score": self.score,
-            "score_note": "Heuristic health score (estimate): 100 minus weighted issue penalties.",
+            "score_note": "Heuristic health score (estimate): 100 minus weighted issue penalties. "
+            "Site-wide issues count in full; page-level issues scale with the share of pages "
+            "affected. Page scores use only that page's own issues.",
+            "page_scores": self.pages,
             "stats": self.stats,
             "severity_counts": self.severity_counts,
             "issues": [i.to_dict() for i in self.issues],
@@ -75,13 +79,52 @@ class Report:
         }
 
 
+def _penalty(issue: Issue, fraction: float) -> float:
+    return issue.severity.weight * (0.3 + 0.7 * fraction) / 4
+
+
 def health_score(issues: list[Issue], page_count: int) -> int:
-    pages = max(page_count, 1)
+    """100 minus weighted penalties. Page-level issues scale with the share of pages affected;
+    site-wide issues always count in full, so adding pages cannot dilute them."""
+    if page_count == 0:
+        return 0  # nothing could be audited; see the site-unreachable issue
     penalty = 0.0
     for issue in issues:
-        fraction = min(len(issue.urls), pages) / pages if issue.urls else 0.0
-        penalty += issue.severity.weight * (0.3 + 0.7 * fraction) / 4
+        if issue.site_wide:
+            fraction = 1.0
+        elif issue.urls:
+            fraction = min(len(issue.urls), page_count) / page_count
+        else:
+            fraction = 0.0
+        penalty += _penalty(issue, fraction)
     return max(0, round(100 - penalty))
+
+
+def page_scores(issues: list[Issue], page_urls: list[str]) -> list[dict[str, Any]]:
+    """Score each crawled page on the page-level issues that list it (each counts as if it
+    affected the whole site, i.e. the page). Site-wide issues are excluded: they are in the
+    site score, and a page score should say how good that page itself is. Worst first."""
+    found: dict[str, list[Issue]] = {url: [] for url in page_urls}
+    for issue in issues:
+        if issue.site_wide:
+            continue
+        for url in dict.fromkeys(issue.urls):
+            if url in found:
+                found[url].append(issue)
+    rows = []
+    for url, page_issues in found.items():
+        page_issues.sort(key=lambda i: (i.severity.rank, i.check_id))
+        rows.append(
+            {
+                "url": url,
+                "score": max(0, round(100 - sum(_penalty(i, 1.0) for i in page_issues))),
+                "issues": [
+                    {"check_id": i.check_id, "title": i.title, "severity": i.severity.value}
+                    for i in page_issues
+                ],
+            }
+        )
+    return sorted(rows, key=lambda r: (r["score"], r["url"]))
 
 
 def build_plan(issues: list[Issue]) -> dict[str, list[dict[str, Any]]]:
@@ -151,6 +194,7 @@ def build_report(ctx: AuditContext, issues: list[Issue]) -> Report:
         issues=issues,
         plan=build_plan(issues),
         score=health_score(issues, len(html_pages)),
+        pages=page_scores(issues, [p.url for p in html_pages]),
         extras=extras,
     )
 

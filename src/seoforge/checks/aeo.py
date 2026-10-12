@@ -90,7 +90,7 @@ def answers(ctx: AuditContext) -> Iterator[Issue]:
 @check("eeat-site", E)
 def eeat_site(ctx: AuditContext) -> Iterator[Issue]:
     report = _report(ctx)
-    if report is None:
+    if report is None or not ctx.pages:  # nothing crawled: absence of links proves nothing
         return
     site = report.site
     rows = [

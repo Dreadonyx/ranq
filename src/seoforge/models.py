@@ -66,6 +66,8 @@ class Image:
     width: str | None = None
     height: str | None = None
     loading: str | None = None
+    # Size reserved by inline style or utility classes (e.g. Next.js `fill`, Tailwind `w-10 h-10`)
+    css_sized: bool = False
 
 
 @dataclass(slots=True)
@@ -190,6 +192,38 @@ def _same_url(a: str, b: str) -> bool:
     return a.rstrip("/") == b.rstrip("/")
 
 
+# Findings about the site as a whole (configuration, site-level files and pages). They are
+# reported against one URL (home page, robots.txt, llms.txt...) but affect every page, so the
+# health score must not dilute them by page count, and they are left out of per-page scores.
+SITE_WIDE_CHECKS = frozenset(
+    {
+        "site-unreachable",
+        "no-custom-domain",
+        "soft-404-sitewide",
+        "no-https",
+        "http-not-redirected",
+        "missing-hsts",
+        "www-not-canonicalized",
+        "security-headers",
+        "sitemap-missing",
+        "sitemap-errors",
+        "no-organization-schema",
+        "no-website-schema",
+        "eeat-no-about",
+        "eeat-no-contact",
+        "eeat-no-privacy",
+        "ai-policy-mismatch",
+        "ai-search-bots-blocked",
+        "ai-policy-implicit",
+        "llms-txt-missing",
+        "entity-no-sameas",
+        "brand-name-inconsistent",
+        "entity-facts-missing",
+    }
+)
+SITE_WIDE_PREFIXES = ("robots-",)  # robots-missing, robots-syntax, robots-blocks-googlebot...
+
+
 @dataclass(slots=True)
 class Issue:
     """One finding. Grouped by `check_id`; `urls` lists every affected page."""
@@ -206,6 +240,13 @@ class Issue:
     evidence: dict[str, Any] = field(default_factory=dict)
     source: str | None = None  # citation for the guideline this check is based on
     estimate: bool = False  # True when the finding is a heuristic/estimate
+    # Affects the whole site rather than the listed pages. Set automatically for the built-in
+    # site-level checks; plugins can pass it explicitly.
+    site_wide: bool = False
+
+    def __post_init__(self) -> None:
+        if self.check_id in SITE_WIDE_CHECKS or self.check_id.startswith(SITE_WIDE_PREFIXES):
+            self.site_wide = True
 
     @property
     def priority_score(self) -> float:
@@ -226,5 +267,6 @@ class Issue:
             "evidence": self.evidence,
             "source": self.source,
             "estimate": self.estimate,
+            "site_wide": self.site_wide,
             "priority_score": round(self.priority_score, 1),
         }

@@ -92,3 +92,17 @@ def test_parse_sitemap_variants() -> None:
     assert parse_sitemap("u", 404, b"").errors == ["HTTP 404"]
     text = parse_sitemap("u", 200, b"https://s.test/a\nhttps://s.test/b\n")
     assert len(text.entries) == 2
+
+
+def test_css_sized_images() -> None:
+    from seoforge.crawler.parser import css_sized
+
+    nextjs_fill = "position:absolute;height:100%;width:100%;left:0;top:0;color:transparent"
+    assert css_sized(nextjs_fill, "object-cover")
+    assert css_sized("aspect-ratio: 16 / 9", None)
+    assert css_sized(None, "w-10 h-10 object-contain")
+    assert css_sized(None, "md:size-8") and css_sized(None, "aspect-video w-full")
+    assert css_sized(None, "w-[120px] h-[80px]")
+    assert not css_sized(None, "w-full h-auto")  # fluid width, height unknown until load
+    assert not css_sized("width:100%", "w-10")  # only one axis fixed
+    assert not css_sized(None, None)

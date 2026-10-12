@@ -75,3 +75,37 @@ def test_faq_visibility() -> None:
     }
     p = page(faq, text="Is it free? Yes it is.")
     assert invisible_faq_questions(p, analyze_page(p)) == ["Hidden question?"]
+
+
+def test_organization_keeps_existing_address_and_founders() -> None:
+    from seoforge.config import EntityConfig
+    from seoforge.crawler.crawler import CrawlResult
+    from seoforge.generators.schema import organization
+
+    home = PageData(url="https://s.test/", final_url="https://s.test/", status=200)
+    home.json_ld = [
+        json.dumps(
+            {
+                "@context": "https://schema.org",
+                "@graph": [
+                    {
+                        "@type": "Organization",
+                        "name": "S",
+                        "address": {"@type": "PostalAddress", "addressLocality": "Chennai"},
+                        "founder": [{"@type": "Person", "name": "A"}],
+                        "sameAs": "https://www.linkedin.com/company/s",
+                    }
+                ],
+            }
+        )
+    ]
+    crawl = CrawlResult(site="https://s.test", start_url="https://s.test/", pages={home.url: home})
+    data = organization(crawl, EntityConfig(name="S", same_as=["https://x.com/s"])).data
+    assert data["address"]["addressLocality"] == "Chennai"
+    assert data["founder"] == [{"@type": "Person", "name": "A"}]
+    assert data["sameAs"] == ["https://x.com/s", "https://www.linkedin.com/company/s"]
+    # seoforge.yaml wins over the site's markup when both are set
+    cfg = EntityConfig(name="S", founders=["B"], address={"addressLocality": "Madurai"})
+    data = organization(crawl, cfg).data
+    assert data["address"]["addressLocality"] == "Madurai"
+    assert data["founder"] == [{"@type": "Person", "name": "B"}]

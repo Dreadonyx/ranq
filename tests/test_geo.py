@@ -69,6 +69,16 @@ def test_entity_and_wikidata_draft(audited) -> None:  # type: ignore[no-untyped-
     assert "Notability" in guide and "Priya Raman" in guide and "Chennai" in guide
 
 
+def test_wikidata_description_keeps_brand_casing() -> None:
+    d = entity.wikidata_description
+    assert (
+        d("NodeKraft is a digital agency in Chennai.", "NodeKraft") == "digital agency in Chennai"
+    )
+    assert d("NodeKraft builds websites.", "NodeKraft") == "NodeKraft builds websites"
+    assert d("Open-source widget testing tools.", "Acme") == "open-source widget testing tools"
+    assert d("IBM-compatible tooling", "Acme") == "IBM-compatible tooling"
+
+
 def test_wikidata_search_mocked() -> None:
     def handler(request: httpx.Request) -> httpx.Response:
         assert request.url.params["action"] == "wbsearchentities"

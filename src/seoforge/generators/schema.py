@@ -93,13 +93,21 @@ def organization(crawl: CrawlResult, entity: EntityConfig) -> SchemaDoc:
             todo.append(f"{key}: set entity.{key} in seoforge.yaml")
     if entity.founders and org_type != "Person":
         data["founder"] = [{"@type": "Person", "name": n} for n in entity.founders]
+    elif existing.get("founder") and org_type != "Person":
+        data["founder"] = existing["founder"]
     if entity.address:
         data["address"] = {"@type": "PostalAddress", **entity.address}
+    elif isinstance(existing.get("address"), dict | str):
+        # Keep what the site already publishes rather than silently dropping it.
+        data["address"] = existing["address"]
     elif org_type == "LocalBusiness" or org_type.endswith("Business"):
         todo.append(
             "address: required for LocalBusiness - set entity.address (streetAddress, addressLocality, postalCode, addressCountry)"
         )
-    same_as = list(dict.fromkeys(entity.same_as + list(_existing_org(crawl).get("sameAs") or [])))
+    existing_same_as = existing.get("sameAs") or []
+    if isinstance(existing_same_as, str):
+        existing_same_as = [existing_same_as]
+    same_as = list(dict.fromkeys(entity.same_as + list(existing_same_as)))
     if same_as:
         data["sameAs"] = same_as
     else:

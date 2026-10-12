@@ -3,6 +3,7 @@
 G = "https://developers.google.com/search/docs"
 
 REDIRECTS = f"{G}/crawling-indexing/301-redirects"
+SITE_MOVES = f"{G}/crawling-indexing/site-move-with-url-changes"
 SOFT_404 = f"{G}/crawling-indexing/http-network-errors#soft-404-errors"
 HTTP_ERRORS = f"{G}/crawling-indexing/http-network-errors"
 CANONICAL = f"{G}/crawling-indexing/consolidate-duplicate-urls"

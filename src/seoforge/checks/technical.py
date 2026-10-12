@@ -22,6 +22,85 @@ def _norm(url: str) -> str:
     return url.rstrip("/")
 
 
+# Free hosting/builder subdomains. Sites here rank, but on a name the platform owns.
+PLATFORM_SUFFIXES = (
+    "vercel.app",
+    "netlify.app",
+    "github.io",
+    "gitlab.io",
+    "pages.dev",
+    "workers.dev",
+    "onrender.com",
+    "herokuapp.com",
+    "web.app",
+    "firebaseapp.com",
+    "appspot.com",
+    "amplifyapp.com",
+    "azurewebsites.net",
+    "azurestaticapps.net",
+    "fly.dev",
+    "railway.app",
+    "deno.dev",
+    "koyeb.app",
+    "surge.sh",
+    "glitch.me",
+    "repl.co",
+    "replit.app",
+    "replit.dev",
+    "lovable.app",
+    "streamlit.app",
+    "webflow.io",
+    "framer.website",
+    "framer.app",
+    "wixsite.com",
+    "carrd.co",
+    "weebly.com",
+    "square.site",
+    "myshopify.com",
+    "blogspot.com",
+    "wordpress.com",
+    "ngrok-free.app",
+    "ngrok.io",
+    "trycloudflare.com",
+)
+
+
+def platform_subdomain(url: str) -> str | None:
+    """Return the platform suffix when the site lives on someone else's domain."""
+    host = urlsplit(url).hostname or ""
+    for suffix in PLATFORM_SUFFIXES:
+        if host.endswith("." + suffix):
+            return suffix
+    return None
+
+
+# ---- Domain -----------------------------------------------------------------------------------
+@check("custom-domain", T)
+def custom_domain(ctx: AuditContext) -> Iterator[Issue]:
+    suffix = platform_subdomain(ctx.site)
+    if suffix is None:
+        return
+    yield Issue(
+        "no-custom-domain",
+        f"Site runs on a platform subdomain (*.{suffix}), not its own domain",
+        Severity.HIGH,
+        T,
+        f"Search engines can index *.{suffix} sites, but the name belongs to the hosting "
+        "platform. Every link, ranking and brand signal you earn is tied to a URL you cannot "
+        "take with you, so moving later means starting over (you cannot keep a redirect running "
+        "once you leave). You also cannot add a Domain property in Search Console, use "
+        "branded email, or build a consistent brand entity for search and AI engines.",
+        f"Register a domain (about ₹800-1,500 / $10-15 a year), add it in your {suffix} "
+        "project settings, make it the primary domain, and 301-redirect the platform URL "
+        "to it. Then verify it as a Domain property in Search Console and Bing.",
+        impact="Links and rankings are built on a name you do not own.",
+        effort=Effort.LOW,
+        urls=[ctx.site],
+        evidence={"host": urlsplit(ctx.site).hostname, "platform": suffix},
+        source=sources.SITE_MOVES,
+    )
+
+
 # ---- HTTPS ------------------------------------------------------------------------------------
 @check("https", S)
 def https_checks(ctx: AuditContext) -> Iterator[Issue]:
@@ -523,7 +602,7 @@ def image_checks(ctx: AuditContext) -> Iterator[Issue]:
         alts = [img.src for img in p.images if img.alt is None]
         if alts:
             missing_alt[p.url] = alts[:10]
-        dims = sum(1 for img in p.images if not (img.width and img.height))
+        dims = sum(1 for img in p.images if not (img.width and img.height) and not img.css_sized)
         if dims:
             no_dims[p.url] = dims
     if missing_alt:

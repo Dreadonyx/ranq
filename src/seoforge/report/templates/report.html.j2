@@ -72,6 +72,7 @@ a{color:var(--accent)}
 
 <nav class="tabs" role="tablist">
   <button role="tab" aria-selected="true" data-tab="issues">Issues</button>
+  {% if d.page_scores %}<button role="tab" aria-selected="false" data-tab="pages">Pages</button>{% endif %}
   {% if d.extras.keywords %}<button role="tab" aria-selected="false" data-tab="keywords">Keywords</button>{% endif %}
   {% if d.extras.aeo %}<button role="tab" aria-selected="false" data-tab="aeo">AEO</button>{% endif %}
   {% if d.extras.geo %}<button role="tab" aria-selected="false" data-tab="geo">GEO</button>{% endif %}
@@ -93,7 +94,7 @@ a{color:var(--accent)}
     <summary>
       <span class="badge sev-{{ i.severity.value }}">{{ i.severity.value }}</span>
       <span>{{ i.title }}{% if i.estimate %} <span class="est">estimate</span>{% endif %}</span>
-      <span class="meta">{{ i.category.value }} · effort {{ i.effort.value }}</span>
+      <span class="meta">{{ i.category.value }} · effort {{ i.effort.value }}{% if i.site_wide %} · site-wide{% endif %}</span>
     </summary>
     <div class="body">
       <h4>What</h4><p>{{ i.description }}</p>
@@ -112,6 +113,15 @@ a{color:var(--accent)}
   <p class="empty">No issues found.</p>
   {% endfor %}
 </section>
+
+{% if d.page_scores %}
+<section class="tab" id="tab-pages">
+  <p>Each page is scored on its own page-level issues (worst first). Site-wide issues such as a missing About page or llms.txt only affect the overall health score. <span class="est">heuristic estimate</span></p>
+  <table><thead><tr><th>Page</th><th>Score</th><th>Issues on this page</th></tr></thead><tbody>
+  {% for p in d.page_scores %}<tr><td class="url">{{ p.url }}</td><td><strong>{{ p.score }}</strong></td><td>{% for i in p.issues %}<span class="sev-{{ i.severity }}">{{ i.severity }}</span> {{ i.title }}{% if not loop.last %}<br>{% endif %}{% else %}<span class="est">none</span>{% endfor %}</td></tr>{% endfor %}
+  </tbody></table>
+</section>
+{% endif %}
 
 {% if d.extras.keywords %}
 <section class="tab" id="tab-keywords">

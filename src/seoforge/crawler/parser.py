@@ -21,6 +21,33 @@ BLOCKS = "p, li, h1, h2, h3, h4, h5, h6, td, th, dd, dt, blockquote, figcaption,
 
 
 SPACE_BEFORE_PUNCT = re.compile(r"\s+([,.;:!?)\]%])")
+# Tailwind-style fixed sizes: w-10, h-[120px], size-8, md:w-24, aspect-video ...
+SIZE_CLASS_RE = re.compile(
+    r"^(?:[\w-]+:)*(?:(?P<axis>w|h|size)-(?:\d+(?:\.\d+)?|px|\[[^\]]+\])|(?P<aspect>aspect-\S+))$"
+)
+
+
+def css_sized(style: str | None, classes: str | None) -> bool:
+    """True when CSS reserves the image's box, so it cannot cause layout shift on load:
+    inline width+height or aspect-ratio (Next.js `fill` images use width/height:100% of a
+    sized parent), or fixed-size utility classes."""
+    decl = {}
+    for part in (style or "").split(";"):
+        key, _, value = part.partition(":")
+        if value.strip():
+            decl[key.strip().lower()] = value.strip()
+    if "aspect-ratio" in decl or ("width" in decl and "height" in decl):
+        return True
+    axes: set[str] = set()
+    for token in (classes or "").split():
+        match = SIZE_CLASS_RE.match(token)
+        if match is None:
+            continue
+        if match.group("aspect"):
+            return True
+        axis = match.group("axis")
+        axes |= {"w", "h"} if axis == "size" else {axis}
+    return axes == {"w", "h"}
 
 
 def clean(text: str | None) -> str:
@@ -161,6 +188,7 @@ def parse_html(page: PageData, html: str, site: str) -> PageData:
                 width=attrs.get("width"),
                 height=attrs.get("height"),
                 loading=attrs.get("loading"),
+                css_sized=css_sized(attrs.get("style"), attrs.get("class")),
             )
         )
 

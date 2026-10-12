@@ -236,6 +236,18 @@ async def wikidata_search(
     ]
 
 
+def wikidata_description(description: str, name: str) -> str:
+    """Turn a marketing sentence into a Wikidata-style description: no trailing period, no
+    leading "<Name> is a" (the label already says that), and lowercase only when the first word
+    is an ordinary capitalized word, so brand names and acronyms keep their casing."""
+    desc = description.strip().rstrip(".").strip()
+    desc = re.sub(rf"^{re.escape(name)}\s+(?:is|was|are)\s+(?:an?|the)\s+", "", desc, flags=re.I)
+    first = desc.split(" ", 1)[0]
+    if first[:1].isupper() and first[1:] == first[1:].lower():
+        desc = desc[0].lower() + desc[1:]
+    return desc
+
+
 def wikidata_draft(
     entity: EntityConfig, site: str, same_as: list[str], name: str | None = None
 ) -> tuple[str, str]:
@@ -263,9 +275,8 @@ def wikidata_draft(
     ]
     todo: list[str] = []
     if entity.description:
-        desc = entity.description.rstrip(".")
-        if len(desc) <= 250:
-            desc = desc[0].lower() + desc[1:]
+        desc = wikidata_description(entity.description, name)
+        if desc and len(desc) <= 250:
             qs.append(f'LAST\tDen\t"{desc}"')
             notes.append(
                 f"| description (en) | {desc} | Wikidata descriptions are short, lowercase, neutral |"

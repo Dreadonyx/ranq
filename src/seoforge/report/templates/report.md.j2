@@ -17,12 +17,24 @@ Generated {{ r.generated_at }} by SEOForge {{ r.version }}
 |---|---|---|---|---|
 | {{ r.severity_counts.critical }} | {{ r.severity_counts.high }} | {{ r.severity_counts.medium }} | {{ r.severity_counts.low }} | {{ r.severity_counts.info }} |
 
+{% if d.page_scores %}
+## Page scores
+
+Each page is scored on its own page-level issues (worst first). Site-wide issues only affect the overall health score.
+
+| Page | Score | Issues on this page |
+|---|---|---|
+{% for p in d.page_scores %}
+| {{ p.url }} | **{{ p.score }}** | {% for i in p.issues %}{{ i.severity }}: {{ i.title }}{% if not loop.last %}<br>{% endif %}{% else %}none{% endfor %} |
+{% endfor %}
+
+{% endif %}
 ## Issues (by priority)
 
 {% for i in r.issues %}
 ### [{{ i.severity.value|upper }}] {{ i.title }}
 
-- **Check:** `{{ i.check_id }}` · **Category:** {{ i.category.value }} · **Effort:** {{ i.effort.value }}{% if i.estimate %} · *estimate / heuristic*{% endif %}
+- **Check:** `{{ i.check_id }}` · **Category:** {{ i.category.value }} · **Effort:** {{ i.effort.value }}{% if i.site_wide %} · **Scope:** site-wide{% endif %}{% if i.estimate %} · *estimate / heuristic*{% endif %}
 
 {{ i.description }}
 

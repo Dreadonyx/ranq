@@ -21,6 +21,53 @@ def _linking_pages(ctx: AuditContext, target: str) -> list[str]:
     return sorted(src for src, targets in ctx.crawl.edges.items() if target in targets)
 
 
+def _unreachable_reason(ctx: AuditContext) -> tuple[str, dict[str, object]]:
+    start = ctx.crawl.start_url
+    home = ctx.crawl.pages.get(start)
+    if home is None:
+        if start in ctx.crawl.blocked:
+            return "robots.txt disallows the start URL for this crawler", {}
+        return "the start URL was not fetched", {}
+    evidence: dict[str, object] = {"status": home.status, "final_url": home.final_url}
+    evidence |= {k: v for k, v in home.headers.items() if "error" in k.lower()}
+    if home.status == 0:
+        return f"the request failed ({home.error or 'no response'})", evidence
+    if home.status >= 400:
+        return f"it returns HTTP {home.status}", evidence
+    if home.redirect_chain:
+        return (
+            f"it redirects to {home.final_url}, which was not crawled as part of this site",
+            evidence,
+        )
+    if not home.is_html:
+        return f"it is not an HTML page ({home.content_type or 'no content type'})", evidence
+    return "no HTML page returned HTTP 200", evidence
+
+
+@check("site-unreachable", C)
+def site_unreachable(ctx: AuditContext) -> Iterator[Issue]:
+    """Without a single crawlable HTML page every page-level check is silently skipped, so a
+    dead site would otherwise look healthier than a live one."""
+    if ctx.pages:
+        return
+    reason, evidence = _unreachable_reason(ctx)
+    yield Issue(
+        "site-unreachable",
+        f"Site could not be audited: {reason}",
+        Severity.CRITICAL,
+        C,
+        "No crawlable HTML page was found, so search engines cannot index this site and the "
+        "page-level checks (content, headings, structured data, AEO, performance) did not run.",
+        "Make the start URL return HTTP 200 with HTML (check the deployment, DNS, and robots.txt), "
+        "or audit the URL the site actually lives at, then run the audit again.",
+        impact="Nothing on the site can be indexed or cited.",
+        effort=Effort.LOW,
+        urls=[ctx.crawl.start_url],
+        evidence={ctx.crawl.start_url: evidence} if evidence else {},
+        source=sources.HTTP_ERRORS,
+    )
+
+
 @check("broken-internal-links", C)
 def broken_internal_links(ctx: AuditContext) -> Iterator[Issue]:
     broken = {
