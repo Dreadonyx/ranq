@@ -1,6 +1,6 @@
 name: Release
 
-# Push a tag like v0.2.0 (matching seoforge.__version__) to build, create a GitHub Release with
+# Push a tag like v0.2.0 (matching ranq.__version__) to build, create a GitHub Release with
 # the CHANGELOG notes, and - once PyPI Trusted Publishing is configured and the repository
 # variable PUBLISH_TO_PYPI is "true" - publish to PyPI. No API token is stored anywhere.
 
@@ -25,9 +25,9 @@ jobs:
         env:
           TAG: ${{ github.ref_name }}
         run: |
-          version=$(python -c "import re,pathlib; print(re.search(r'__version__ = \"([^\"]+)\"', pathlib.Path('src/seoforge/__init__.py').read_text()).group(1))")
+          version=$(python -c "import re,pathlib; print(re.search(r'__version__ = \"([^\"]+)\"', pathlib.Path('src/ranq/__init__.py').read_text()).group(1))")
           if [ "$TAG" != "v$version" ]; then
-            echo "::error::Tag $TAG does not match seoforge.__version__ $version"
+            echo "::error::Tag $TAG does not match ranq.__version__ $version"
             exit 1
           fi
       - name: Test
@@ -71,7 +71,7 @@ jobs:
             found {print}
           ' CHANGELOG.md > notes.md
           if [ ! -s notes.md ]; then echo "See CHANGELOG.md" > notes.md; fi
-          gh release create "$TAG" dist/* --title "SEOForge $version" --notes-file notes.md --verify-tag
+          gh release create "$TAG" dist/* --title "Ranq $version" --notes-file notes.md --verify-tag
 
   pypi:
     needs: build
@@ -79,7 +79,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/project/seoforge/
+      url: https://pypi.org/project/ranq/
     permissions:
       id-token: write  # OIDC for PyPI Trusted Publishing
     steps:

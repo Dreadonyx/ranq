@@ -1,11 +1,11 @@
 .git
 .venv
-.seoforge
+.ranq
 .mypy_cache
 .ruff_cache
 .pytest_cache
 **/__pycache__
-seoforge-report
-seoforge-fixes
+ranq-report
+ranq-fixes
 tests
 docs

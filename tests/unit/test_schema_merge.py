@@ -1,9 +1,9 @@
 import json
 
-from seoforge.config import EntityConfig
-from seoforge.crawler.crawler import CrawlResult
-from seoforge.generators.schema import build_graphs, generate_all
-from seoforge.models import PageData
+from ranq.config import EntityConfig
+from ranq.crawler.crawler import CrawlResult
+from ranq.generators.schema import build_graphs, generate_all
+from ranq.models import PageData
 
 SITE = "https://nk.test"
 # The real-world pattern: one @graph in the shared layout, so every page repeats the home
@@ -76,15 +76,15 @@ def test_script_tag_cannot_be_closed_by_crawled_text() -> None:
 
 
 def test_wrong_webpage_url_is_flagged() -> None:
-    from seoforge.checks.base import AuditContext
-    from seoforge.checks.structured_data import coverage
-    from seoforge.config import Config
+    from ranq.checks.base import AuditContext
+    from ranq.checks.structured_data import coverage
+    from ranq.config import Config
 
     home = _page("/", "Home")
     work = _page("/work", "Work")
     crawl = CrawlResult(site=SITE, start_url=f"{SITE}/", pages={home.url: home, work.url: work})
     ctx = AuditContext(config=Config(), crawl=crawl)
-    from seoforge.analysis.structured_data import analyze
+    from ranq.analysis.structured_data import analyze
 
     ctx.extras["structured_data"] = analyze(ctx.pages)
     issue = next(i for i in coverage(ctx) if i.check_id == "jsonld-webpage-wrong-url")

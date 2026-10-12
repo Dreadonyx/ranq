@@ -8,7 +8,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).parent))
 
-from seoforge.config import Config
+from ranq.config import Config
 from serve_site import start
 
 
@@ -21,7 +21,7 @@ def site_url() -> Iterator[str]:
 
 @pytest.fixture
 def config(tmp_path: Path) -> Config:
-    cfg = Config(data_dir=str(tmp_path / ".seoforge"))
+    cfg = Config(data_dir=str(tmp_path / ".ranq"))
     cfg.crawl.delay_seconds = 0
     cfg.crawl.concurrency = 4
     cfg.crawl.max_pages = 100
@@ -33,7 +33,7 @@ def audited(site_url: str, tmp_path_factory: pytest.TempPathFactory):  # type: i
     """One full audit of the test site shared by integration tests."""
     import asyncio
 
-    from seoforge.audit import AuditOptions, run_audit
+    from ranq.audit import AuditOptions, run_audit
 
     cfg = Config(data_dir=str(tmp_path_factory.mktemp("data")))
     cfg.crawl.delay_seconds = 0

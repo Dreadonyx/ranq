@@ -14,8 +14,15 @@ build/
 .coverage
 htmlcov/
 
-# SEOForge local data and outputs
+# Ranq local data and outputs
 # Your own site config (brand facts, competitors) - keep it local
+/ranq.yaml
+/ranq.yml
+/.ranq.yaml
+.ranq/
+ranq-report/
+ranq-fixes/
+# Names from before the rename to Ranq
 /seoforge.yaml
 /seoforge.yml
 /.seoforge.yaml

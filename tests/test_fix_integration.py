@@ -1,4 +1,4 @@
-"""`seoforge fix` end-to-end against the local test site."""
+"""`ranq fix` end-to-end against the local test site."""
 
 from __future__ import annotations
 
@@ -7,13 +7,13 @@ from pathlib import Path
 
 from typer.testing import CliRunner
 
-from seoforge.cli import app
-from seoforge.fix.bundle import build_bundle
-from seoforge.robots import RobotsTxt
+from ranq.cli import app
+from ranq.fix.bundle import build_bundle
+from ranq.robots import RobotsTxt
 
 
 def _cfg(tmp_path: Path) -> Path:
-    cfg = tmp_path / "seoforge.yaml"
+    cfg = tmp_path / "ranq.yaml"
     cfg.write_text(
         f"data_dir: {tmp_path / 'data'}\ncrawl:\n  delay_seconds: 0\n"
         "entity:\n  name: Acme Widgets\n  description: Open-source widget testing tools.\n"
@@ -32,7 +32,7 @@ def test_bundle_contents(audited) -> None:  # type: ignore[no-untyped-def]
     for excluded in ("/noindex-page", "/broken-page", "/old-page", "/private/secret"):
         assert f"<loc>{base}{excluded}</loc>" not in sitemap
     robots = RobotsTxt(files["robots.txt"].content)
-    assert not robots.can_fetch("SEOForge", f"{base}/private/secret")
+    assert not robots.can_fetch("Ranq", f"{base}/private/secret")
     assert not robots.can_fetch("CCBot", f"{base}/")
     site_graph = files["jsonld/site.graph.html"].content
     assert '"@graph"' in site_graph and '"@type": "WebSite"' in site_graph
@@ -93,7 +93,7 @@ def test_planted_m2_issues(audited) -> None:  # type: ignore[no-untyped-def]
 
 
 def test_apply_never_escapes_site_root(tmp_path: Path) -> None:
-    from seoforge.fix.bundle import FixBundle, apply_bundle, safe_join
+    from ranq.fix.bundle import FixBundle, apply_bundle, safe_join
 
     root = tmp_path / "site"
     root.mkdir()

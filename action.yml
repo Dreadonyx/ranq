@@ -1,4 +1,4 @@
-name: SEOForge audit
+name: Ranq audit
 description: Audit a site for SEO, AEO and GEO issues on deploy, upload the report, and optionally fail the job.
 author: Dreadonyx
 branding:
@@ -19,7 +19,7 @@ inputs:
     description: Render JavaScript with headless Chromium ("true"/"false").
     default: "false"
   extra-args:
-    description: Extra arguments for `seoforge audit`.
+    description: Extra arguments for `ranq audit`.
     default: ""
   pagespeed-api-key:
     description: Optional free PageSpeed Insights API key (pass a secret).
@@ -39,7 +39,7 @@ runs:
     - uses: actions/setup-python@v7
       with:
         python-version: ${{ inputs.python-version }}
-    - name: Install SEOForge
+    - name: Install Ranq
       shell: bash
       env:
         ACTION_PATH: ${{ github.action_path }}
@@ -52,26 +52,26 @@ runs:
       shell: bash
       env:
         PAGESPEED_API_KEY: ${{ inputs.pagespeed-api-key }}
-        SEOFORGE_URL: ${{ inputs.url }}
+        RANQ_URL: ${{ inputs.url }}
         MAX_PAGES: ${{ inputs.max-pages }}
         FAIL_ON: ${{ inputs.fail-on }}
         RENDER: ${{ inputs.render }}
         EXTRA_ARGS: ${{ inputs.extra-args }}
       run: |
         set +e
-        args=(audit "$SEOFORGE_URL" --max-pages "$MAX_PAGES" --fail-on "$FAIL_ON" -o seoforge-report)
+        args=(audit "$RANQ_URL" --max-pages "$MAX_PAGES" --fail-on "$FAIL_ON" -o ranq-report)
         if [ "$RENDER" = "true" ]; then args+=(--render); fi
         read -ra extra <<< "$EXTRA_ARGS"
-        seoforge "${args[@]}" "${extra[@]}"
+        ranq "${args[@]}" "${extra[@]}"
         status=$?
-        echo "report-dir=seoforge-report" >> "$GITHUB_OUTPUT"
-        if [ -f seoforge-report/report.md ]; then
-          head -c 60000 seoforge-report/report.md >> "$GITHUB_STEP_SUMMARY"
+        echo "report-dir=ranq-report" >> "$GITHUB_OUTPUT"
+        if [ -f ranq-report/report.md ]; then
+          head -c 60000 ranq-report/report.md >> "$GITHUB_STEP_SUMMARY"
         fi
         exit $status
     - name: Upload report
       if: always()
       uses: actions/upload-artifact@v7
       with:
-        name: seoforge-report
-        path: seoforge-report
+        name: ranq-report
+        path: ranq-report

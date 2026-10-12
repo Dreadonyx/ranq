@@ -2,8 +2,8 @@
 
 from collections.abc import Iterator
 
-from seoforge.checks.base import AuditContext, check
-from seoforge.models import Category, Issue, Severity
+from ranq.checks.base import AuditContext, check
+from ranq.models import Category, Issue, Severity
 
 
 @check("demo-lorem-ipsum", Category.ONPAGE)

@@ -7,13 +7,13 @@ import asyncio
 import httpx
 import pytest
 
-from seoforge.analysis.competitors import content_gap
-from seoforge.analysis.suggest import expand_seeds, suggestions
-from seoforge.config import Config
-from seoforge.crawler.crawler import Crawler
-from seoforge.crawler.renderer import Renderer, RendererUnavailable
-from seoforge.http import PoliteClient
-from seoforge.storage import Store
+from ranq.analysis.competitors import content_gap
+from ranq.analysis.suggest import expand_seeds, suggestions
+from ranq.config import Config
+from ranq.crawler.crawler import Crawler
+from ranq.crawler.renderer import Renderer, RendererUnavailable
+from ranq.http import PoliteClient
+from ranq.storage import Store
 
 
 def test_competitor_gap_respects_robots_and_finds_terms(
@@ -45,7 +45,7 @@ def test_autosuggest_cached_and_polite(tmp_path) -> None:  # type: ignore[no-unt
 
     async def go() -> dict[str, list[str]]:
         async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
-            import seoforge.analysis.suggest as s
+            import ranq.analysis.suggest as s
 
             s.MIN_INTERVAL = 0  # keep the test fast
             return await suggestions(client, store, ["widget testing"], max_queries=2)

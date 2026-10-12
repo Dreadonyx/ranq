@@ -1,7 +1,7 @@
-from seoforge.crawler.parser import hamming, parse_html, simhash
-from seoforge.crawler.sitemaps import parse_sitemap
-from seoforge.models import PageData
-from seoforge.urls import normalize, same_site
+from ranq.crawler.parser import hamming, parse_html, simhash
+from ranq.crawler.sitemaps import parse_sitemap
+from ranq.models import PageData
+from ranq.urls import normalize, same_site
 
 HTML = """<!doctype html><html lang="en"><head>
 <title> Hello   World </title>
@@ -95,7 +95,7 @@ def test_parse_sitemap_variants() -> None:
 
 
 def test_css_sized_images() -> None:
-    from seoforge.crawler.parser import css_sized
+    from ranq.crawler.parser import css_sized
 
     nextjs_fill = "position:absolute;height:100%;width:100%;left:0;top:0;color:transparent"
     assert css_sized(nextjs_fill, "object-cover")
@@ -128,9 +128,9 @@ def test_h1_hidden_in_html() -> None:
 
 
 def test_cloudflare_endpoints_never_crawled() -> None:
-    from seoforge.config import CrawlConfig
-    from seoforge.crawler.crawler import Crawler
-    from seoforge.storage import Store
+    from ranq.config import CrawlConfig
+    from ranq.crawler.crawler import Crawler
+    from ranq.storage import Store
 
     crawler = Crawler(CrawlConfig(), Store(":memory:"))
     assert not crawler._in_scope("https://s.test/cdn-cgi/l/email-protection")

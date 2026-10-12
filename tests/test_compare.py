@@ -3,9 +3,9 @@ from pathlib import Path
 
 from typer.testing import CliRunner
 
-from seoforge.cli import app
-from seoforge.models import Issue, Severity
-from seoforge.report.compare import compare
+from ranq.cli import app
+from ranq.models import Issue, Severity
+from ranq.report.compare import compare
 
 
 def _issue(cid: str, sev: Severity, n: int) -> Issue:
@@ -40,7 +40,7 @@ def test_compare_buckets() -> None:
 
 
 def test_audit_compares_with_previous_run(site_url: str, tmp_path: Path) -> None:
-    cfg = tmp_path / "seoforge.yaml"
+    cfg = tmp_path / "ranq.yaml"
     cfg.write_text(f"data_dir: {tmp_path / 'd'}\n")
     out = tmp_path / "report"
     args = [

@@ -1,6 +1,6 @@
-from seoforge.analysis.framework import detect
-from seoforge.generators.framework import guide, robots_ts, sitemap_ts
-from seoforge.models import PageData
+from ranq.analysis.framework import detect
+from ranq.generators.framework import guide, robots_ts, sitemap_ts
+from ranq.models import PageData
 
 
 def _page(html: str, headers: dict[str, str] | None = None) -> PageData:

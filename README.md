@@ -1,6 +1,6 @@
-# SEOForge
+# Ranq
 
-[![CI](https://github.com/Dreadonyx/seo-tool/actions/workflows/ci.yml/badge.svg)](https://github.com/Dreadonyx/seo-tool/actions/workflows/ci.yml)
+[![CI](https://github.com/Dreadonyx/ranq/actions/workflows/ci.yml/badge.svg)](https://github.com/Dreadonyx/ranq/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)
 
@@ -10,19 +10,22 @@ legitimately can.**
 
 No paid APIs. No accounts required for the core audit. MIT licensed.
 
+Built and maintained by [NodeKraft](https://nodekraft.tech), a security-first digital agency in
+Chennai. Want the findings fixed for you? [Talk to us](https://nodekraft.tech).
+
 > **Honesty first.** No tool can guarantee rankings, indexing of every page or keyword, or that
-> any AI system will know, cite or recommend your site. SEOForge maximizes *eligibility,
+> any AI system will know, cite or recommend your site. Ranq maximizes *eligibility,
 > discoverability and citation likelihood*, labels every heuristic as an estimate, cites the
 > guideline behind every finding, and never uses spam tactics. See
-> [What SEOForge cannot do](#what-seoforge-cannot-do).
+> [What Ranq cannot do](#what-ranq-cannot-do).
 
 ```
-seoforge audit https://example.com          # crawl + prioritized HTML/Markdown/JSON report
-seoforge fix https://example.com            # robots.txt, sitemap, llms.txt, JSON-LD, redirects...
-seoforge diagnose https://example.com/page  # why isn't this URL indexed?
+ranq audit https://example.com          # crawl + prioritized HTML/Markdown/JSON report
+ranq fix https://example.com            # robots.txt, sitemap, llms.txt, JSON-LD, redirects...
+ranq diagnose https://example.com/page  # why isn't this URL indexed?
 ```
 
-![SEOForge HTML report](docs/report-screenshot.png)
+![Ranq HTML report](docs/report-screenshot.png)
 
 *The HTML report for the bundled test site, which has planted problems. Open the full
 [example report](docs/example-report/report.html) (download it and open it in a browser) or
@@ -43,26 +46,26 @@ the [CHANGELOG](CHANGELOG.md).*
 | **Indexing** | Sitemap generator, IndexNow (key file + verified batch submission of changed URLs), Google Search Console API (sitemap submit, quota-aware URL Inspection), Bing Webmaster API, engine coverage table, "why isn't this indexed?" diagnostic |
 | **Off-page** | Opportunity checklist, curated directory list, robots-aware broken-link finder with Wayback lookups, unlinked brand-mention finder (Hacker News + Wikipedia APIs), strict anti-spam policy |
 | **Reporting** | Prioritized issues (Critical/High/Medium/Low) with impact, effort, exact fix, source and evidence; health score where site-wide issues count in full, plus a score for every page; framework detection; standalone HTML dashboard + Markdown + JSON; 30/60/90-day plan; "what this tool cannot do" section |
-| **`seoforge fix`** | Ready-to-paste robots.txt, sitemap.xml, llms.txt (extends a hand-written one instead of replacing it), JSON-LD, meta tags, security headers (built from your live headers, never weakening them) and redirects for nginx, Apache, Vercel, Netlify and Cloudflare. A FRAMEWORK.md says where each file goes in the detected stack, and Next.js App Router sites also get `app/robots.ts`, `app/sitemap.ts` and a JSON-LD component. Applies to a *local* directory only after a diff preview and per-file confirmation |
+| **`ranq fix`** | Ready-to-paste robots.txt, sitemap.xml, llms.txt (extends a hand-written one instead of replacing it), JSON-LD, meta tags, security headers (built from your live headers, never weakening them) and redirects for nginx, Apache, Vercel, Netlify and Cloudflare. A FRAMEWORK.md says where each file goes in the detected stack, and Next.js App Router sites also get `app/robots.ts`, `app/sitemap.ts` and a JSON-LD component. Applies to a *local* directory only after a diff preview and per-file confirmation |
 
 ## Install
 
 Requires Python 3.11+.
 
 ```bash
-pipx install seoforge                                   # or: pip install seoforge
-pipx install git+https://github.com/Dreadonyx/seo-tool  # latest main, before a PyPI release
+pipx install ranq                                   # or: pip install ranq
+pipx install git+https://github.com/Dreadonyx/ranq  # latest main, before a PyPI release
 # Optional extras:
 playwright install chromium        # JavaScript rendering (--render)
-pipx inject seoforge google-auth   # Search Console via service account (pip: "seoforge[google]")
-pipx inject seoforge sentence-transformers  # local semantic clustering (large: PyTorch)
+pipx inject ranq google-auth   # Search Console via service account (pip: "ranq[google]")
+pipx inject ranq sentence-transformers  # local semantic clustering (large: PyTorch)
 npm install -g lighthouse          # local Lighthouse lab runs (--lighthouse)
 ```
 
 From source:
 
 ```bash
-git clone https://github.com/Dreadonyx/seo-tool && cd seo-tool
+git clone https://github.com/Dreadonyx/ranq && cd ranq
 python -m venv .venv && source .venv/bin/activate
 pip install -e ".[google]"
 ```
@@ -70,20 +73,20 @@ pip install -e ".[google]"
 Or with Docker:
 
 ```bash
-docker build -t seoforge .                              # add --build-arg WITH_BROWSER=1 for --render
-docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/work" seoforge audit https://example.com
+docker build -t ranq .                              # add --build-arg WITH_BROWSER=1 for --render
+docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/work" ranq audit https://example.com
 ```
 
 ## Quickstart
 
 ```bash
-seoforge init --site https://example.com       # a few questions, pre-filled from your home page (optional)
-seoforge audit https://example.com              # report in ./seoforge-report/report.html
-seoforge audit https://example.com --render --max-pages 1000 --competitor https://rival.com/page
-seoforge fix https://example.com                # files in ./seoforge-fixes (see INDEX.md)
-seoforge fix https://example.com --apply-to ./public   # diff + confirm, then write locally
-seoforge diagnose https://example.com/missing-page --crawl-pages 200
-seoforge geo bots https://example.com           # which AI crawlers can access the site
+ranq init --site https://example.com       # a few questions, pre-filled from your home page (optional)
+ranq audit https://example.com              # report in ./ranq-report/report.html
+ranq audit https://example.com --render --max-pages 1000 --competitor https://rival.com/page
+ranq fix https://example.com                # files in ./ranq-fixes (see INDEX.md)
+ranq fix https://example.com --apply-to ./public   # diff + confirm, then write locally
+ranq diagnose https://example.com/missing-page --crawl-pages 200
+ranq geo bots https://example.com           # which AI crawlers can access the site
 ```
 
 ## Commands
@@ -104,21 +107,21 @@ AI assistants have no free, permitted API for "does this assistant mention my br
 automating their consumer apps violates their terms. So the tracker is a log:
 
 ```bash
-seoforge visibility init                                   # prompts from entity.name/category/city
-seoforge visibility add "best kanban app for small teams"
-seoforge visibility prompts
-seoforge visibility log 3 perplexity --mentioned --cited-url https://example.com/guide
-seoforge visibility import answers.csv                     # prompt,engine,date,mentioned,cited_url,position,notes
-seoforge visibility run gemini --cmd "python my_gemini_free_tier.py {prompt}"   # your own permitted tool
-seoforge visibility report --json visibility.json
+ranq visibility init                                   # prompts from entity.name/category/city
+ranq visibility add "best kanban app for small teams"
+ranq visibility prompts
+ranq visibility log 3 perplexity --mentioned --cited-url https://example.com/guide
+ranq visibility import answers.csv                     # prompt,engine,date,mentioned,cited_url,position,notes
+ranq visibility run gemini --cmd "python my_gemini_free_tier.py {prompt}"   # your own permitted tool
+ranq visibility report --json visibility.json
 ```
 
 `run` executes *your* command once per prompt (no shell; `{prompt}` is passed as one
 argument) and detects brand mentions and links to your domain in its output.
 
-## Configuration (`seoforge.yaml`)
+## Configuration (`ranq.yaml`)
 
-Every field is optional; `seoforge init` writes one by asking a few questions (pre-filled from what your home page already says), and `seoforge init --example` writes a commented file with every setting. API keys are read from
+Every field is optional; `ranq init` writes one by asking a few questions (pre-filled from what your home page already says), and `ranq init --example` writes a commented file with every setting. API keys are read from
 environment variables, never from the YAML.
 
 ```yaml
@@ -136,9 +139,9 @@ geo:
   ai_bots: {CCBot: deny}            # per-bot overrides
 competitors: [https://competitor.example/pricing]
 seed_keywords: [project management]
-report: {output_dir: seoforge-report, fail_on: never}
+report: {output_dir: ranq-report, fail_on: never}
 disabled_checks: [deep-pages]
-plugins: [mycompany.seoforge_checks]
+plugins: [mycompany.ranq_checks]
 ```
 
 `search-only` (the default) allows AI search and user-initiated fetchers - so answers can cite
@@ -168,16 +171,16 @@ Insights API** → *Credentials* → **Create API key**. Then `export PAGESPEED_
 (you can import from Search Console) → *Settings → API access* → generate an **API key** →
 `export BING_WEBMASTER_API_KEY=...`.
 
-**IndexNow** (Bing, Yandex, Seznam.cz, Naver, Yep): `seoforge index indexnow-key`, upload
+**IndexNow** (Bing, Yandex, Seznam.cz, Naver, Yep): `ranq index indexnow-key`, upload
 the generated `<key>.txt` to your site root, `export INDEXNOW_KEY=<key>`, then
-`seoforge index indexnow https://example.com` (submits only URLs whose content changed).
+`ranq index indexnow https://example.com` (submits only URLs whose content changed).
 
 ## GitHub Action
 
 Audit every deploy and upload the report as an artifact (see `docs/github-action.md`):
 
 ```yaml
-- uses: Dreadonyx/seo-tool@main
+- uses: Dreadonyx/ranq@main
   with:
     url: https://example.com
     fail-on: critical
@@ -187,7 +190,7 @@ Audit every deploy and upload the report as an artifact (see `docs/github-action
 ## Plugins
 
 Checks are plain functions registered with `@check`. Ship them in any module and list it under
-`plugins:` or expose it via the `seoforge.checks` entry-point group. See
+`plugins:` or expose it via the `ranq.checks` entry-point group. See
 [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) and `tests/plugins/demo_plugin.py`.
 
 ## Ethics
@@ -197,7 +200,7 @@ Checks are plain functions registered with `@check`. Ship them in any module and
 - Never cloaks, generates doorway pages, fake reviews, or spam links; never scrapes search
   result pages or consumer AI apps.
 - Never uses Google's Indexing API (it is only for JobPosting and BroadcastEvent pages).
-- Generated markup and copy use only data from your pages or `seoforge.yaml`; anything unknown
+- Generated markup and copy use only data from your pages or `ranq.yaml`; anything unknown
   is left as a TODO rather than invented.
 - Never modifies a site without a diff preview and confirmation, and only in a local directory.
 
@@ -205,17 +208,17 @@ Checks are plain functions registered with `@check`. Ship them in any module and
 
 - "Submit to every index" means the legitimate channels that exist: Google Search Console,
   Bing Webmaster Tools, IndexNow, sitemaps and robots.txt. Other engines either use those
-  indexes or offer no submission (listed by `seoforge index engines`).
+  indexes or offer no submission (listed by `ranq index engines`).
 - Keyword volumes are omitted rather than estimated, because no free, reliable source exists.
-- The default AI crawler policy is `search-only`; change it in `seoforge.yaml`.
-- The crawler identifies itself as `SEOForge/<version>` and matches robots.txt groups for
-  `SEOForge` (falling back to `*`).
+- The default AI crawler policy is `search-only`; change it in `ranq.yaml`.
+- The crawler identifies itself as `Ranq/<version>` and matches robots.txt groups for
+  `Ranq` (falling back to `*`).
 - Response cache is written on every crawl but only read with `--resume` / `--cached`, so a
   normal audit always reflects the live site.
 - Thresholds such as "title > 60 characters", "under 200 words" or "40-60 word answers" are
   common heuristics, not search engine rules; findings based on them are labelled estimates.
 
-## What SEOForge cannot do
+## What Ranq cannot do
 
 - Guarantee rankings, indexing of any page, or traffic.
 - Make any LLM know, cite or recommend your site; it can only make your content easier to
@@ -247,18 +250,18 @@ pip install -e ".[dev]" && playwright install chromium
 pre-commit install
 pytest -q                      # spins up a local test site with planted issues
 ruff check src tests && ruff format --check src tests && mypy
-python tests/serve_site.py 8765 & seoforge audit http://127.0.0.1:8765 --no-pagespeed --delay 0
+python tests/serve_site.py 8765 & ranq audit http://127.0.0.1:8765 --no-pagespeed --delay 0
 ```
 
 ### Releasing
 
-1. Bump `__version__` in `src/seoforge/__init__.py` and add a section to `CHANGELOG.md`.
+1. Bump `__version__` in `src/ranq/__init__.py` and add a section to `CHANGELOG.md`.
 2. Commit, then `git tag v<version> && git push origin v<version>`.
 3. The Release workflow checks the tag matches the version, runs the tests, builds, creates the
    GitHub Release with the changelog notes and the sdist/wheel attached, and publishes to PyPI.
 
 One-time PyPI setup (no API token needed): on pypi.org, *Your projects -> Publishing -> Add a
-new pending publisher* with owner `Dreadonyx`, repository `seo-tool`, workflow `release.yml`,
+new pending publisher* with owner `Dreadonyx`, repository `ranq`, workflow `release.yml`,
 environment `pypi`. Then in the GitHub repository settings add the variable
 `PUBLISH_TO_PYPI` = `true` (*Settings -> Secrets and variables -> Actions -> Variables*).
 Until then the PyPI job is skipped and releases go to GitHub only.

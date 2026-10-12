@@ -4,6 +4,30 @@ All notable changes to SEOForge. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [0.3.0] - 2026-10-12
+
+### Changed
+
+- **Renamed from SEOForge to Ranq.** The package, the command (`ranq audit ...`), the config
+  file (`ranq.yaml`), the output folders (`ranq-report/`, `ranq-fixes/`), the data folder
+  (`.ranq/`), the crawler User-Agent (`Ranq/<version>`, robots.txt group `Ranq`) and the
+  plugin entry-point group (`ranq.checks`) all use the new name. An existing `seoforge.yaml`
+  is still read when there is no `ranq.yaml`. The GitHub repository moved to
+  `Dreadonyx/ranq`; the old URL redirects.
+- Built and maintained by [NodeKraft](https://nodekraft.tech): credited in the README, the
+  package metadata and the footer of every report.
+
+### Security
+
+- Report links built from crawled data (such as `sameAs` URLs) only allow `http(s)`; a
+  `javascript:` URL could otherwise run in the HTML report when clicked.
+- HTML comments in generated meta tags cannot be closed early by crawled text.
+- CI scans the full history for secrets (gitleaks) and audits dependencies (pip-audit);
+  workflow checkouts no longer keep the GitHub token; the PyPI publish action is pinned to a
+  commit; Dependabot keeps actions and dependencies updated; `SECURITY.md` explains private
+  reporting.
+- `jinja2` minimum raised to 3.1.6.
+
 ## [0.2.0] - 2026-10-12
 
 ### Added
@@ -72,5 +96,6 @@ tools, citation score, AI-visibility tracker), indexing (IndexNow, Search Consol
 off-page helpers, `seoforge fix`, HTML / Markdown / JSON reports, Docker image, GitHub Action
 and CI.
 
-[0.2.0]: https://github.com/Dreadonyx/seo-tool/compare/2e7659f...v0.2.0
-[0.1.0]: https://github.com/Dreadonyx/seo-tool/tree/2e7659f
+[0.3.0]: https://github.com/Dreadonyx/ranq/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/Dreadonyx/ranq/compare/2e7659f...v0.2.0
+[0.1.0]: https://github.com/Dreadonyx/ranq/tree/2e7659f

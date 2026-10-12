@@ -8,11 +8,11 @@ from pathlib import Path
 
 from typer.testing import CliRunner
 
-from seoforge.cli import app
-from seoforge.config import Config
-from seoforge.crawler.crawler import Crawler
-from seoforge.report.render import render_html, render_markdown, write_reports
-from seoforge.storage import Store
+from ranq.cli import app
+from ranq.config import Config
+from ranq.crawler.crawler import Crawler
+from ranq.report.render import render_html, render_markdown, write_reports
+from ranq.storage import Store
 
 
 def ids(report) -> set[str]:  # type: ignore[no-untyped-def]
@@ -122,7 +122,7 @@ def test_resume_uses_frontier(site_url: str, config: Config) -> None:
 
 def test_cli_audit(site_url: str, tmp_path: Path) -> None:
     out = tmp_path / "out"
-    cfg = tmp_path / "seoforge.yaml"
+    cfg = tmp_path / "ranq.yaml"
     cfg.write_text(f"data_dir: {tmp_path / 'data'}\ncrawl:\n  delay_seconds: 0\n")
     result = CliRunner().invoke(
         app,

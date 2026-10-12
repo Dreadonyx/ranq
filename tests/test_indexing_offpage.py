@@ -11,17 +11,17 @@ import httpx
 import pytest
 from typer.testing import CliRunner
 
-from seoforge.cli import app
-from seoforge.config import Config
-from seoforge.http import PoliteClient
-from seoforge.indexing import indexnow as ix
-from seoforge.indexing.bing import BingClient, BingError
-from seoforge.indexing.diagnose import diagnose
-from seoforge.indexing.gsc import GSCAuthError, GSCClient, get_token, property_url
-from seoforge.offpage.broken_links import find_broken_links
-from seoforge.offpage.checklist import checklist_markdown
-from seoforge.offpage.mentions import find_mentions
-from seoforge.storage import Store
+from ranq.cli import app
+from ranq.config import Config
+from ranq.http import PoliteClient
+from ranq.indexing import indexnow as ix
+from ranq.indexing.bing import BingClient, BingError
+from ranq.indexing.diagnose import diagnose
+from ranq.indexing.gsc import GSCAuthError, GSCClient, get_token, property_url
+from ranq.offpage.broken_links import find_broken_links
+from ranq.offpage.checklist import checklist_markdown
+from ranq.offpage.mentions import find_mentions
+from ranq.storage import Store
 from serve_site import INDEXNOW_KEY
 
 FAKE_KEY = "abcdef123456"  # fake IndexNow key for tests  gitleaks:allow

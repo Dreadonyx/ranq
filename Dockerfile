@@ -1,7 +1,7 @@
-# SEOForge container. Build with JS rendering support:
-#   docker build --build-arg WITH_BROWSER=1 -t seoforge .
-# Run (reports land in ./seoforge-report on the host):
-#   docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/work" seoforge audit https://example.com
+# Ranq container. Build with JS rendering support:
+#   docker build --build-arg WITH_BROWSER=1 -t ranq .
+# Run (reports land in ./ranq-report on the host):
+#   docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/work" ranq audit https://example.com
 FROM python:3.11-slim
 
 ARG WITH_BROWSER=0
@@ -16,8 +16,8 @@ COPY src ./src
 RUN pip install --upgrade pip && pip install ".[google]" \
     && if [ "$WITH_BROWSER" = "1" ]; then playwright install --with-deps chromium; fi
 
-RUN useradd --create-home --uid 10001 seoforge && mkdir /work && chown seoforge /work
-USER seoforge
+RUN useradd --create-home --uid 10001 ranq && mkdir /work && chown ranq /work
+USER ranq
 WORKDIR /work
-ENTRYPOINT ["seoforge"]
+ENTRYPOINT ["ranq"]
 CMD ["--help"]

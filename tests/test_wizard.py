@@ -4,9 +4,9 @@ from pathlib import Path
 import yaml
 from typer.testing import CliRunner
 
-from seoforge import wizard
-from seoforge.cli import app
-from seoforge.config import load_config
+from ranq import wizard
+from ranq.cli import app
+from ranq.config import load_config
 
 
 def test_detects_facts_from_home_page(site_url: str) -> None:
@@ -31,7 +31,7 @@ def test_answers_become_a_valid_config(tmp_path: Path) -> None:
         return answer or default
 
     data = wizard.build_config("https://brightworks.example", facts, ask, said.append)
-    path = tmp_path / "seoforge.yaml"
+    path = tmp_path / "ranq.yaml"
     path.write_text(wizard.render(data))
     cfg = load_config(path)
     assert cfg.site == "https://brightworks.example"
@@ -45,7 +45,7 @@ def test_answers_become_a_valid_config(tmp_path: Path) -> None:
 
 
 def test_non_interactive_init_writes_example(tmp_path: Path) -> None:
-    path = tmp_path / "seoforge.yaml"
+    path = tmp_path / "ranq.yaml"
     result = CliRunner().invoke(app, ["init", str(path)])
     assert result.exit_code == 0, result.output
     assert "commented example" in result.output and "entity:" in path.read_text()

@@ -6,10 +6,10 @@ import asyncio
 import sys
 from pathlib import Path
 
-from seoforge.audit import AuditOptions, run_audit
-from seoforge.checks.base import REGISTRY
-from seoforge.config import Config, load_config
-from seoforge.report.render import render_html, render_markdown
+from ranq.audit import AuditOptions, run_audit
+from ranq.checks.base import REGISTRY
+from ranq.config import Config, load_config
+from ranq.report.render import render_html, render_markdown
 
 sys.path.insert(0, str(Path(__file__).parent / "plugins"))
 
@@ -31,7 +31,7 @@ def test_plugin_registered_and_disable(site_url: str, tmp_path: Path) -> None:
 
 
 def test_load_config_yaml(tmp_path: Path) -> None:
-    path = tmp_path / "seoforge.yaml"
+    path = tmp_path / "ranq.yaml"
     path.write_text(
         "site: https://s.test\ncrawl:\n  max_pages: 7\ngeo:\n  ai_bot_preset: deny-all\n"
         "  ai_bots:\n    OAI-SearchBot: allow\n"

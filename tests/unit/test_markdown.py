@@ -1,4 +1,4 @@
-from seoforge.generators.markdown import html_to_markdown
+from ranq.generators.markdown import html_to_markdown
 
 HTML = """<html><body><main><h1>We Kraft</h1>
 <p><a href="/c"><span aria-hidden="true"></span><span>Start a Project</span>
@@ -18,7 +18,7 @@ def test_hidden_duplicates_dropped_and_layout_spaced() -> None:
 
 
 def test_live_llms_txt_is_extended_not_replaced() -> None:
-    from seoforge.generators.llms import extend_live
+    from ranq.generators.llms import extend_live
 
     live = "# NK\n\n> Hand-written.\n\n- [Home](https://nk.test/): x\n- [Work](https://nk.test/work.md)\n"
     generated = (

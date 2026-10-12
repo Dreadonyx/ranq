@@ -3,13 +3,14 @@ requires = ["hatchling>=1.24"]
 build-backend = "hatchling.build"
 
 [project]
-name = "seoforge"
+name = "ranq"
 dynamic = ["version"]
 description = "Free, open-source CLI that audits and optimizes websites for SEO, AEO and GEO."
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.11"
-authors = [{ name = "Dreadonyx" }]
+authors = [{ name = "NodeKraft" }]
+maintainers = [{ name = "Dreadonyx" }]
 keywords = [
   "seo", "aeo", "geo", "llms.txt", "indexnow", "audit", "crawler", "structured-data",
   "json-ld", "core-web-vitals", "search-console", "ai-search",
@@ -57,22 +58,23 @@ dev = [
 ]
 
 [project.scripts]
-seoforge = "seoforge.cli:app"
+ranq = "ranq.cli:app"
 
 [project.urls]
-Homepage = "https://github.com/Dreadonyx/seo-tool"
-Repository = "https://github.com/Dreadonyx/seo-tool"
-Issues = "https://github.com/Dreadonyx/seo-tool/issues"
-Changelog = "https://github.com/Dreadonyx/seo-tool/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/Dreadonyx/ranq"
+Repository = "https://github.com/Dreadonyx/ranq"
+Issues = "https://github.com/Dreadonyx/ranq/issues"
+Changelog = "https://github.com/Dreadonyx/ranq/blob/main/CHANGELOG.md"
+NodeKraft = "https://nodekraft.tech"
 
 [tool.hatch.version]
-path = "src/seoforge/__init__.py"
+path = "src/ranq/__init__.py"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/seoforge"]
+packages = ["src/ranq"]
 
 [tool.hatch.build.targets.sdist]
-include = ["src/seoforge", "tests", "README.md", "CHANGELOG.md", "LICENSE", "pyproject.toml"]
+include = ["src/ranq", "tests", "README.md", "CHANGELOG.md", "LICENSE", "pyproject.toml"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -91,7 +93,7 @@ ignore = ["RUF001", "RUF002", "RUF003", "B008", "E501"]
 [tool.mypy]
 python_version = "3.11"
 strict = true
-packages = ["seoforge"]
+packages = ["ranq"]
 mypy_path = "src"
 warn_unused_ignores = false
 

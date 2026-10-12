@@ -41,7 +41,7 @@ jobs:
         run: |
           python tests/serve_site.py 8765 &
           sleep 1
-          seoforge audit http://127.0.0.1:8765 --no-pagespeed --delay 0 -o smoke-report
+          ranq audit http://127.0.0.1:8765 --no-pagespeed --delay 0 -o smoke-report
           test -s smoke-report/report.html
 
   secrets:
@@ -80,6 +80,6 @@ jobs:
         with:
           persist-credentials: false
       - name: Build image
-        run: docker build -t seoforge:ci .
+        run: docker build -t ranq:ci .
       - name: Run help
-        run: docker run --rm seoforge:ci --version
+        run: docker run --rm ranq:ci --version

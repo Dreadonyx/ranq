@@ -10,13 +10,13 @@ import httpx
 import pytest
 from typer.testing import CliRunner
 
-from seoforge.cli import app
-from seoforge.config import EntityConfig
-from seoforge.generators.llms import generate, mirror_path
-from seoforge.geo import entity, visibility
-from seoforge.geo.citation import score_page
-from seoforge.models import PageData
-from seoforge.storage import Store
+from ranq.cli import app
+from ranq.config import EntityConfig
+from ranq.generators.llms import generate, mirror_path
+from ranq.geo import entity, visibility
+from ranq.geo.citation import score_page
+from ranq.models import PageData
+from ranq.storage import Store
 
 
 def test_bot_access_from_live_robots(audited) -> None:  # type: ignore[no-untyped-def]
@@ -159,7 +159,7 @@ def test_visibility_detect_and_run(tmp_path: Path) -> None:
 
 
 def test_visibility_cli(tmp_path: Path) -> None:
-    cfg = tmp_path / "seoforge.yaml"
+    cfg = tmp_path / "ranq.yaml"
     cfg.write_text(f"data_dir: {tmp_path / 'd'}\nentity:\n  name: Acme\n  category: widget tool\n")
     runner = CliRunner()
     assert runner.invoke(app, ["visibility", "init", "-c", str(cfg)]).exit_code == 0
@@ -174,7 +174,7 @@ def test_visibility_cli(tmp_path: Path) -> None:
 
 
 def test_geo_cli_bots(site_url: str, tmp_path: Path) -> None:
-    cfg = tmp_path / "seoforge.yaml"
+    cfg = tmp_path / "ranq.yaml"
     cfg.write_text(f"data_dir: {tmp_path / 'd'}\n")
     result = CliRunner().invoke(app, ["geo", "bots", site_url, "-c", str(cfg)])
     assert result.exit_code == 0, result.output
@@ -182,8 +182,8 @@ def test_geo_cli_bots(site_url: str, tmp_path: Path) -> None:
 
 
 def test_fix_bundle_has_geo_files(audited) -> None:  # type: ignore[no-untyped-def]
-    from seoforge.fix.bundle import build_bundle
-    from seoforge.geo.extras import add_geo_files
+    from ranq.fix.bundle import build_bundle
+    from ranq.geo.extras import add_geo_files
 
     _, ctx = audited
     files = {f.path: f for f in build_bundle(ctx, extra=add_geo_files).files}

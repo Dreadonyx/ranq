@@ -3,13 +3,13 @@
 import json
 import re
 
-from seoforge.checks.base import AuditContext
-from seoforge.config import Config
-from seoforge.crawler.crawler import CrawlResult
-from seoforge.geo.entity import analyze
-from seoforge.models import Category, Issue, PageData, Severity
-from seoforge.report.builder import Report
-from seoforge.report.render import render_html, render_markdown
+from ranq.checks.base import AuditContext
+from ranq.config import Config
+from ranq.crawler.crawler import CrawlResult
+from ranq.geo.entity import analyze
+from ranq.models import Category, Issue, PageData, Severity
+from ranq.report.builder import Report
+from ranq.report.render import render_html, render_markdown
 
 EVIL = '<script>alert("x")</script>'
 JS_URL = "javascript://www.linkedin.com/%0aalert(document.domain)"
@@ -41,7 +41,7 @@ def _report() -> Report:
         evidence={"k": f"</pre>{EVIL}"},
         source=JS_URL,
     )
-    from seoforge.geo.analysis import GeoReport
+    from ranq.geo.analysis import GeoReport
 
     geo = GeoReport(entity=analyze(ctx.crawl, ctx.config.entity))
     return Report(
@@ -73,8 +73,13 @@ def test_markdown_report_does_not_link_javascript() -> None:
 
 
 def test_meta_suggestion_comments_cannot_be_closed() -> None:
-    from seoforge.generators.meta import MetaSuggestion
+    from ranq.generators.meta import MetaSuggestion
 
     s = MetaSuggestion(url="https://s.test/a--><script>x</script>", reasons=["r"], todo=["t-->"])
     out = s.html()
     assert "--><script>" not in out and out.count("-->") == 2  # only our two closers
+
+
+def test_reports_credit_nodekraft() -> None:
+    assert 'href="https://nodekraft.tech"' in render_html(_report())
+    assert "[NodeKraft](https://nodekraft.tech)" in render_markdown(_report())

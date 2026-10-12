@@ -1,5 +1,5 @@
-from seoforge.cli import _site
-from seoforge.config import Config, EntityConfig
+from ranq.cli import _site
+from ranq.config import Config, EntityConfig
 
 
 def _cfg() -> Config:
@@ -28,3 +28,13 @@ def test_same_site_keeps_entity() -> None:
         cfg = _cfg()
         _site(url, cfg)
         assert cfg.entity.name == "BrightWorks", url
+
+
+def test_legacy_seoforge_config_still_loads(tmp_path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    from ranq.config import load_config
+
+    monkeypatch.chdir(tmp_path)
+    (tmp_path / "seoforge.yaml").write_text("site: https://old.example\n")
+    assert load_config().site == "https://old.example"
+    (tmp_path / "ranq.yaml").write_text("site: https://new.example\n")
+    assert load_config().site == "https://new.example"  # the new name wins

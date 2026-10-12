@@ -1,4 +1,4 @@
-from seoforge.analysis.keywords import (
+from ranq.analysis.keywords import (
     PageKeywords,
     classify_intent,
     cluster_phrases,
@@ -7,7 +7,7 @@ from seoforge.analysis.keywords import (
     segments,
     tokenize,
 )
-from seoforge.models import PageData
+from ranq.models import PageData
 
 
 def test_ngrams_skip_stopword_edges() -> None:

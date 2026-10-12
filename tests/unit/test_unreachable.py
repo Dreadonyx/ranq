@@ -1,9 +1,9 @@
-from seoforge.checks.base import AuditContext
-from seoforge.checks.crawl import site_unreachable
-from seoforge.config import Config
-from seoforge.crawler.crawler import CrawlResult
-from seoforge.models import Issue, PageData, Severity
-from seoforge.report.builder import health_score
+from ranq.checks.base import AuditContext
+from ranq.checks.crawl import site_unreachable
+from ranq.config import Config
+from ranq.crawler.crawler import CrawlResult
+from ranq.models import Issue, PageData, Severity
+from ranq.report.builder import health_score
 
 
 def _ctx(home: PageData | None) -> AuditContext:
@@ -55,7 +55,7 @@ def test_site_wide_issues_are_not_diluted_by_page_count() -> None:
 
 
 def test_page_scores() -> None:
-    from seoforge.report.builder import page_scores
+    from ranq.report.builder import page_scores
 
     pages = ["https://s.test/", "https://s.test/a"]
     issues = [
@@ -73,7 +73,7 @@ def test_page_scores() -> None:
 
 
 def test_platform_subdomain_flagged() -> None:
-    from seoforge.checks.technical import custom_domain, platform_subdomain
+    from ranq.checks.technical import custom_domain, platform_subdomain
 
     assert platform_subdomain("https://hi-res-lossless-website.vercel.app") == "vercel.app"
     assert platform_subdomain("https://me.github.io/blog/") == "github.io"
@@ -94,7 +94,7 @@ def test_platform_subdomain_flagged() -> None:
 
 
 def test_og_url_mismatch() -> None:
-    from seoforge.checks.onpage import social_tags
+    from ranq.checks.onpage import social_tags
 
     def page(path: str, og_url: str) -> PageData:
         p = PageData(
@@ -120,9 +120,9 @@ def test_og_url_mismatch() -> None:
 def test_brand_description_and_email_obfuscation() -> None:
     import json
 
-    from seoforge.checks.geo import brand_consistency, contact_visibility
-    from seoforge.config import EntityConfig
-    from seoforge.geo.analysis import GeoReport
+    from ranq.checks.geo import brand_consistency, contact_visibility
+    from ranq.config import EntityConfig
+    from ranq.geo.analysis import GeoReport
 
     home = PageData(url="https://s.test/", final_url="https://s.test/", status=200)
     home.content_type = "text/html"

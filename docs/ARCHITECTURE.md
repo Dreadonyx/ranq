@@ -2,11 +2,11 @@
 
 ```
                                ┌──────────────────────────────────────┐
-                               │  seoforge CLI (typer)                │
+                               │  ranq CLI (typer)                │
                                │  audit · fix · geo · index · offpage │
                                │  visibility · keywords · diagnose    │
                                └──────────────────┬───────────────────┘
-                                                  │ seoforge.yaml → Config (pydantic)
+                                                  │ ranq.yaml → Config (pydantic)
                  ┌────────────────────────────────┼──────────────────────────────────┐
                  ▼                                ▼                                  ▼
      ┌───────────────────────┐       ┌────────────────────────┐        ┌──────────────────────────┐
@@ -32,7 +32,7 @@
      │ Report: prioritize → HTML dashboard / Markdown / JSON   │
      │ 30/60/90 plan · honest limitations                      │
      └─────────────────────────────────────────────────────────┘
-     SQLite (.seoforge/seoforge.db): page cache · frontier · autosuggest cache · quotas · AI visibility
+     SQLite (.ranq/ranq.db): page cache · frontier · autosuggest cache · quotas · AI visibility
 ```
 
 ## Folder tree
@@ -54,7 +54,7 @@ pyproject.toml
 README.md
 CHANGELOG.md
 src/
-  seoforge/
+  ranq/
     analysis/
       aeo.py
       competitors.py
@@ -181,8 +181,8 @@ tests/
 Register checks from any importable module:
 
 ```python
-from seoforge.checks.base import AuditContext, check
-from seoforge.models import Category, Issue, Severity
+from ranq.checks.base import AuditContext, check
+from ranq.models import Category, Issue, Severity
 
 @check("my-check", Category.ONPAGE)
 def my_check(ctx: AuditContext):
@@ -192,5 +192,5 @@ def my_check(ctx: AuditContext):
                         "Lorem ipsum found.", "Replace it.", urls=[page.url])
 ```
 
-Then list the module under `plugins:` in seoforge.yaml, or expose it through the
-`seoforge.checks` entry-point group in your package's `pyproject.toml`.
+Then list the module under `plugins:` in ranq.yaml, or expose it through the
+`ranq.checks` entry-point group in your package's `pyproject.toml`.

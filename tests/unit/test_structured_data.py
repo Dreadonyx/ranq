@@ -1,7 +1,7 @@
 import json
 
-from seoforge.analysis.structured_data import analyze_page, invisible_faq_questions
-from seoforge.models import PageData
+from ranq.analysis.structured_data import analyze_page, invisible_faq_questions
+from ranq.models import PageData
 
 
 def page(*blocks: object, text: str = "") -> PageData:
@@ -78,9 +78,9 @@ def test_faq_visibility() -> None:
 
 
 def test_organization_keeps_existing_address_and_founders() -> None:
-    from seoforge.config import EntityConfig
-    from seoforge.crawler.crawler import CrawlResult
-    from seoforge.generators.schema import organization
+    from ranq.config import EntityConfig
+    from ranq.crawler.crawler import CrawlResult
+    from ranq.generators.schema import organization
 
     home = PageData(url="https://s.test/", final_url="https://s.test/", status=200)
     home.json_ld = [
@@ -104,7 +104,7 @@ def test_organization_keeps_existing_address_and_founders() -> None:
     assert data["address"]["addressLocality"] == "Chennai"
     assert data["founder"] == [{"@type": "Person", "name": "A"}]
     assert data["sameAs"] == ["https://x.com/s", "https://www.linkedin.com/company/s"]
-    # seoforge.yaml wins over the site's markup when both are set
+    # ranq.yaml wins over the site's markup when both are set
     cfg = EntityConfig(name="S", founders=["B"], address={"addressLocality": "Madurai"})
     data = organization(crawl, cfg).data
     assert data["address"]["addressLocality"] == "Madurai"

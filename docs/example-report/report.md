@@ -1,8 +1,8 @@
-# SEOForge report: http://acme-widgets.example
+# Ranq report: http://acme-widgets.example
 
-Generated 2026-10-12 13:19 UTC by SEOForge 0.2.0
+Generated 2026-10-12 15:43 UTC by Ranq 0.3.0
 
-> SEOForge maximizes eligibility, discoverability and citation likelihood. No tool can guarantee rankings, indexing of every page or keyword, or that any AI system will know, cite, or recommend your site. Search engines and AI providers decide that themselves.
+> Ranq maximizes eligibility, discoverability and citation likelihood. No tool can guarantee rankings, indexing of every page or keyword, or that any AI system will know, cite, or recommend your site. Search engines and AI providers decide that themselves.
 
 ## Summary
 
@@ -104,7 +104,7 @@ Internal links point to URLs that return 4xx/5xx or fail to load. Users hit dead
 ### [HIGH] Non-existent URLs return HTTP 200 (soft 404)
 
 - **Check:** `soft-404-sitewide` · **Category:** crawl · **Effort:** low · **Scope:** site-wide
-A request for a random non-existent URL (http://acme-widgets.example/seoforge-404-probe-d809aa1561cf) returned 200 instead of 404.
+A request for a random non-existent URL (http://acme-widgets.example/ranq-404-probe-ed74bcf1945d) returned 200 instead of 404.
 
 **Impact:** Search engines may index error pages and waste crawl budget on infinite URLs.
 
@@ -114,7 +114,7 @@ A request for a random non-existent URL (http://acme-widgets.example/seoforge-40
 
 <details><summary>1 affected URL(s)</summary>
 
-- http://acme-widgets.example/seoforge-404-probe-d809aa1561cf
+- http://acme-widgets.example/ranq-404-probe-ed74bcf1945d
 
 </details>
 
@@ -138,7 +138,7 @@ Your sitemap asks engines to crawl URLs that robots.txt forbids - a contradictio
 - **Check:** `sitemap-non-200` · **Category:** technical · **Effort:** low
 Sitemaps should only list canonical, indexable URLs that return 200. Mixed signals reduce how much engines trust the sitemap.
 
-**Fix:** Regenerate the sitemap from indexable canonical URLs (`seoforge fix`).
+**Fix:** Regenerate the sitemap from indexable canonical URLs (`ranq fix`).
 
 **Source:** https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap
 
@@ -153,7 +153,7 @@ Sitemaps should only list canonical, indexable URLs that return 200. Mixed signa
 - **Check:** `sitemap-noindex` · **Category:** technical · **Effort:** low
 Sitemaps should only list canonical, indexable URLs that return 200. Mixed signals reduce how much engines trust the sitemap.
 
-**Fix:** Regenerate the sitemap from indexable canonical URLs (`seoforge fix`).
+**Fix:** Regenerate the sitemap from indexable canonical URLs (`ranq fix`).
 
 **Source:** https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap
 
@@ -228,7 +228,7 @@ Search engines silently ignore JSON-LD blocks with syntax errors.
 - **Check:** `jsonld-missing-required` · **Category:** structured-data · **Effort:** low
 Required properties are missing, so the page is not eligible for that rich result.
 
-**Fix:** Add the listed properties using real values from the page (`seoforge fix` emits templates; never mark up content that is not visible to users).
+**Fix:** Add the listed properties using real values from the page (`ranq fix` emits templates; never mark up content that is not visible to users).
 
 **Source:** https://developers.google.com/search/docs/appearance/structured-data/search-gallery
 
@@ -292,7 +292,7 @@ Each extra hop adds latency and Googlebot follows at most 10 hops per attempt.
 
 **Impact:** Slower page loads and diluted crawl efficiency.
 
-**Fix:** Point the first URL directly at the final destination with a single 301. `seoforge fix` generates collapsed redirect rules.
+**Fix:** Point the first URL directly at the final destination with a single 301. `ranq fix` generates collapsed redirect rules.
 
 **Source:** https://developers.google.com/search/docs/crawling-indexing/301-redirects
 
@@ -307,7 +307,7 @@ Each extra hop adds latency and Googlebot follows at most 10 hops per attempt.
 - **Check:** `sitemap-redirects` · **Category:** technical · **Effort:** low
 Sitemaps should only list canonical, indexable URLs that return 200. Mixed signals reduce how much engines trust the sitemap.
 
-**Fix:** Regenerate the sitemap from indexable canonical URLs (`seoforge fix`).
+**Fix:** Regenerate the sitemap from indexable canonical URLs (`ranq fix`).
 
 **Source:** https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap
 
@@ -450,7 +450,7 @@ There is no minimum word count in Google's guidelines; this flags pages that may
 - **Check:** `open-graph-missing` · **Category:** on-page · **Effort:** low
 og:title/og:description/og:image control link previews on social apps, chat apps and some AI assistants. Not a ranking factor.
 
-**Fix:** Add og:title, og:description, og:image and og:url (`seoforge fix` generates them).
+**Fix:** Add og:title, og:description, og:image and og:url (`ranq fix` generates them).
 
 **Source:** https://ogp.me/
 
@@ -504,8 +504,8 @@ A self-referencing canonical helps consolidate URL variants (tracking parameters
 
 - http://acme-widgets.example/dup-a
 - http://acme-widgets.example/dup-b
-- http://acme-widgets.example/missing-title
 - http://acme-widgets.example/js-app
+- http://acme-widgets.example/missing-title
 
 </details>
 
@@ -581,7 +581,7 @@ Boilerplate descriptions get replaced by engines and help no page.
 - **Check:** `breadcrumb-missing` · **Category:** structured-data · **Effort:** low
 Breadcrumb markup shows the page's position in the site hierarchy in results.
 
-**Fix:** Add BreadcrumbList JSON-LD mirroring visible breadcrumbs (`seoforge fix`).
+**Fix:** Add BreadcrumbList JSON-LD mirroring visible breadcrumbs (`ranq fix`).
 
 **Source:** https://developers.google.com/search/docs/appearance/structured-data/breadcrumb
 
@@ -657,7 +657,7 @@ Images without explicit dimensions cause layout shift (CLS) while loading.
 - **Check:** `security-headers` · **Category:** security · **Effort:** low · **Scope:** site-wide
 Security headers do not directly affect rankings but protect users and site reputation (hacked sites get flagged in search results).
 
-**Fix:** Add the headers at the server/CDN level (`seoforge fix` emits snippets).
+**Fix:** Add the headers at the server/CDN level (`ranq fix` emits snippets).
 
 **Source:** https://owasp.org/www-project-secure-headers/
 
@@ -762,7 +762,7 @@ Trust signals such as a Privacy Policy help users, quality raters and AI systems
 - **Check:** `llms-txt-missing` · **Category:** geo · **Effort:** low · **Scope:** site-wide
 llms.txt is a proposed standard that gives LLM tools a curated Markdown map of your site. No major AI provider has confirmed using it, so expect little direct effect; it is cheap to publish and helps agents and IDE tools that do read it.
 
-**Fix:** Publish the llms.txt (and optionally llms-full.txt / .md mirrors) from `seoforge fix`.
+**Fix:** Publish the llms.txt (and optionally llms-full.txt / .md mirrors) from `ranq fix`.
 
 **Source:** https://llmstxt.org/
 
@@ -839,9 +839,9 @@ Since 2023 Google shows FAQ rich results only for well-known government and heal
 ### [INFO] Entity facts are incomplete
 
 - **Check:** `entity-facts-missing` · **Category:** geo · **Effort:** low · **Scope:** site-wide
-These basic facts are not set in seoforge.yaml or found in your markup, so the generated fact sheet and Organization markup leave them out.
+These basic facts are not set in ranq.yaml or found in your markup, so the generated fact sheet and Organization markup leave them out.
 
-**Fix:** Fill in the entity section of seoforge.yaml (only with accurate facts).
+**Fix:** Fill in the entity section of ranq.yaml (only with accurate facts).
 
 **Source:** https://developers.google.com/search/docs/appearance/structured-data/sd-policies
 
@@ -857,9 +857,9 @@ Keywords are extracted from your content (TF-IDF + YAKE + n-grams). Intent is a 
 
 | Page | Primary keyword | Intent | Secondary |
 |---|---|---|---|
-| http://acme-widgets.example/ | widget testing tools | navigational | testing tools, widget testing, reliable widget testing |
 | http://acme-widgets.example/about | acme widgets | navigational | widgets, acme, widget |
 | http://acme-widgets.example/orphan | widget calibration | unknown | page about widget, orphan page, calibration |
+| http://acme-widgets.example/ | widget testing tools | navigational | testing tools, widget testing, reliable widget testing |
 | http://acme-widgets.example/contact | contact acme widgets | navigational | contact acme, acme widgets, support and sales |
 | http://acme-widgets.example/blog/ | widget testing | unknown | blog, widget testing guides, acme blog |
 | http://acme-widgets.example/products/widget | widget tester | transactional | buy widget tester, tester, buy widget |
@@ -892,17 +892,17 @@ Keywords are extracted from your content (TF-IDF + YAKE + n-grams). Intent is a 
 
 | Page | Question headings | Concise answers | FAQ | Author | Date |
 |---|---|---|---|---|---|
-| http://acme-widgets.example/ | 0 | 0 | no | no | no |
 | http://acme-widgets.example/about | 0 | 0 | no | no | no |
 | http://acme-widgets.example/orphan | 0 | 0 | no | no | no |
+| http://acme-widgets.example/ | 0 | 0 | no | no | no |
 | http://acme-widgets.example/contact | 0 | 0 | no | no | no |
 | http://acme-widgets.example/blog/ | 0 | 0 | no | no | no |
 | http://acme-widgets.example/products/widget | 0 | 0 | no | no | no |
 | http://acme-widgets.example/blog/what-is-widget-testing | 4 | 2 | yes | yes | yes |
 | http://acme-widgets.example/dup-a | 0 | 0 | no | no | no |
 | http://acme-widgets.example/dup-b | 0 | 0 | no | no | no |
-| http://acme-widgets.example/missing-title | 0 | 0 | no | no | no |
 | http://acme-widgets.example/js-app | 0 | 0 | no | no | no |
+| http://acme-widgets.example/missing-title | 0 | 0 | no | no | no |
 
 ## Generative-engine optimization (GEO)
 
@@ -959,9 +959,9 @@ Keywords are extracted from your content (TF-IDF + YAKE + n-grams). Intent is a 
 - [ ] **[high]** 1 page(s) have no <title>
 - [ ] **[high]** 1 page(s) contain JSON-LD that does not parse
 - [ ] **[high]** 1 page(s) have structured data missing required properties
-- [ ] Verify the site in Google Search Console and Bing Webmaster Tools (free) and submit the sitemap in both (`seoforge index gsc-sitemap`, `seoforge index bing`).
-- [ ] Set up IndexNow (`seoforge index indexnow-key`) so Bing, Yandex, Seznam, Naver and Yep learn about changes within minutes.
-- [ ] Publish robots.txt with an explicit AI-crawler policy and an llms.txt (`seoforge fix`).
+- [ ] Verify the site in Google Search Console and Bing Webmaster Tools (free) and submit the sitemap in both (`ranq index gsc-sitemap`, `ranq index bing`).
+- [ ] Set up IndexNow (`ranq index indexnow-key`) so Bing, Yandex, Seznam, Naver and Yep learn about changes within minutes.
+- [ ] Publish robots.txt with an explicit AI-crawler policy and an llms.txt (`ranq fix`).
 
 ### Days 31-60: strengthen
 
@@ -1006,7 +1006,7 @@ Keywords are extracted from your content (TF-IDF + YAKE + n-grams). Intent is a 
 - [ ] **[low]** Brand name appears in 2 variants
 - [ ] **[low]** 5 page(s) have only one internal link pointing to them
 - [ ] Create one genuinely useful, linkable asset (original data, tool, or guide) per content cluster and promote it to relevant communities and publications.
-- [ ] Re-run `seoforge audit` and compare; track AI answers monthly with `seoforge visibility`.
+- [ ] Re-run `ranq audit` and compare; track AI answers monthly with `ranq visibility`.
 - [ ] Review Search Console 'Pages' and 'Performance' reports for pages that are crawled but not indexed, and queries with high impressions but low CTR.
 
 ## What this tool cannot do
@@ -1014,12 +1014,12 @@ Keywords are extracted from your content (TF-IDF + YAKE + n-grams). Intent is a 
 - No ranking guarantees: rankings depend on competition, query intent, links, and hundreds of signals that only search engines see.
 - Indexing is never guaranteed. Submitting a URL (sitemap, IndexNow, Bing API, GSC) only requests a crawl; engines choose what to index.
 - No tool can make an LLM 'know' your site. Training data cut-offs, retrieval systems and citation choices are controlled by each AI provider. GEO work raises the odds of being retrieved and quoted; it does not force it.
-- Google's Indexing API is only for JobPosting and BroadcastEvent (livestream) pages. SEOForge does not use it for anything else, and neither should you.
+- Google's Indexing API is only for JobPosting and BroadcastEvent (livestream) pages. Ranq does not use it for anything else, and neither should you.
 - Search volumes and keyword difficulty are not provided: there is no free, reliable source. Keywords come from your own content, competitor pages you supply, and (opt-in) Google Autosuggest, which reflects popularity but not volume.
 - Backlink data is limited to what free sources expose. Use Google Search Console and Bing Webmaster Tools 'Links' reports for your real backlink profile.
 - Performance numbers from this machine (response time) are estimates. Core Web Vitals field data comes from the Chrome UX Report via PageSpeed Insights and exists only for URLs with enough real-user traffic.
 - Heuristic findings (thin content, title length, near-duplicates, citation-friendliness, intent) are labelled as estimates. Use judgement: they flag pages to review, not verdicts.
-- AI visibility tracking relies on answers you record manually or fetch through tools you are allowed to use. SEOForge does not scrape consumer AI apps, which their terms forbid.
+- AI visibility tracking relies on answers you record manually or fetch through tools you are allowed to use. Ranq does not scrape consumer AI apps, which their terms forbid.
 - llms.txt is a community proposal (llmstxt.org). Major AI providers have not confirmed they use it; it is cheap to publish and harmless, nothing more is promised.
 - FAQ rich results are limited to well-known government and health sites, and HowTo rich results were removed from Google (Aug/Sep 2023). The markup is still valid schema.org and can help other engines and answer extraction.
 - robots.txt is a request, not an enforcement mechanism. Crawlers that ignore it must be blocked at the server/CDN/WAF level.
@@ -1030,3 +1030,7 @@ Keywords are extracted from your content (TF-IDF + YAKE + n-grams). Intent is a 
 - Chrome, Firefox, Edge and Safari are browsers, not search engines - there is nothing to 'submit' to them.
 - DuckDuckGo, Yahoo and Ecosia rely heavily on Bing's index (plus their own sources), so Bing Webmaster Tools and IndexNow cover much of that reach.
 - Brave Search runs its own index and has no submission console; it discovers pages through links and its own crawling.
+
+---
+
+_Generated by [Ranq](https://github.com/Dreadonyx/ranq) 0.3.0, free and open source. Built by [NodeKraft](https://nodekraft.tech)._

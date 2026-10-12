@@ -1,0 +1,177 @@
+# Ranq report: {{ r.site }}
+
+Generated {{ r.generated_at }} by Ranq {{ r.version }}
+
+> {{ r.disclaimer }}
+
+## Summary
+
+| Metric | Value |
+|---|---|
+| Health score (heuristic estimate) | **{{ r.score }}/100** |
+{% for k, v in r.stats.items() %}
+| {{ k.replace('_', ' ') }} | {{ v }} |
+{% endfor %}
+
+| Critical | High | Medium | Low | Info |
+|---|---|---|---|---|
+| {{ r.severity_counts.critical }} | {{ r.severity_counts.high }} | {{ r.severity_counts.medium }} | {{ r.severity_counts.low }} | {{ r.severity_counts.info }} |
+
+{% if d.comparison %}
+{% set c = d.comparison %}
+## Changes since {{ c.previous_generated_at }}
+
+Score **{{ c.previous_score }} -> {{ c.score }}** ({{ '+' if c.delta > 0 else '' }}{{ c.delta }}) · {{ c.fixed|length }} fixed · {{ c.new|length }} new · {{ c.changed|length }} changed · {{ c.unchanged }} unchanged
+
+{% if c.fixed or c.new or c.changed %}
+| Status | Severity | Issue | URLs before -> now |
+|---|---|---|---|
+{% for i in c.fixed %}
+| fixed | {{ i.severity }} | {{ i.title }} | {{ i.before }} -> 0 |
+{% endfor %}
+{% for i in c.new %}
+| new | {{ i.severity }} | {{ i.title }} | 0 -> {{ i.after }} |
+{% endfor %}
+{% for i in c.changed %}
+| changed | {{ i.severity }} | {{ i.title }} | {{ i.before }} -> {{ i.after }} |
+{% endfor %}
+{% endif %}
+{% if c.pages %}
+
+| Page | Score before -> now |
+|---|---|
+{% for p in c.pages %}
+| {{ p.url }} | {{ p.before if p.before is not none else 'new' }} -> {{ p.after if p.after is not none else 'gone' }} |
+{% endfor %}
+{% endif %}
+
+{% endif %}
+{% if d.page_scores %}
+## Page scores
+
+Each page is scored on its own page-level issues (worst first). Site-wide issues only affect the overall health score.
+
+| Page | Score | Issues on this page |
+|---|---|---|
+{% for p in d.page_scores %}
+| {{ p.url }} | **{{ p.score }}** | {% for i in p.issues %}{{ i.severity }}: {{ i.title }}{% if not loop.last %}<br>{% endif %}{% else %}none{% endfor %} |
+{% endfor %}
+
+{% endif %}
+## Issues (by priority)
+
+{% for i in r.issues %}
+### [{{ i.severity.value|upper }}] {{ i.title }}
+
+- **Check:** `{{ i.check_id }}` · **Category:** {{ i.category.value }} · **Effort:** {{ i.effort.value }}{% if i.site_wide %} · **Scope:** site-wide{% endif %}{% if i.estimate %} · *estimate / heuristic*{% endif %}
+
+{{ i.description }}
+
+{% if i.impact %}
+**Impact:** {{ i.impact }}
+
+{% endif %}
+**Fix:** {{ i.fix }}
+
+{% if i.source %}
+**Source:** {{ i.source|safe_href }}
+
+{% endif %}
+{% if i.urls %}
+<details><summary>{{ i.urls|length }} affected URL(s)</summary>
+
+{% for u in i.urls|first_n(50) %}
+- {{ u }}
+{% endfor %}
+{% if i.urls|length > 50 %}
+- ... and {{ i.urls|length - 50 }} more (see report.json)
+{% endif %}
+
+</details>
+
+{% endif %}
+{% endfor %}
+{% if d.extras.keywords %}
+## Keyword-to-page map
+
+Keywords are extracted from your content (TF-IDF + YAKE + n-grams). Intent is a rule-based estimate. No search volumes are shown because no free, reliable source exists.
+
+| Page | Primary keyword | Intent | Secondary |
+|---|---|---|---|
+{% for p in d.extras.keywords.pages %}
+| {{ p.url }} | {{ p.primary or '-' }} | {{ p.intent }} | {{ p.secondary[:3]|join(', ') }} |
+{% endfor %}
+
+{% if d.extras.keywords.clusters %}
+### Topic clusters ({{ d.extras.keywords.clustering_method }})
+
+{% for c in d.extras.keywords.clusters[:20] %}
+- **{{ c.label }}** ({{ c.size }}): {{ c.keywords[:10]|join(', ') }}
+{% endfor %}
+{% endif %}
+{% endif %}
+{% if d.extras.aeo %}
+## Answer-engine readiness (AEO)
+
+| Page | Question headings | Concise answers | FAQ | Author | Date |
+|---|---|---|---|---|---|
+{% for p in d.extras.aeo.pages %}
+| {{ p.url }} | {{ p.question_headings }} | {{ p.answer_blocks }} | {{ 'yes' if p.has_faq else 'no' }} | {{ 'yes' if p.eeat.author else 'no' }} | {{ 'yes' if p.eeat.date else 'no' }} |
+{% endfor %}
+
+{% endif %}
+{% if d.extras.geo %}
+## Generative-engine optimization (GEO)
+
+### AI crawler access (live robots.txt)
+
+| Bot | Operator | Purpose | Homepage |
+|---|---|---|---|
+{% for b in d.extras.geo.bots %}
+| {{ b.token }} | {{ b.operator }} | {{ b.purpose }} | {{ 'allowed' if b.allowed else 'blocked' }} |
+{% endfor %}
+
+### Citation-friendliness (heuristic estimate, 0-100)
+
+| Page | Score |
+|---|---|
+{% for c in d.extras.geo.citation %}
+| {{ c.url }} | {{ c.score }} |
+{% endfor %}
+
+{% endif %}
+{% if d.extras.performance %}
+## Core Web Vitals
+
+| URL | Tool | Field LCP | Field INP | Field CLS | Lab score |
+|---|---|---|---|---|---|
+{% for p in d.extras.performance %}
+| {{ p.url }} | {{ p.tool }} | {{ p.field_data.LCP|default('n/a') }} | {{ p.field_data.INP|default('n/a') }} | {{ p.field_data.CLS|default('n/a') }} | {{ (p.performance_score|round|int) if p.performance_score is not none else (p.error or 'n/a') }} |
+{% endfor %}
+{% endif %}
+
+## 30 / 60 / 90-day plan
+
+{% for bucket, label in [('30', 'Days 1-30: fix blockers'), ('60', 'Days 31-60: strengthen'), ('90', 'Days 61-90: grow')] %}
+### {{ label }}
+
+{% for t in r.plan[bucket] %}
+- [ ] {% if t.severity != 'plan' %}**[{{ t.severity }}]** {% endif %}{{ t.title }}
+{% endfor %}
+
+{% endfor %}
+## What this tool cannot do
+
+{% for l in r.limitations %}
+- {{ l }}
+{% endfor %}
+
+### Search engine scope notes
+
+{% for l in r.scope_notes %}
+- {{ l }}
+{% endfor %}
+
+---
+
+_Generated by [Ranq](https://github.com/Dreadonyx/ranq) {{ r.version }}, free and open source. Built by [NodeKraft](https://nodekraft.tech)._

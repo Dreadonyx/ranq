@@ -1,11 +1,11 @@
 import json
 
-from seoforge.analysis.aeo import analyze_page, draft_answer, is_question
-from seoforge.generators.redirects import RedirectPlan, Rule, apache, netlify, nginx, vercel
-from seoforge.generators.robots import generate_robots
-from seoforge.geo.ai_bots import resolve_policy
-from seoforge.models import PageData
-from seoforge.robots import RobotsTxt
+from ranq.analysis.aeo import analyze_page, draft_answer, is_question
+from ranq.generators.redirects import RedirectPlan, Rule, apache, netlify, nginx, vercel
+from ranq.generators.robots import generate_robots
+from ranq.geo.ai_bots import resolve_policy
+from ranq.models import PageData
+from ranq.robots import RobotsTxt
 
 LONG = (
     "Widget testing verifies a single interface widget in isolation. It renders the widget with "
@@ -68,7 +68,7 @@ def test_robots_generator_preserves_rules_and_applies_policy() -> None:
     policy = resolve_policy("search-only", {"PerplexityBot": "deny"})
     text = generate_robots(existing, policy, ["https://s.test/sitemap.xml"], "search-only")
     out = RobotsTxt(text)
-    assert not out.can_fetch("SEOForge", "https://s.test/admin/x")
+    assert not out.can_fetch("Ranq", "https://s.test/admin/x")
     assert not out.can_fetch("GPTBot", "https://s.test/")  # training bot denied
     assert out.can_fetch("OAI-SearchBot", "https://s.test/page")
     assert not out.can_fetch("OAI-SearchBot", "https://s.test/admin/x")  # inherits '*' rules

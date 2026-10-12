@@ -1,4 +1,4 @@
-from seoforge.generators.headers import detect_host, plan_headers, render_security_headers
+from ranq.generators.headers import detect_host, plan_headers, render_security_headers
 
 LIVE_HEADERS = {
     "server": "cloudflare",

@@ -1,4 +1,4 @@
-from seoforge.robots import RobotsTxt
+from ranq.robots import RobotsTxt
 
 ROBOTS = """
 User-agent: *
@@ -23,12 +23,12 @@ noindex: /x
 
 def test_group_selection_and_longest_match() -> None:
     r = RobotsTxt(ROBOTS)
-    assert r.can_fetch("SEOForge", "https://example.com/")
-    assert not r.can_fetch("SEOForge", "https://example.com/private/x")
-    assert r.can_fetch("SEOForge", "https://example.com/private/public-page")
-    assert not r.can_fetch("SEOForge", "https://example.com/files/a.pdf")
-    assert r.can_fetch("SEOForge", "https://example.com/files/a.pdf?x=1")
-    assert not r.can_fetch("SEOForge", "https://example.com/search?q=a")
+    assert r.can_fetch("Ranq", "https://example.com/")
+    assert not r.can_fetch("Ranq", "https://example.com/private/x")
+    assert r.can_fetch("Ranq", "https://example.com/private/public-page")
+    assert not r.can_fetch("Ranq", "https://example.com/files/a.pdf")
+    assert r.can_fetch("Ranq", "https://example.com/files/a.pdf?x=1")
+    assert not r.can_fetch("Ranq", "https://example.com/search?q=a")
     # Grouped user-agents share rules; specific group overrides '*'.
     assert not r.can_fetch("GPTBot", "https://example.com/")
     assert not r.can_fetch("CCBot/2.0", "https://example.com/anything")

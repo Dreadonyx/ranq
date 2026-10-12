@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SEOForge report - http://acme-widgets.example</title>
+<title>Ranq report - http://acme-widgets.example</title>
 <meta name="robots" content="noindex">
 <style>
 :root{--bg:#f7f7f5;--panel:#fff;--ink:#1d1d1f;--muted:#6b6b70;--line:#e4e4e0;--accent:#2f5bea;
@@ -51,15 +51,16 @@ td.url{word-break:break-all;max-width:380px}
 .plan ol{padding-left:18px}.plan li{margin:6px 0}
 a{color:var(--accent)}
 .empty{color:var(--muted);padding:20px;text-align:center}
+.credit{margin:40px 0 8px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-align:center}.credit a{color:inherit}
 </style>
 </head>
 <body>
 <header>
-  <h1>SEOForge report: http://acme-widgets.example</h1>
-  <p>Generated 2026-10-12 13:19 UTC · SEOForge 0.2.0 · 14 URLs crawled</p>
+  <h1>Ranq report: http://acme-widgets.example</h1>
+  <p>Generated 2026-10-12 15:43 UTC · Ranq 0.3.0 · 14 URLs crawled</p>
 </header>
 <main>
-<div class="disclaimer">SEOForge maximizes eligibility, discoverability and citation likelihood. No tool can guarantee rankings, indexing of every page or keyword, or that any AI system will know, cite, or recommend your site. Search engines and AI providers decide that themselves.</div>
+<div class="disclaimer">Ranq maximizes eligibility, discoverability and citation likelihood. No tool can guarantee rankings, indexing of every page or keyword, or that any AI system will know, cite, or recommend your site. Search engines and AI providers decide that themselves.</div>
 
 <div class="grid">
   <div class="card score"><div class="k">Health score <span class="est">estimate</span></div><div class="v">33</div></div>
@@ -143,17 +144,17 @@ a{color:var(--accent)}
 }</pre>      <p class="meta" style="margin:8px 0 0">check: broken-internal-links</p>
     </div>
   </details>
-  <details class="issue" data-sev="high" data-text="non-existent urls return http 200 (soft 404) soft-404-sitewide crawl http://acme-widgets.example/seoforge-404-probe-d809aa1561cf">
+  <details class="issue" data-sev="high" data-text="non-existent urls return http 200 (soft 404) soft-404-sitewide crawl http://acme-widgets.example/ranq-404-probe-ed74bcf1945d">
     <summary>
       <span class="badge sev-high">high</span>
       <span>Non-existent URLs return HTTP 200 (soft 404)</span>
       <span class="meta">crawl · effort low · site-wide</span>
     </summary>
     <div class="body">
-      <h4>What</h4><p>A request for a random non-existent URL (http://acme-widgets.example/seoforge-404-probe-d809aa1561cf) returned 200 instead of 404.</p>
+      <h4>What</h4><p>A request for a random non-existent URL (http://acme-widgets.example/ranq-404-probe-ed74bcf1945d) returned 200 instead of 404.</p>
 <h4>Impact</h4><p>Search engines may index error pages and waste crawl budget on infinite URLs.</p>      <h4>Fix</h4><p class="fix">Configure the server/framework to return a real 404 (or 410) status for missing pages while still showing a helpful error page.</p>
 <h4>Source</h4><p><a href="https://developers.google.com/search/docs/crawling-indexing/http-network-errors#soft-404-errors" rel="noopener" target="_blank">https://developers.google.com/search/docs/crawling-indexing/http-network-errors#soft-404-errors</a></p>      <h4>Affected (1)</h4>
-      <ul class="urls"><li>http://acme-widgets.example/seoforge-404-probe-d809aa1561cf</li></ul>
+      <ul class="urls"><li>http://acme-widgets.example/ranq-404-probe-ed74bcf1945d</li></ul>
       <p class="meta" style="margin:8px 0 0">check: soft-404-sitewide</p>
     </div>
   </details>
@@ -179,7 +180,7 @@ a{color:var(--accent)}
     </summary>
     <div class="body">
       <h4>What</h4><p>Sitemaps should only list canonical, indexable URLs that return 200. Mixed signals reduce how much engines trust the sitemap.</p>
-      <h4>Fix</h4><p class="fix">Regenerate the sitemap from indexable canonical URLs (`seoforge fix`).</p>
+      <h4>Fix</h4><p class="fix">Regenerate the sitemap from indexable canonical URLs (`ranq fix`).</p>
 <h4>Source</h4><p><a href="https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap" rel="noopener" target="_blank">https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap</a></p>      <h4>Affected (1)</h4>
       <ul class="urls"><li>http://acme-widgets.example/broken-page</li></ul>
       <p class="meta" style="margin:8px 0 0">check: sitemap-non-200</p>
@@ -193,7 +194,7 @@ a{color:var(--accent)}
     </summary>
     <div class="body">
       <h4>What</h4><p>Sitemaps should only list canonical, indexable URLs that return 200. Mixed signals reduce how much engines trust the sitemap.</p>
-      <h4>Fix</h4><p class="fix">Regenerate the sitemap from indexable canonical URLs (`seoforge fix`).</p>
+      <h4>Fix</h4><p class="fix">Regenerate the sitemap from indexable canonical URLs (`ranq fix`).</p>
 <h4>Source</h4><p><a href="https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap" rel="noopener" target="_blank">https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap</a></p>      <h4>Affected (1)</h4>
       <ul class="urls"><li>http://acme-widgets.example/noindex-page</li></ul>
       <p class="meta" style="margin:8px 0 0">check: sitemap-noindex</p>
@@ -267,7 +268,7 @@ a{color:var(--accent)}
     </summary>
     <div class="body">
       <h4>What</h4><p>Required properties are missing, so the page is not eligible for that rich result.</p>
-      <h4>Fix</h4><p class="fix">Add the listed properties using real values from the page (`seoforge fix` emits templates; never mark up content that is not visible to users).</p>
+      <h4>Fix</h4><p class="fix">Add the listed properties using real values from the page (`ranq fix` emits templates; never mark up content that is not visible to users).</p>
 <h4>Source</h4><p><a href="https://developers.google.com/search/docs/appearance/structured-data/search-gallery" rel="noopener" target="_blank">https://developers.google.com/search/docs/appearance/structured-data/search-gallery</a></p>      <h4>Affected (1)</h4>
       <ul class="urls"><li>http://acme-widgets.example/products/widget</li></ul>
 <h4>Evidence</h4><pre>{
@@ -332,7 +333,7 @@ a{color:var(--accent)}
     </summary>
     <div class="body">
       <h4>What</h4><p>Each extra hop adds latency and Googlebot follows at most 10 hops per attempt.</p>
-<h4>Impact</h4><p>Slower page loads and diluted crawl efficiency.</p>      <h4>Fix</h4><p class="fix">Point the first URL directly at the final destination with a single 301. `seoforge fix` generates collapsed redirect rules.</p>
+<h4>Impact</h4><p>Slower page loads and diluted crawl efficiency.</p>      <h4>Fix</h4><p class="fix">Point the first URL directly at the final destination with a single 301. `ranq fix` generates collapsed redirect rules.</p>
 <h4>Source</h4><p><a href="https://developers.google.com/search/docs/crawling-indexing/301-redirects" rel="noopener" target="_blank">https://developers.google.com/search/docs/crawling-indexing/301-redirects</a></p>      <h4>Affected (1)</h4>
       <ul class="urls"><li>http://acme-widgets.example/old-page</li></ul>
 <h4>Evidence</h4><pre>{
@@ -352,7 +353,7 @@ a{color:var(--accent)}
     </summary>
     <div class="body">
       <h4>What</h4><p>Sitemaps should only list canonical, indexable URLs that return 200. Mixed signals reduce how much engines trust the sitemap.</p>
-      <h4>Fix</h4><p class="fix">Regenerate the sitemap from indexable canonical URLs (`seoforge fix`).</p>
+      <h4>Fix</h4><p class="fix">Regenerate the sitemap from indexable canonical URLs (`ranq fix`).</p>
 <h4>Source</h4><p><a href="https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap" rel="noopener" target="_blank">https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap</a></p>      <h4>Affected (1)</h4>
       <ul class="urls"><li>http://acme-widgets.example/old-page</li></ul>
       <p class="meta" style="margin:8px 0 0">check: sitemap-redirects</p>
@@ -581,8 +582,8 @@ a{color:var(--accent)}
   &#34;http://acme-widgets.example/blog/what-is-widget-testing&#34;: 163,
   &#34;http://acme-widgets.example/dup-a&#34;: 28,
   &#34;http://acme-widgets.example/dup-b&#34;: 28,
-  &#34;http://acme-widgets.example/missing-title&#34;: 9,
-  &#34;http://acme-widgets.example/js-app&#34;: 0
+  &#34;http://acme-widgets.example/js-app&#34;: 0,
+  &#34;http://acme-widgets.example/missing-title&#34;: 9
 }</pre>      <p class="meta" style="margin:8px 0 0">check: thin-content</p>
     </div>
   </details>
@@ -594,7 +595,7 @@ a{color:var(--accent)}
     </summary>
     <div class="body">
       <h4>What</h4><p>og:title/og:description/og:image control link previews on social apps, chat apps and some AI assistants. Not a ranking factor.</p>
-      <h4>Fix</h4><p class="fix">Add og:title, og:description, og:image and og:url (`seoforge fix` generates them).</p>
+      <h4>Fix</h4><p class="fix">Add og:title, og:description, og:image and og:url (`ranq fix` generates them).</p>
 <h4>Source</h4><p><a href="https://ogp.me/" rel="noopener" target="_blank">https://ogp.me/</a></p>      <h4>Affected (10)</h4>
       <ul class="urls"><li>http://acme-widgets.example/about</li><li>http://acme-widgets.example/blog/</li><li>http://acme-widgets.example/blog/what-is-widget-testing</li><li>http://acme-widgets.example/contact</li><li>http://acme-widgets.example/dup-a</li><li>http://acme-widgets.example/dup-b</li><li>http://acme-widgets.example/js-app</li><li>http://acme-widgets.example/missing-title</li><li>http://acme-widgets.example/orphan</li><li>http://acme-widgets.example/products/widget</li></ul>
       <p class="meta" style="margin:8px 0 0">check: open-graph-missing</p>
@@ -614,7 +615,7 @@ a{color:var(--accent)}
       <p class="meta" style="margin:8px 0 0">check: not-in-sitemap</p>
     </div>
   </details>
-  <details class="issue" data-sev="low" data-text="4 page(s) have no rel=canonical canonical-missing technical http://acme-widgets.example/dup-a http://acme-widgets.example/dup-b http://acme-widgets.example/missing-title http://acme-widgets.example/js-app">
+  <details class="issue" data-sev="low" data-text="4 page(s) have no rel=canonical canonical-missing technical http://acme-widgets.example/dup-a http://acme-widgets.example/dup-b http://acme-widgets.example/js-app http://acme-widgets.example/missing-title">
     <summary>
       <span class="badge sev-low">low</span>
       <span>4 page(s) have no rel=canonical</span>
@@ -624,7 +625,7 @@ a{color:var(--accent)}
       <h4>What</h4><p>A self-referencing canonical helps consolidate URL variants (tracking parameters, trailing slashes, http/https).</p>
       <h4>Fix</h4><p class="fix">Add `&lt;link rel=&#34;canonical&#34; href=&#34;https://...this-page&#34;&gt;` to each page.</p>
 <h4>Source</h4><p><a href="https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls" rel="noopener" target="_blank">https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls</a></p>      <h4>Affected (4)</h4>
-      <ul class="urls"><li>http://acme-widgets.example/dup-a</li><li>http://acme-widgets.example/dup-b</li><li>http://acme-widgets.example/missing-title</li><li>http://acme-widgets.example/js-app</li></ul>
+      <ul class="urls"><li>http://acme-widgets.example/dup-a</li><li>http://acme-widgets.example/dup-b</li><li>http://acme-widgets.example/js-app</li><li>http://acme-widgets.example/missing-title</li></ul>
       <p class="meta" style="margin:8px 0 0">check: canonical-missing</p>
     </div>
   </details>
@@ -714,7 +715,7 @@ a{color:var(--accent)}
     </summary>
     <div class="body">
       <h4>What</h4><p>Breadcrumb markup shows the page&#39;s position in the site hierarchy in results.</p>
-      <h4>Fix</h4><p class="fix">Add BreadcrumbList JSON-LD mirroring visible breadcrumbs (`seoforge fix`).</p>
+      <h4>Fix</h4><p class="fix">Add BreadcrumbList JSON-LD mirroring visible breadcrumbs (`ranq fix`).</p>
 <h4>Source</h4><p><a href="https://developers.google.com/search/docs/appearance/structured-data/breadcrumb" rel="noopener" target="_blank">https://developers.google.com/search/docs/appearance/structured-data/breadcrumb</a></p>      <h4>Affected (2)</h4>
       <ul class="urls"><li>http://acme-widgets.example/blog/what-is-widget-testing</li><li>http://acme-widgets.example/products/widget</li></ul>
       <p class="meta" style="margin:8px 0 0">check: breadcrumb-missing</p>
@@ -790,7 +791,7 @@ a{color:var(--accent)}
     </summary>
     <div class="body">
       <h4>What</h4><p>Security headers do not directly affect rankings but protect users and site reputation (hacked sites get flagged in search results).</p>
-      <h4>Fix</h4><p class="fix">Add the headers at the server/CDN level (`seoforge fix` emits snippets).</p>
+      <h4>Fix</h4><p class="fix">Add the headers at the server/CDN level (`ranq fix` emits snippets).</p>
 <h4>Source</h4><p><a href="https://owasp.org/www-project-secure-headers/" rel="noopener" target="_blank">https://owasp.org/www-project-secure-headers/</a></p>      <h4>Affected (1)</h4>
       <ul class="urls"><li>http://acme-widgets.example/</li></ul>
 <h4>Evidence</h4><pre>{
@@ -905,7 +906,7 @@ a{color:var(--accent)}
     </summary>
     <div class="body">
       <h4>What</h4><p>llms.txt is a proposed standard that gives LLM tools a curated Markdown map of your site. No major AI provider has confirmed using it, so expect little direct effect; it is cheap to publish and helps agents and IDE tools that do read it.</p>
-      <h4>Fix</h4><p class="fix">Publish the llms.txt (and optionally llms-full.txt / .md mirrors) from `seoforge fix`.</p>
+      <h4>Fix</h4><p class="fix">Publish the llms.txt (and optionally llms-full.txt / .md mirrors) from `ranq fix`.</p>
 <h4>Source</h4><p><a href="https://llmstxt.org/" rel="noopener" target="_blank">https://llmstxt.org/</a></p>      <h4>Affected (1)</h4>
       <ul class="urls"><li>http://acme-widgets.example/llms.txt</li></ul>
 <h4>Evidence</h4><pre>{
@@ -984,8 +985,8 @@ a{color:var(--accent)}
       <span class="meta">geo · effort low · site-wide</span>
     </summary>
     <div class="body">
-      <h4>What</h4><p>These basic facts are not set in seoforge.yaml or found in your markup, so the generated fact sheet and Organization markup leave them out.</p>
-      <h4>Fix</h4><p class="fix">Fill in the entity section of seoforge.yaml (only with accurate facts).</p>
+      <h4>What</h4><p>These basic facts are not set in ranq.yaml or found in your markup, so the generated fact sheet and Organization markup leave them out.</p>
+      <h4>Fix</h4><p class="fix">Fill in the entity section of ranq.yaml (only with accurate facts).</p>
 <h4>Source</h4><p><a href="https://developers.google.com/search/docs/appearance/structured-data/sd-policies" rel="noopener" target="_blank">https://developers.google.com/search/docs/appearance/structured-data/sd-policies</a></p>      <h4>Affected (1)</h4>
       <ul class="urls"><li>http://acme-widgets.example/</li></ul>
 <h4>Evidence</h4><pre>{
@@ -1009,9 +1010,9 @@ a{color:var(--accent)}
 <section class="tab" id="tab-keywords">
   <p>Extracted from your own content (TF-IDF + YAKE + n-grams). Intent is a rule-based <span class="est">estimate</span>. No search volumes: there is no free, reliable source.</p>
   <table><thead><tr><th>Page</th><th>Primary</th><th>Intent</th><th>Secondary</th></tr></thead><tbody>
-  <tr><td class="url">http://acme-widgets.example/</td><td><strong>widget testing tools</strong></td><td>navigational</td><td>testing tools, widget testing, reliable widget testing, testing, tools</td></tr>
   <tr><td class="url">http://acme-widgets.example/about</td><td><strong>acme widgets</strong></td><td>navigational</td><td>widgets, acme, widget, widgets was founded, founded in 2019</td></tr>
   <tr><td class="url">http://acme-widgets.example/orphan</td><td><strong>widget calibration</strong></td><td>unknown</td><td>page about widget, orphan page, calibration, page, widget</td></tr>
+  <tr><td class="url">http://acme-widgets.example/</td><td><strong>widget testing tools</strong></td><td>navigational</td><td>testing tools, widget testing, reliable widget testing, testing, tools</td></tr>
   <tr><td class="url">http://acme-widgets.example/contact</td><td><strong>contact acme widgets</strong></td><td>navigational</td><td>contact acme, acme widgets, support and sales, contact, sales</td></tr>
   <tr><td class="url">http://acme-widgets.example/blog/</td><td><strong>widget testing</strong></td><td>unknown</td><td>blog, widget testing guides, acme blog, guides, testing</td></tr>
   <tr><td class="url">http://acme-widgets.example/products/widget</td><td><strong>widget tester</strong></td><td>transactional</td><td>buy widget tester, tester, buy widget, widget, buy</td></tr>
@@ -1031,11 +1032,6 @@ a{color:var(--accent)}
 <section class="tab" id="tab-aeo">
   <p>Question-style queries each page could answer, and whether a concise (40-60 word) answer block already exists. Suggestions are drafts for a human editor, built only from your page text.</p>
   <table><thead><tr><th>Page</th><th>Questions</th><th>Answer blocks</th><th>FAQ</th><th>E-E-A-T signals</th></tr></thead><tbody>
-  <tr><td class="url">http://acme-widgets.example/</td>
-  <td></td>
-  <td>0/0</td>
-  <td>no</td>
-  <td><span class="chip" style="cursor:default">author: no</span> <span class="chip" style="cursor:default">author_page: no</span> <span class="chip" style="cursor:default">date: no</span> <span class="chip" style="cursor:default">citations: yes</span> </td></tr>
   <tr><td class="url">http://acme-widgets.example/about</td>
   <td></td>
   <td>0/0</td>
@@ -1046,6 +1042,11 @@ a{color:var(--accent)}
   <td>0/0</td>
   <td>no</td>
   <td><span class="chip" style="cursor:default">author: no</span> <span class="chip" style="cursor:default">author_page: no</span> <span class="chip" style="cursor:default">date: no</span> <span class="chip" style="cursor:default">citations: no</span> </td></tr>
+  <tr><td class="url">http://acme-widgets.example/</td>
+  <td></td>
+  <td>0/0</td>
+  <td>no</td>
+  <td><span class="chip" style="cursor:default">author: no</span> <span class="chip" style="cursor:default">author_page: no</span> <span class="chip" style="cursor:default">date: no</span> <span class="chip" style="cursor:default">citations: yes</span> </td></tr>
   <tr><td class="url">http://acme-widgets.example/contact</td>
   <td></td>
   <td>0/0</td>
@@ -1076,12 +1077,12 @@ a{color:var(--accent)}
   <td>0/0</td>
   <td>no</td>
   <td><span class="chip" style="cursor:default">author: no</span> <span class="chip" style="cursor:default">author_page: no</span> <span class="chip" style="cursor:default">date: no</span> <span class="chip" style="cursor:default">citations: no</span> </td></tr>
-  <tr><td class="url">http://acme-widgets.example/missing-title</td>
+  <tr><td class="url">http://acme-widgets.example/js-app</td>
   <td></td>
   <td>0/0</td>
   <td>no</td>
   <td><span class="chip" style="cursor:default">author: no</span> <span class="chip" style="cursor:default">author_page: no</span> <span class="chip" style="cursor:default">date: no</span> <span class="chip" style="cursor:default">citations: no</span> </td></tr>
-  <tr><td class="url">http://acme-widgets.example/js-app</td>
+  <tr><td class="url">http://acme-widgets.example/missing-title</td>
   <td></td>
   <td>0/0</td>
   <td>no</td>
@@ -1106,11 +1107,11 @@ a{color:var(--accent)}
 <section class="tab" id="tab-plan">
   <div class="plan">
     <div class="card"><h3 style="margin-top:0">Days 1-30 · fix blockers</h3><ol>
-<li><span class="badge sev-critical">critical</span> Site is served over plain HTTP</li><li><span class="badge sev-high">high</span> 1 group(s) of exact-duplicate pages</li><li><span class="badge sev-high">high</span> 1 internal URL(s) linked from your pages return errors</li><li><span class="badge sev-high">high</span> Non-existent URLs return HTTP 200 (soft 404)</li><li><span class="badge sev-high">high</span> 1 sitemap URL(s) are blocked by robots.txt</li><li><span class="badge sev-high">high</span> 1 sitemap URL(s) return 4xx/5xx</li><li><span class="badge sev-high">high</span> 1 sitemap URL(s) are marked noindex</li><li><span class="badge sev-high">high</span> 1 page(s) declare multiple canonicals</li><li><span class="badge sev-high">high</span> 1 page(s) lack a viewport meta tag</li><li><span class="badge sev-high">high</span> 1 page(s) have no &lt;title&gt;</li><li><span class="badge sev-high">high</span> 1 page(s) contain JSON-LD that does not parse</li><li><span class="badge sev-high">high</span> 1 page(s) have structured data missing required properties</li><li>Verify the site in Google Search Console and Bing Webmaster Tools (free) and submit the sitemap in both (`seoforge index gsc-sitemap`, `seoforge index bing`).</li><li>Set up IndexNow (`seoforge index indexnow-key`) so Bing, Yandex, Seznam, Naver and Yep learn about changes within minutes.</li><li>Publish robots.txt with an explicit AI-crawler policy and an llms.txt (`seoforge fix`).</li>    </ol></div>
+<li><span class="badge sev-critical">critical</span> Site is served over plain HTTP</li><li><span class="badge sev-high">high</span> 1 group(s) of exact-duplicate pages</li><li><span class="badge sev-high">high</span> 1 internal URL(s) linked from your pages return errors</li><li><span class="badge sev-high">high</span> Non-existent URLs return HTTP 200 (soft 404)</li><li><span class="badge sev-high">high</span> 1 sitemap URL(s) are blocked by robots.txt</li><li><span class="badge sev-high">high</span> 1 sitemap URL(s) return 4xx/5xx</li><li><span class="badge sev-high">high</span> 1 sitemap URL(s) are marked noindex</li><li><span class="badge sev-high">high</span> 1 page(s) declare multiple canonicals</li><li><span class="badge sev-high">high</span> 1 page(s) lack a viewport meta tag</li><li><span class="badge sev-high">high</span> 1 page(s) have no &lt;title&gt;</li><li><span class="badge sev-high">high</span> 1 page(s) contain JSON-LD that does not parse</li><li><span class="badge sev-high">high</span> 1 page(s) have structured data missing required properties</li><li>Verify the site in Google Search Console and Bing Webmaster Tools (free) and submit the sitemap in both (`ranq index gsc-sitemap`, `ranq index bing`).</li><li>Set up IndexNow (`ranq index indexnow-key`) so Bing, Yandex, Seznam, Naver and Yep learn about changes within minutes.</li><li>Publish robots.txt with an explicit AI-crawler policy and an llms.txt (`ranq fix`).</li>    </ol></div>
     <div class="card"><h3 style="margin-top:0">Days 31-60 · strengthen</h3><ol>
 <li><span class="badge sev-high">high</span> 1 page(s) look like empty JavaScript app shells</li><li><span class="badge sev-medium">medium</span> 1 title(s) are shared by multiple pages</li><li><span class="badge sev-medium">medium</span> 2 page(s) have no H1</li><li><span class="badge sev-medium">medium</span> 1 redirect chain(s) with more than one hop</li><li><span class="badge sev-medium">medium</span> 1 sitemap URL(s) redirect</li><li><span class="badge sev-medium">medium</span> 1 page(s) use nosnippet</li><li><span class="badge sev-medium">medium</span> 1+ image(s) on 1 page(s) lack alt text</li><li><span class="badge sev-medium">medium</span> 10 page(s) score below 40/100 for citation-friendliness</li><li><span class="badge sev-medium">medium</span> 2 keyword(s) targeted by more than one page</li><li><span class="badge sev-medium">medium</span> 1 orphan page(s) with no internal links</li><li><span class="badge sev-medium">medium</span> 1 page(s) answer questions without a concise 40-60 word answer</li><li><span class="badge sev-medium">medium</span> 10 indexable page(s) have under 200 words of main content</li><li>Add or improve structured data for your key page types and validate it in Google&#39;s Rich Results Test and the Schema.org validator.</li><li>Rewrite key pages with direct 40-60 word answers under question-style headings (see AEO findings).</li><li>Make your brand entity consistent: same name, logo, description and links on every profile listed in the entity checklist.</li>    </ol></div>
     <div class="card"><h3 style="margin-top:0">Days 61-90 · grow</h3><ol>
-<li><span class="badge sev-low">low</span> 10 page(s) lack complete Open Graph tags</li><li><span class="badge sev-low">low</span> 8 indexable page(s) are missing from the sitemap</li><li><span class="badge sev-low">low</span> 4 page(s) have no rel=canonical</li><li><span class="badge sev-low">low</span> 3 title(s) shorter than 15 characters</li><li><span class="badge sev-low">low</span> 3 page(s) lack a meta description</li><li><span class="badge sev-low">low</span> 3 page(s) lack recommended structured data properties</li><li><span class="badge sev-low">low</span> 1 meta description(s) reused across pages</li><li><span class="badge sev-low">low</span> 2 nested page(s) lack BreadcrumbList markup</li><li><span class="badge sev-low">low</span> Internal links point to 1 redirecting URL(s)</li><li><span class="badge sev-low">low</span> 1 page(s) disable pinch-zoom</li><li><span class="badge sev-low">low</span> 1 page(s) lack &lt;html lang&gt;</li><li><span class="badge sev-low">low</span> Images without width/height on 1 page(s)</li><li><span class="badge sev-low">low</span> 5 recommended security header(s) missing</li><li><span class="badge sev-low">low</span> 1 page(s) have multiple H1s</li><li><span class="badge sev-low">low</span> 1 page(s) skip heading levels</li><li><span class="badge sev-low">low</span> Generic anchor text on 1 page(s)</li><li><span class="badge sev-low">low</span> 1 page(s) have no internal links</li><li><span class="badge sev-low">low</span> No WebSite markup</li><li><span class="badge sev-low">low</span> No link to a Privacy Policy was found</li><li><span class="badge sev-low">low</span> No /llms.txt file</li><li><span class="badge sev-low">low</span> Brand name appears in 2 variants</li><li><span class="badge sev-low">low</span> 5 page(s) have only one internal link pointing to them</li><li>Create one genuinely useful, linkable asset (original data, tool, or guide) per content cluster and promote it to relevant communities and publications.</li><li>Re-run `seoforge audit` and compare; track AI answers monthly with `seoforge visibility`.</li><li>Review Search Console &#39;Pages&#39; and &#39;Performance&#39; reports for pages that are crawled but not indexed, and queries with high impressions but low CTR.</li>    </ol></div>
+<li><span class="badge sev-low">low</span> 10 page(s) lack complete Open Graph tags</li><li><span class="badge sev-low">low</span> 8 indexable page(s) are missing from the sitemap</li><li><span class="badge sev-low">low</span> 4 page(s) have no rel=canonical</li><li><span class="badge sev-low">low</span> 3 title(s) shorter than 15 characters</li><li><span class="badge sev-low">low</span> 3 page(s) lack a meta description</li><li><span class="badge sev-low">low</span> 3 page(s) lack recommended structured data properties</li><li><span class="badge sev-low">low</span> 1 meta description(s) reused across pages</li><li><span class="badge sev-low">low</span> 2 nested page(s) lack BreadcrumbList markup</li><li><span class="badge sev-low">low</span> Internal links point to 1 redirecting URL(s)</li><li><span class="badge sev-low">low</span> 1 page(s) disable pinch-zoom</li><li><span class="badge sev-low">low</span> 1 page(s) lack &lt;html lang&gt;</li><li><span class="badge sev-low">low</span> Images without width/height on 1 page(s)</li><li><span class="badge sev-low">low</span> 5 recommended security header(s) missing</li><li><span class="badge sev-low">low</span> 1 page(s) have multiple H1s</li><li><span class="badge sev-low">low</span> 1 page(s) skip heading levels</li><li><span class="badge sev-low">low</span> Generic anchor text on 1 page(s)</li><li><span class="badge sev-low">low</span> 1 page(s) have no internal links</li><li><span class="badge sev-low">low</span> No WebSite markup</li><li><span class="badge sev-low">low</span> No link to a Privacy Policy was found</li><li><span class="badge sev-low">low</span> No /llms.txt file</li><li><span class="badge sev-low">low</span> Brand name appears in 2 variants</li><li><span class="badge sev-low">low</span> 5 page(s) have only one internal link pointing to them</li><li>Create one genuinely useful, linkable asset (original data, tool, or guide) per content cluster and promote it to relevant communities and publications.</li><li>Re-run `ranq audit` and compare; track AI answers monthly with `ranq visibility`.</li><li>Review Search Console &#39;Pages&#39; and &#39;Performance&#39; reports for pages that are crawled but not indexed, and queries with high impressions but low CTR.</li>    </ol></div>
   </div>
 </section>
 
@@ -1121,7 +1122,7 @@ a{color:var(--accent)}
 
 <section class="tab" id="tab-limits">
   <h3>What this tool cannot do</h3>
-  <ul><li>No ranking guarantees: rankings depend on competition, query intent, links, and hundreds of signals that only search engines see.</li><li>Indexing is never guaranteed. Submitting a URL (sitemap, IndexNow, Bing API, GSC) only requests a crawl; engines choose what to index.</li><li>No tool can make an LLM &#39;know&#39; your site. Training data cut-offs, retrieval systems and citation choices are controlled by each AI provider. GEO work raises the odds of being retrieved and quoted; it does not force it.</li><li>Google&#39;s Indexing API is only for JobPosting and BroadcastEvent (livestream) pages. SEOForge does not use it for anything else, and neither should you.</li><li>Search volumes and keyword difficulty are not provided: there is no free, reliable source. Keywords come from your own content, competitor pages you supply, and (opt-in) Google Autosuggest, which reflects popularity but not volume.</li><li>Backlink data is limited to what free sources expose. Use Google Search Console and Bing Webmaster Tools &#39;Links&#39; reports for your real backlink profile.</li><li>Performance numbers from this machine (response time) are estimates. Core Web Vitals field data comes from the Chrome UX Report via PageSpeed Insights and exists only for URLs with enough real-user traffic.</li><li>Heuristic findings (thin content, title length, near-duplicates, citation-friendliness, intent) are labelled as estimates. Use judgement: they flag pages to review, not verdicts.</li><li>AI visibility tracking relies on answers you record manually or fetch through tools you are allowed to use. SEOForge does not scrape consumer AI apps, which their terms forbid.</li><li>llms.txt is a community proposal (llmstxt.org). Major AI providers have not confirmed they use it; it is cheap to publish and harmless, nothing more is promised.</li><li>FAQ rich results are limited to well-known government and health sites, and HowTo rich results were removed from Google (Aug/Sep 2023). The markup is still valid schema.org and can help other engines and answer extraction.</li><li>robots.txt is a request, not an enforcement mechanism. Crawlers that ignore it must be blocked at the server/CDN/WAF level.</li><li>JavaScript rendering uses headless Chromium; it approximates, but is not identical to, how Googlebot renders pages.</li></ul>
+  <ul><li>No ranking guarantees: rankings depend on competition, query intent, links, and hundreds of signals that only search engines see.</li><li>Indexing is never guaranteed. Submitting a URL (sitemap, IndexNow, Bing API, GSC) only requests a crawl; engines choose what to index.</li><li>No tool can make an LLM &#39;know&#39; your site. Training data cut-offs, retrieval systems and citation choices are controlled by each AI provider. GEO work raises the odds of being retrieved and quoted; it does not force it.</li><li>Google&#39;s Indexing API is only for JobPosting and BroadcastEvent (livestream) pages. Ranq does not use it for anything else, and neither should you.</li><li>Search volumes and keyword difficulty are not provided: there is no free, reliable source. Keywords come from your own content, competitor pages you supply, and (opt-in) Google Autosuggest, which reflects popularity but not volume.</li><li>Backlink data is limited to what free sources expose. Use Google Search Console and Bing Webmaster Tools &#39;Links&#39; reports for your real backlink profile.</li><li>Performance numbers from this machine (response time) are estimates. Core Web Vitals field data comes from the Chrome UX Report via PageSpeed Insights and exists only for URLs with enough real-user traffic.</li><li>Heuristic findings (thin content, title length, near-duplicates, citation-friendliness, intent) are labelled as estimates. Use judgement: they flag pages to review, not verdicts.</li><li>AI visibility tracking relies on answers you record manually or fetch through tools you are allowed to use. Ranq does not scrape consumer AI apps, which their terms forbid.</li><li>llms.txt is a community proposal (llmstxt.org). Major AI providers have not confirmed they use it; it is cheap to publish and harmless, nothing more is promised.</li><li>FAQ rich results are limited to well-known government and health sites, and HowTo rich results were removed from Google (Aug/Sep 2023). The markup is still valid schema.org and can help other engines and answer extraction.</li><li>robots.txt is a request, not an enforcement mechanism. Crawlers that ignore it must be blocked at the server/CDN/WAF level.</li><li>JavaScript rendering uses headless Chromium; it approximates, but is not identical to, how Googlebot renders pages.</li></ul>
   <h3>Search engine scope notes</h3>
   <ul><li>Chrome, Firefox, Edge and Safari are browsers, not search engines - there is nothing to &#39;submit&#39; to them.</li><li>DuckDuckGo, Yahoo and Ecosia rely heavily on Bing&#39;s index (plus their own sources), so Bing Webmaster Tools and IndexNow cover much of that reach.</li><li>Brave Search runs its own index and has no submission console; it discovers pages through links and its own crawling.</li></ul>
 </section>
@@ -1138,5 +1139,6 @@ q.addEventListener('input',apply);
 document.querySelectorAll('.chip[data-sev]').forEach(c=>c.addEventListener('click',()=>{
   const s=c.dataset.sev;off.has(s)?off.delete(s):off.add(s);c.setAttribute('aria-pressed',!off.has(s));apply();}));
 </script>
+<footer class="credit">Generated by <a href="https://github.com/Dreadonyx/ranq" rel="noopener" target="_blank">Ranq</a> 0.3.0, free and open source. Built by <a href="https://nodekraft.tech" rel="noopener" target="_blank">NodeKraft</a>.</footer>
 </body>
 </html>
