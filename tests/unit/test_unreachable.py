@@ -77,7 +77,7 @@ def test_platform_subdomain_flagged() -> None:
 
     assert platform_subdomain("https://hi-res-lossless-website.vercel.app") == "vercel.app"
     assert platform_subdomain("https://me.github.io/blog/") == "github.io"
-    assert platform_subdomain("https://nodekraft.tech") is None
+    assert platform_subdomain("https://brightworks.example") is None
     assert platform_subdomain("https://notvercel.app") is None  # a real domain, not a subdomain
     assert platform_subdomain("https://lightblue-x-123.hostingersite.com") == "hostingersite.com"
     assert platform_subdomain("https://shop.netlify.app") == "netlify.app"
@@ -89,7 +89,7 @@ def test_platform_subdomain_flagged() -> None:
     assert issue.title.startswith("Site runs on a Vercel subdomain (*.vercel.app)")
     ctx.crawl.site = "https://app.azurewebsites.net"
     assert next(iter(custom_domain(ctx))).title.startswith("Site runs on an Azure App Service")
-    ctx.crawl.site = "https://nodekraft.tech"
+    ctx.crawl.site = "https://brightworks.example"
     assert list(custom_domain(ctx)) == []
 
 

@@ -24,6 +24,8 @@ from seoforge.offpage.mentions import find_mentions
 from seoforge.storage import Store
 from serve_site import INDEXNOW_KEY
 
+FAKE_KEY = "abcdef123456"  # fake IndexNow key for tests  gitleaks:allow
+
 
 def mock_client(handler: Any) -> httpx.AsyncClient:
     return httpx.AsyncClient(transport=httpx.MockTransport(handler))
@@ -52,18 +54,18 @@ def test_indexnow_submit_batches(monkeypatch: pytest.MonkeyPatch) -> None:
 
     async def go() -> list[ix.SubmitResult]:
         async with mock_client(handler) as c:
-            return await ix.submit(c, "https://s.test", "abcdef123456", urls)
+            return await ix.submit(c, "https://s.test", FAKE_KEY, urls)
 
     results = asyncio.run(go())
     assert [r.count for r in results] == [2, 2, 1]
-    assert payloads[0] == {"host": "s.test", "key": "abcdef123456", "urlList": urls[:2]}
+    assert payloads[0] == {"host": "s.test", "key": FAKE_KEY, "urlList": urls[:2]}
     assert results[0].meaning.startswith("Accepted")
 
 
 def test_indexnow_stops_on_error() -> None:
     async def go() -> list[ix.SubmitResult]:
         async with mock_client(lambda r: httpx.Response(403)) as c:
-            return await ix.submit(c, "https://s.test", "abcdef123456", ["https://s.test/a"])
+            return await ix.submit(c, "https://s.test", FAKE_KEY, ["https://s.test/a"])
 
     [result] = asyncio.run(go())
     assert result.status == 403 and "key not valid" in result.meaning

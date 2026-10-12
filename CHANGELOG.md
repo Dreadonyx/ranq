@@ -61,7 +61,7 @@ All notable changes to SEOForge. The format follows
 ### Fixed
 
 - The Organization generator dropped the address and founders already published on the site.
-- The Wikidata draft lowercased brand names ("nodeKraft") and repeated "<Name> is a".
+- The Wikidata draft lowercased brand names ("brightWorks") and repeated "<Name> is a".
 - JSON-LD output now escapes `</` so crawled text cannot close the script tag.
 
 ## [0.1.0] - 2026-10-03

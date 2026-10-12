@@ -19,7 +19,7 @@ SOFT_404 = b"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <title>Page not found</title></head><body><h1>Page not found</h1>
 <p>Sorry, we could not find that page.</p></body></html>"""
 
-INDEXNOW_KEY = "seoforgetestkey1234"
+INDEXNOW_KEY = "seoforgetestkey1234"  # fake key for the local test site  gitleaks:allow
 
 REDIRECTS = {
     "/old-page": (301, "/old-page-2"),

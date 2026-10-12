@@ -72,9 +72,10 @@ def test_entity_and_wikidata_draft(audited) -> None:  # type: ignore[no-untyped-
 def test_wikidata_description_keeps_brand_casing() -> None:
     d = entity.wikidata_description
     assert (
-        d("NodeKraft is a digital agency in Chennai.", "NodeKraft") == "digital agency in Chennai"
+        d("BrightWorks is a digital agency in Chennai.", "BrightWorks")
+        == "digital agency in Chennai"
     )
-    assert d("NodeKraft builds websites.", "NodeKraft") == "NodeKraft builds websites"
+    assert d("BrightWorks builds websites.", "BrightWorks") == "BrightWorks builds websites"
     assert d("Open-source widget testing tools.", "Acme") == "open-source widget testing tools"
     assert d("IBM-compatible tooling", "Acme") == "IBM-compatible tooling"
 

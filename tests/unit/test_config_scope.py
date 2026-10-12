@@ -4,8 +4,8 @@ from seoforge.config import Config, EntityConfig
 
 def _cfg() -> Config:
     return Config(
-        site="https://nodekraft.tech",
-        entity=EntityConfig(name="NodeKraft", same_as=["https://www.linkedin.com/company/nk"]),
+        site="https://brightworks.example",
+        entity=EntityConfig(name="BrightWorks", same_as=["https://www.linkedin.com/company/nk"]),
         competitors=["https://rival.test/"],
         seed_keywords=["digital agency chennai"],
     )
@@ -21,10 +21,10 @@ def test_other_site_does_not_inherit_entity() -> None:
 def test_same_site_keeps_entity() -> None:
     for url in (
         None,
-        "https://nodekraft.tech/work",
-        "nodekraft.tech",
-        "https://www.nodekraft.tech",
+        "https://brightworks.example/work",
+        "brightworks.example",
+        "https://www.brightworks.example",
     ):
         cfg = _cfg()
         _site(url, cfg)
-        assert cfg.entity.name == "NodeKraft", url
+        assert cfg.entity.name == "BrightWorks", url
