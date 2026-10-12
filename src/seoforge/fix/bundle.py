@@ -11,6 +11,7 @@ from pathlib import Path
 
 from seoforge.checks.base import AuditContext
 from seoforge.generators import meta, redirects, schema, sitemap
+from seoforge.generators.headers import render_security_headers
 from seoforge.generators.robots import generate_robots
 from seoforge.geo.ai_bots import resolve_policy
 from seoforge.urls import path_of
@@ -66,40 +67,6 @@ def safe_join(root: Path, relative: str) -> Path | None:
 def _slug(url: str) -> str:
     path = path_of(url).strip("/") or "home"
     return "".join(c if c.isalnum() or c in "-_" else "_" for c in path)[:120]
-
-
-SECURITY_HEADERS = """# Security headers (review CSP carefully - a wrong policy breaks pages).
-
-## nginx (server block)
-add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
-add_header X-Content-Type-Options "nosniff" always;
-add_header Referrer-Policy "strict-origin-when-cross-origin" always;
-add_header X-Frame-Options "SAMEORIGIN" always;
-add_header Permissions-Policy "camera=(), microphone=(), geolocation=()" always;
-# add_header Content-Security-Policy "default-src 'self'; ..." always;
-
-## Apache (.htaccess, mod_headers)
-Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
-Header always set X-Content-Type-Options "nosniff"
-Header always set Referrer-Policy "strict-origin-when-cross-origin"
-Header always set X-Frame-Options "SAMEORIGIN"
-Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
-
-## Netlify / Cloudflare Pages (_headers)
-/*
-  Strict-Transport-Security: max-age=31536000; includeSubDomains
-  X-Content-Type-Options: nosniff
-  Referrer-Policy: strict-origin-when-cross-origin
-  X-Frame-Options: SAMEORIGIN
-  Permissions-Policy: camera=(), microphone=(), geolocation=()
-
-## Vercel (vercel.json)
-{"headers": [{"source": "/(.*)", "headers": [
-  {"key": "Strict-Transport-Security", "value": "max-age=31536000; includeSubDomains"},
-  {"key": "X-Content-Type-Options", "value": "nosniff"},
-  {"key": "Referrer-Policy", "value": "strict-origin-when-cross-origin"},
-  {"key": "X-Frame-Options", "value": "SAMEORIGIN"}]}]}
-"""
 
 
 def build_bundle(
@@ -163,7 +130,12 @@ def build_bundle(
             name, content, f"{len(plan.rules)} redirect rule(s) - {name.split('/')[1]}", deploy
         )
 
-    bundle.add("security-headers.md", SECURITY_HEADERS, "Security header snippets per platform")
+    home = crawl.pages.get(crawl.start_url) or next(iter(crawl.html_pages), None)
+    bundle.add(
+        "security-headers.md",
+        render_security_headers(home.headers if home else {}),
+        "Security headers to add or strengthen (keeps stronger live values)",
+    )
     if extra is not None:
         extra(ctx, bundle)
     return bundle
