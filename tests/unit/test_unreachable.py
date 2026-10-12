@@ -110,3 +110,36 @@ def test_og_url_mismatch() -> None:
     )
     issues = {i.check_id: i for i in social_tags(AuditContext(config=Config(), crawl=crawl))}
     assert issues["og-url-mismatch"].urls == ["https://s.test/work"]
+
+
+def test_brand_description_and_email_obfuscation() -> None:
+    import json
+
+    from seoforge.checks.geo import brand_consistency, contact_visibility
+    from seoforge.config import EntityConfig
+    from seoforge.geo.analysis import GeoReport
+
+    home = PageData(url="https://s.test/", final_url="https://s.test/", status=200)
+    home.content_type = "text/html"
+    org = {
+        "@type": "Organization",
+        "name": "NK",
+        "description": "Chennai-based digital services agency specializing in web development, "
+        "AI integration, and software consulting.",
+    }
+    home.json_ld = [json.dumps({"@context": "https://schema.org", "@graph": [org]})]
+    home.html = '<a href="/cdn-cgi/l/email-protection#abc">Email</a>'
+    ctx = _ctx(home)
+    ctx.config.entity = EntityConfig(name="NK")
+    ctx.extras["geo"] = GeoReport(
+        llms_txt_live="# NK\n\n> NK is a full-service digital agency based in Chennai, India. We "
+        "build websites, digital products, and brands with a security-first mindset.\n"
+    )
+    (issue,) = brand_consistency(ctx)
+    assert issue.site_wide and set(issue.evidence) == {
+        "JSON-LD Organization.description",
+        "llms.txt summary",
+    }
+    ctx.extras["geo"].llms_txt_live = f"# NK\n\n> {org['description']}\n"
+    assert list(brand_consistency(ctx)) == []
+    assert next(iter(contact_visibility(ctx))).check_id == "email-obfuscated"

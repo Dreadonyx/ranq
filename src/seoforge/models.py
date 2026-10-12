@@ -220,6 +220,8 @@ SITE_WIDE_CHECKS = frozenset(
         "entity-no-sameas",
         "brand-name-inconsistent",
         "entity-facts-missing",
+        "brand-description-inconsistent",
+        "email-obfuscated",
     }
 )
 SITE_WIDE_PREFIXES = ("robots-",)  # robots-missing, robots-syntax, robots-blocks-googlebot...

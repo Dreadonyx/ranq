@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
+import re
 from collections.abc import Iterator
+from itertools import combinations
 
 from seoforge import sources
+from seoforge.analysis import pagetype as pt
 from seoforge.checks.base import AuditContext, check
 from seoforge.geo.analysis import GeoReport
 from seoforge.models import Category, Effort, Issue, Severity
@@ -159,4 +162,90 @@ def entity_signals(ctx: AuditContext) -> Iterator[Issue]:
             evidence={"missing": ent.missing_facts},
             urls=[ctx.crawl.start_url],
             source=sources.SD_GENERAL,
+        )
+
+
+STOPWORDS = frozenset(
+    ["the", "and", "for", "with", "that", "this", "from", "your", "our", "are", "was", "were", "have", "has", "into", "their", "they", "them", "who", "what", "which", "while", "where", "when", "about", "based", "also", "more", "most", "very", "just", "than", "then"]
+)
+WORD_RE = re.compile(r"[a-z0-9]+")
+
+
+def _terms(text: str, brand: str | None) -> set[str]:
+    words = WORD_RE.findall(text.lower())
+    skip = set(WORD_RE.findall((brand or "").lower())) | STOPWORDS
+    return {w.rstrip("s") for w in words if len(w) >= 3 and w not in skip}
+
+
+def _llms_summary(live: str | None) -> str | None:
+    for line in (live or "").splitlines():
+        if line.startswith(">"):
+            return line.lstrip("> ").strip() or None
+    return None
+
+
+def brand_descriptions(ctx: AuditContext, geo: GeoReport | None) -> dict[str, str]:
+    """The places that state who the brand is, which AI systems read and should agree."""
+    found: dict[str, str] = {}
+    if ctx.config.entity.description:
+        found["seoforge.yaml entity.description"] = ctx.config.entity.description
+    home = ctx.crawl.pages.get(ctx.crawl.start_url)
+    for node in pt.top_nodes(home) if home else []:
+        if pt.node_types(node) & {"Organization", "LocalBusiness", "Corporation"}:
+            if isinstance(node.get("description"), str):
+                found["JSON-LD Organization.description"] = node["description"]
+            break
+    summary = _llms_summary(geo.llms_txt_live if geo else None)
+    if summary:
+        found["llms.txt summary"] = summary
+    return found
+
+
+@check("brand-consistency", G)
+def brand_consistency(ctx: AuditContext) -> Iterator[Issue]:
+    geo = _geo(ctx)
+    found = brand_descriptions(ctx, geo)
+    brand = ctx.config.entity.name or (geo.entity.name if geo and geo.entity else None)
+    terms = {k: _terms(v, brand) for k, v in found.items()}
+    pairs = []
+    for a, b in combinations(terms, 2):
+        union = terms[a] | terms[b]
+        if union:
+            pairs.append(len(terms[a] & terms[b]) / len(union))
+    if pairs and min(pairs) < 0.3:
+        yield Issue(
+            "brand-description-inconsistent",
+            "Your brand is described differently in markup, llms.txt and config",
+            Severity.LOW,
+            G,
+            "Search engines and AI assistants build their picture of an entity from the "
+            "statements about it. Descriptions that name different services or positioning "
+            "make the entity harder to summarize consistently.",
+            "Write one factual sentence (who you are, what you do, where) and use it verbatim "
+            "in Organization JSON-LD, llms.txt, seoforge.yaml and every profile bio.",
+            effort=Effort.LOW,
+            urls=[ctx.crawl.start_url],
+            evidence=found,
+            estimate=True,
+            source=sources.HELPFUL_CONTENT,
+        )
+
+
+@check("contact-visibility", G)
+def contact_visibility(ctx: AuditContext) -> Iterator[Issue]:
+    hidden = sorted(p.url for p in ctx.pages if "/cdn-cgi/l/email-protection" in p.html)
+    if hidden:
+        yield Issue(
+            "email-obfuscated",
+            "Contact email is hidden by Cloudflare Email Obfuscation",
+            Severity.LOW,
+            G,
+            "Cloudflare replaces email addresses with a /cdn-cgi/l/email-protection link that "
+            "only JavaScript can decode, so crawlers and AI assistants cannot read how to "
+            "contact you (a trust and entity signal).",
+            "Turn off Scrape Shield -> Email Address Obfuscation, or wrap the address on your "
+            "contact page in <!--email_off-->...<!--/email_off--> so it stays readable there.",
+            effort=Effort.LOW,
+            urls=hidden,
+            source="https://developers.cloudflare.com/waf/tools/scrape-shield/email-address-obfuscation/",
         )
