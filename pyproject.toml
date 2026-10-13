@@ -61,10 +61,10 @@ dev = [
 ranq = "ranq.cli:app"
 
 [project.urls]
-Homepage = "https://github.com/Dreadonyx/ranq"
-Repository = "https://github.com/Dreadonyx/ranq"
-Issues = "https://github.com/Dreadonyx/ranq/issues"
-Changelog = "https://github.com/Dreadonyx/ranq/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/H3M4N1H/ranq"
+Repository = "https://github.com/H3M4N1H/ranq"
+Issues = "https://github.com/H3M4N1H/ranq/issues"
+Changelog = "https://github.com/H3M4N1H/ranq/blob/main/CHANGELOG.md"
 NodeKraft = "https://nodekraft.tech"
 
 [tool.hatch.version]
