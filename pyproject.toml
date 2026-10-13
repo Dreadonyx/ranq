@@ -10,7 +10,7 @@ readme = "README.md"
 license = "MIT"
 requires-python = ">=3.11"
 authors = [{ name = "NodeKraft" }]
-maintainers = [{ name = "Dreadonyx" }]
+maintainers = [{ name = "H3M4N1H" }]
 keywords = [
   "seo", "aeo", "geo", "llms.txt", "indexnow", "audit", "crawler", "structured-data",
   "json-ld", "core-web-vitals", "search-console", "ai-search",
