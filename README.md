@@ -180,7 +180,7 @@ the generated `<key>.txt` to your site root, `export INDEXNOW_KEY=<key>`, then
 Audit every deploy and upload the report as an artifact (see `docs/github-action.md`):
 
 ```yaml
-- uses: Dreadonyx/ranq@main
+- uses: H3M4N1H/ranq@main
   with:
     url: https://example.com
     fail-on: critical
@@ -261,7 +261,7 @@ python tests/serve_site.py 8765 & ranq audit http://127.0.0.1:8765 --no-pagespee
    GitHub Release with the changelog notes and the sdist/wheel attached, and publishes to PyPI.
 
 One-time PyPI setup (no API token needed): on pypi.org, *Your projects -> Publishing -> Add a
-new pending publisher* with owner `Dreadonyx`, repository `ranq`, workflow `release.yml`,
+new pending publisher* with owner `H3M4N1H`, repository `ranq`, workflow `release.yml`,
 environment `pypi`. Then in the GitHub repository settings add the variable
 `PUBLISH_TO_PYPI` = `true` (*Settings -> Secrets and variables -> Actions -> Variables*).
 Until then the PyPI job is skipped and releases go to GitHub only.
