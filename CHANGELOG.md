@@ -4,7 +4,7 @@ All notable changes to Ranq (formerly SEOForge). The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [0.4.0] - 2026-10-13
 
 ### Changed
 
@@ -107,6 +107,7 @@ tools, citation score, AI-visibility tracker), indexing (IndexNow, Search Consol
 off-page helpers, `seoforge fix`, HTML / Markdown / JSON reports, Docker image, GitHub Action
 and CI.
 
+[0.4.0]: https://github.com/H3M4N1H/ranq/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/H3M4N1H/ranq/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/H3M4N1H/ranq/compare/2e7659f...v0.2.0
 [0.1.0]: https://github.com/H3M4N1H/ranq/tree/2e7659f
