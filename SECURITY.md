@@ -8,7 +8,7 @@ from the latest GitHub release).
 ## Reporting a vulnerability
 
 Please report vulnerabilities privately through GitHub's
-[private vulnerability reporting](https://github.com/Dreadonyx/ranq/security/advisories/new)
+[private vulnerability reporting](https://github.com/H3M4N1H/ranq/security/advisories/new)
 rather than a public issue. Include the Ranq version, the command you ran, and the smallest
 input (for example a page's HTML) that reproduces the problem. You should get a reply within a
 week.
