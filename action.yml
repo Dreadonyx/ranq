@@ -1,6 +1,6 @@
 name: Ranq audit
 description: Audit a site for SEO, AEO and GEO issues on deploy, upload the report, and optionally fail the job.
-author: Dreadonyx
+author: H3M4N1H
 branding:
   icon: search
   color: blue
