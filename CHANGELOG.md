@@ -13,7 +13,7 @@ All notable changes to SEOForge. The format follows
   (`.ranq/`), the crawler User-Agent (`Ranq/<version>`, robots.txt group `Ranq`) and the
   plugin entry-point group (`ranq.checks`) all use the new name. An existing `seoforge.yaml`
   is still read when there is no `ranq.yaml`. The GitHub repository moved to
-  `Dreadonyx/ranq`; the old URL redirects.
+  `H3M4N1H/ranq`; the old URL redirects.
 - Built and maintained by [NodeKraft](https://nodekraft.tech): credited in the README, the
   package metadata and the footer of every report.
 
