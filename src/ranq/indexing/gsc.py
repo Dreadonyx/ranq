@@ -42,9 +42,9 @@ def service_account_token(path: Path) -> str:
     except ImportError as exc:
         raise GSCAuthError("Install the Google extra: pip install 'ranq[google]'") from exc
     info = json.loads(path.read_text(encoding="utf-8"))
-    signer = crypt.RSASigner.from_service_account_info(info)
+    signer = crypt.RSASigner.from_service_account_info(info)  # type: ignore[no-untyped-call]
     now = int(time.time())
-    assertion = jwt.encode(
+    assertion = jwt.encode(  # type: ignore[no-untyped-call]
         signer,
         {
             "iss": info["client_email"],
