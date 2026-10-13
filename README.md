@@ -1,6 +1,6 @@
 # Ranq
 
-[![CI](https://github.com/Dreadonyx/ranq/actions/workflows/ci.yml/badge.svg)](https://github.com/Dreadonyx/ranq/actions/workflows/ci.yml)
+[![CI](https://github.com/H3M4N1H/ranq/actions/workflows/ci.yml/badge.svg)](https://github.com/H3M4N1H/ranq/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)
 
@@ -54,7 +54,7 @@ Requires Python 3.11+.
 
 ```bash
 pipx install ranq                                   # or: pip install ranq
-pipx install git+https://github.com/Dreadonyx/ranq  # latest main, before a PyPI release
+pipx install git+https://github.com/H3M4N1H/ranq  # latest main, before a PyPI release
 # Optional extras:
 playwright install chromium        # JavaScript rendering (--render)
 pipx inject ranq google-auth   # Search Console via service account (pip: "ranq[google]")
@@ -65,7 +65,7 @@ npm install -g lighthouse          # local Lighthouse lab runs (--lighthouse)
 From source:
 
 ```bash
-git clone https://github.com/Dreadonyx/ranq && cd ranq
+git clone https://github.com/H3M4N1H/ranq && cd ranq
 python -m venv .venv && source .venv/bin/activate
 pip install -e ".[google]"
 ```
