@@ -39,15 +39,19 @@ dependencies = [
   "jinja2>=3.1.6",  # earlier 3.1.x releases have published CVEs
   "pyyaml>=6.0",
   "pydantic>=2.7",
-  "playwright>=1.44",
-  "yake>=0.4.8",
 ]
 
 [project.optional-dependencies]
+# JavaScript rendering (--render). Then run `playwright install chromium`.
+browser = ["playwright>=1.44"]
+# YAKE keyword extraction alongside TF-IDF (pulls in NumPy and networkx).
+keywords = ["yake>=0.4.8"]
 # Local semantic clustering. Large download (PyTorch); TF-IDF clustering is used without it.
 ml = ["sentence-transformers>=3.0"]
 # Google Search Console API via a service account.
 google = ["google-auth>=2.29"]
+# Everything except the ML extra.
+full = ["ranq[browser,keywords,google]"]
 dev = [
   "pytest>=8.2",
   "pytest-asyncio>=0.23",

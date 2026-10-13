@@ -55,8 +55,9 @@ Requires Python 3.11+.
 ```bash
 pipx install ranq                                   # or: pip install ranq
 pipx install git+https://github.com/H3M4N1H/ranq  # latest main, before a PyPI release
-# Optional extras:
-playwright install chromium        # JavaScript rendering (--render)
+# Optional extras (pip: pip install "ranq[browser,keywords,google]", or "ranq[full]"):
+pipx inject ranq playwright && playwright install chromium  # JavaScript rendering (--render)
+pipx inject ranq yake          # YAKE keyword extraction next to TF-IDF (pip: "ranq[keywords]")
 pipx inject ranq google-auth   # Search Console via service account (pip: "ranq[google]")
 pipx inject ranq sentence-transformers  # local semantic clustering (large: PyTorch)
 npm install -g lighthouse          # local Lighthouse lab runs (--lighthouse)
@@ -67,7 +68,7 @@ From source:
 ```bash
 git clone https://github.com/H3M4N1H/ranq && cd ranq
 python -m venv .venv && source .venv/bin/activate
-pip install -e ".[google]"
+pip install -e ".[full]"
 ```
 
 Or with Docker:
@@ -246,7 +247,7 @@ Checks are plain functions registered with `@check`. Ship them in any module and
 ## Development
 
 ```bash
-pip install -e ".[dev]" && playwright install chromium
+pip install -e ".[dev,full]" && playwright install chromium
 pre-commit install
 pytest -q                      # spins up a local test site with planted issues
 ruff check src tests && ruff format --check src tests && mypy

@@ -334,8 +334,16 @@ def yake_keywords(text: str, top: int = 10, lang: str = "en") -> list[tuple[str,
 
         extractor = yake.KeywordExtractor(lan=lang[:2] or "en", n=3, top=top, dedupLim=0.8)
         return [(kw.lower(), float(score)) for kw, score in extractor.extract_keywords(text)]
-    except Exception:  # pragma: no cover - YAKE is optional at runtime
+    except Exception:  # pragma: no cover - YAKE is an optional extra
         return []
+
+
+def yake_available() -> bool:
+    try:
+        import yake  # noqa: F401
+    except ImportError:
+        return False
+    return True
 
 
 def classify_intent(phrase: str, page: PageData | None = None, brand: str | None = None) -> Intent:
@@ -402,6 +410,7 @@ class KeywordReport:
     cannibalization: dict[str, list[str]] = field(default_factory=dict)
     clusters: list[dict[str, Any]] = field(default_factory=list)
     clustering_method: str = "tfidf"
+    extraction_method: str = "tfidf"
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -409,6 +418,7 @@ class KeywordReport:
             "cannibalization": self.cannibalization,
             "clusters": self.clusters,
             "clustering_method": self.clustering_method,
+            "extraction_method": self.extraction_method,
             "note": "Keywords are extracted from your own content. Search volumes are not "
             "included because no free, reliable source exists.",
         }
@@ -420,6 +430,8 @@ def analyze(pages: list[PageData], cluster: bool = True, brand: str | None = Non
     if not pages:
         return report
     tf = tfidf(pages)
+    if yake_available():
+        report.extraction_method = "tfidf+yake"
     for p in pages:
         blob = ".\n".join(filter(None, [p.title, *p.h1s, *content_blocks(p)]))
         yk = yake_keywords(blob[:20000], lang=p.lang or "en")

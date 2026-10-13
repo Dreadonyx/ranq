@@ -13,8 +13,10 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 COPY pyproject.toml README.md LICENSE ./
 COPY src ./src
-RUN pip install --upgrade pip && pip install ".[google]" \
-    && if [ "$WITH_BROWSER" = "1" ]; then playwright install --with-deps chromium; fi
+RUN pip install --upgrade pip \
+    && if [ "$WITH_BROWSER" = "1" ]; then \
+         pip install ".[full]" && playwright install --with-deps chromium; \
+       else pip install ".[keywords,google]"; fi
 
 RUN useradd --create-home --uid 10001 ranq && mkdir /work && chown ranq /work
 USER ranq

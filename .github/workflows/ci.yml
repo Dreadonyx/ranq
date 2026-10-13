@@ -26,7 +26,7 @@ jobs:
       - name: Install
         run: |
           python -m pip install --upgrade pip
-          pip install -e ".[dev]"
+          pip install -e ".[dev,full]"
       - name: Install Chromium for rendering tests
         run: playwright install --with-deps chromium
       - name: Ruff
@@ -70,7 +70,7 @@ jobs:
       - name: pip-audit
         run: |
           python -m pip install --upgrade pip
-          pip install ".[google]" pip-audit
+          pip install ".[full]" pip-audit
           pip-audit --skip-editable --progress-spinner off
 
   docker:

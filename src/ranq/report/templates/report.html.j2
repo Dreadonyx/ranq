@@ -146,7 +146,7 @@ a{color:var(--accent)}
 
 {% if d.extras.keywords %}
 <section class="tab" id="tab-keywords">
-  <p>Extracted from your own content (TF-IDF + YAKE + n-grams). Intent is a rule-based <span class="est">estimate</span>. No search volumes: there is no free, reliable source.</p>
+  <p>Extracted from your own content ({{ 'TF-IDF + YAKE' if d.extras.keywords.extraction_method == 'tfidf+yake' else 'TF-IDF; install ranq[keywords] to add YAKE' }} + n-grams). Intent is a rule-based <span class="est">estimate</span>. No search volumes: there is no free, reliable source.</p>
   <table><thead><tr><th>Page</th><th>Primary</th><th>Intent</th><th>Secondary</th></tr></thead><tbody>
   {% for p in d.extras.keywords.pages %}
   <tr><td class="url">{{ p.url }}</td><td><strong>{{ p.primary or '-' }}</strong></td><td>{{ p.intent }}</td><td>{{ p.secondary[:5]|join(', ') }}</td></tr>

@@ -94,7 +94,7 @@ Each page is scored on its own page-level issues (worst first). Site-wide issues
 {% if d.extras.keywords %}
 ## Keyword-to-page map
 
-Keywords are extracted from your content (TF-IDF + YAKE + n-grams). Intent is a rule-based estimate. No search volumes are shown because no free, reliable source exists.
+Keywords are extracted from your content ({{ 'TF-IDF + YAKE' if d.extras.keywords.extraction_method == 'tfidf+yake' else 'TF-IDF; install ranq[keywords] to add YAKE' }} + n-grams). Intent is a rule-based estimate. No search volumes are shown because no free, reliable source exists.
 
 | Page | Primary keyword | Intent | Secondary |
 |---|---|---|---|

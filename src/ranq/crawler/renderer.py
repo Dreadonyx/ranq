@@ -22,8 +22,11 @@ class Renderer:
     async def __aenter__(self) -> Renderer:
         try:
             from playwright.async_api import async_playwright
-        except ImportError as exc:  # pragma: no cover - playwright is a hard dependency
-            raise RendererUnavailable("playwright is not installed") from exc
+        except ImportError as exc:
+            raise RendererUnavailable(
+                'playwright is not installed. Run: pip install "ranq[browser]" '
+                "&& playwright install chromium"
+            ) from exc
         self._pw = await async_playwright().start()
         try:
             self._browser = await self._pw.chromium.launch(headless=True)

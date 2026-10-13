@@ -4,6 +4,17 @@ All notable changes to SEOForge. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Changed
+
+- **Smaller default install.** Playwright and YAKE are no longer installed by default, which
+  drops roughly 70 MB of downloads (Playwright's driver, NumPy, networkx). Install them as
+  extras: `ranq[browser]` for JavaScript rendering (`--render`), `ranq[keywords]` for YAKE
+  keyword extraction, or `ranq[full]` for both plus `google`. Without `ranq[browser]`,
+  `--render` is skipped with a message saying what to install. Without `ranq[keywords]`,
+  keywords come from TF-IDF only, and the report says so.
+
 ## [0.3.0] - 2026-10-12
 
 ### Changed
